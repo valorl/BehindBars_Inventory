@@ -46,12 +46,43 @@ public class Week {
 		this.year = year;
 	}
 
+	
+	// State GET, SET, ADD, REMOVE, FIND
 	public ArrayList<ProductState> getStateList() {
 		return stateList;
 	}
-
 	public void setStateList(ArrayList<ProductState> stateList) {
 		this.stateList = stateList;
+	}
+	public void addState(ProductState state) 
+	{
+		if(!stateList.contains(state)) 
+		{
+			stateList.add(state);
+		}
+	}
+	public void removeState(ProductState state) 
+	{
+		stateList.remove(state);
+	}
+	public ProductState findState(String productName) 
+	{
+		ProductState foundState = null;
+		boolean found = false;
+		int i = 0;
+		while(!found && i < stateList.size()) 
+		{
+			if(stateList.get(i).getProduct().getName().toLowerCase().equals(productName.toLowerCase()))
+			{
+				foundState = stateList.get(i);
+				found = true;
+			}
+			else 
+			{
+				i++;
+			}
+		}
+		return foundState;
 	}
 	
 
