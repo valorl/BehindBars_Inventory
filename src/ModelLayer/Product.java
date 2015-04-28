@@ -2,8 +2,12 @@ package ModelLayer;
 
 import java.util.ArrayList;
 
+
 public class Product {
 	
+	private static final String[] ALCOHOLIC_TYPES = {"vodka" , "rum" , "gin"};
+	
+	private int id;
 	private String name;
 	private double cost;
 	private double price;
@@ -34,6 +38,14 @@ public class Product {
 
 	// GET & SET
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -112,6 +124,24 @@ public class Product {
 			}
 		}
 		return foundQL;
+	}
+	
+	public static boolean checkType(String type) 
+	{
+		boolean found = false;
+		int i = 0;
+		while(!found && i < ALCOHOLIC_TYPES.length) 
+		{
+			if(ALCOHOLIC_TYPES[i].equals(type.toLowerCase())) 
+			{
+				found = true;
+			}
+			else 
+			{
+				i++;
+			}
+		}
+		return found;
 	}
 	
 	
