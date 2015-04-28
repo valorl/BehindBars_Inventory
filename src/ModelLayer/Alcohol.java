@@ -1,6 +1,7 @@
 package ModelLayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Alcohol extends Product {
 
@@ -8,7 +9,7 @@ public class Alcohol extends Product {
 	private double emptyWeight;
 	private double density;
 	private double totalVolume;
-	private ArrayList<Alcohol> cocktailContents;
+	private HashMap<Alcohol,Double> cocktailContents;
 	
 	
 	// CONSTRUCTORS
@@ -19,7 +20,7 @@ public class Alcohol extends Product {
 	{
 		if(isCocktail) 
 		{
-			cocktailContents = new ArrayList<Alcohol>();
+			cocktailContents = new HashMap<Alcohol,Double>();
 		}
 		else 
 		{
@@ -35,6 +36,8 @@ public class Alcohol extends Product {
 		this.fullWeight = fullWeight;
 		this.emptyWeight = emptyWeight;
 		this.totalVolume = totalVolume;
+		
+		cocktailContents = new HashMap<Alcohol,Double>();
 	};
 	
 
@@ -72,7 +75,7 @@ public class Alcohol extends Product {
 
 	public boolean isCocktail() 
 	{
-		if(this.cocktailContents.size() > 0) 
+		if(cocktailContents != null && cocktailContents.size() > 0) 
 		{
 			return true;
 		}
@@ -81,15 +84,16 @@ public class Alcohol extends Product {
 			return false;
 		}
 	}
-	public ArrayList<Alcohol> getCocktailContents() {
+	public HashMap<Alcohol,Double> getCocktailContents() {
 		return cocktailContents;
 	}
-	public void setCocktailContents(ArrayList<Alcohol> cocktailContents) {
+	public void setCocktailContents(HashMap<Alcohol,Double> cocktailContents) {
 		this.cocktailContents = cocktailContents;
 	}
-	public void addIngredient(Alcohol ingredient) {
-		if(!cocktailContents.contains(ingredient)) {
-			cocktailContents.add(ingredient);
+	public void addIngredient(Alcohol ingredient, double volume) {
+		if(!cocktailContents.containsKey(ingredient)) 
+		{
+			cocktailContents.put(ingredient, volume);
 		}
 	}
 	public void removeIngredient(Alcohol ingredient) {
@@ -99,16 +103,12 @@ public class Alcohol extends Product {
 	{
 		Alcohol foundIngredient = null;
 		boolean found = false;
-		int i = 0;
-		while(!found && i < cocktailContents.size())
+		for(Alcohol ingredient : cocktailContents.keySet()) 
 		{
-			if(cocktailContents.get(i).getName().toLowerCase().equals(name.toLowerCase())) {
-				foundIngredient = cocktailContents.get(i);
-				found = true;
-			}
-			else 
+			if(!found && ingredient.getName().toLowerCase().equals(name.toLowerCase())) 
 			{
-				i++;
+				foundIngredient = ingredient;
+				found = true;
 			}
 		}
 		return foundIngredient;
