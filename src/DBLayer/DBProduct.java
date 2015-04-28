@@ -19,7 +19,7 @@ public class DBProduct implements IFDBProduct{
 		con = DbConnection.getInstance().getDBcon();
 	}
 
-	public ArrayList<Product> getAllProducts(boolean retriveAssociation)
+	public ArrayList<Product> getAllProducts(boolean retriveAssociation) throws Exception
 	{
 		return muchWhere("", retriveAssociation);
 	}
@@ -187,7 +187,7 @@ public class DBProduct implements IFDBProduct{
 			return(rc);
 		}
 		
-		public int delete(int id) throws Exception
+		public int delete(Product product) throws Exception
 		{
 			int rc=-1;
 
@@ -195,10 +195,11 @@ public class DBProduct implements IFDBProduct{
 			PreparedStatement prepDelete = null;
 			
 			try{ // delete from product
+		
 				
 				String query="DELETE FROM product WHERE id = '?'";
 				prepDelete = con.prepareStatement(query);
-				prepDelete.setInt(1, id);
+				prepDelete.setInt(1, product.getId());
 				
 				prepDelete.setQueryTimeout(5);
 				prepDelete.executeUpdate();
@@ -206,15 +207,15 @@ public class DBProduct implements IFDBProduct{
 				if(product.getType() != null) {
 					if(Product.checkType(product.getType())) 
 					{
-						Alcohol alcohol = (Alcohol) product;
+						//Alcohol alcohol = (Alcohol) product;
 						DBAlcohol dbAlcohol = new DBAlcohol();
-						dbAlcohol.delete(id);
+						dbAlcohol.delete(product.getId());
 					}
 					else if(product.getType().toLowerCase().equals("fruit")) 
 					{
-						Fruit fruit = (Fruit) product;
+						//Fruit fruit = (Fruit) product;
 						DBFruit dbFruit = new DBFruit();
-						dbFruit.delete(id);
+						dbFruit.delete(product.getId());
 					}
 
 				}
