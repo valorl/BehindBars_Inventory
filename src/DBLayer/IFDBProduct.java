@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public interface IFDBProduct {
     // get all Products
-    public ArrayList<Product> getAllProducts(boolean retriveAssociation);
+    public ArrayList<Product> getAllProducts(boolean retriveAssociation) throws Exception;
     //get one Product by its id
     public Product findProduct(int id, boolean retriveAssociation) throws Exception;
     //insert a new Product
