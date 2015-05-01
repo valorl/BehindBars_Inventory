@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Week {
 	
+	private int id;
 	private int number; 
 	private int month; 
 	private int year; 
 	private ArrayList<ProductState> stateList;
+	private Employee employee;
 	
 	public Week() {
 		
@@ -20,6 +22,14 @@ public class Week {
 		this.month = month;
 		this.year = year;
 		this.stateList = stateList;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getNumber() {
@@ -65,6 +75,15 @@ public class Week {
 	{
 		stateList.remove(state);
 	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	public ProductState findState(String productName) 
 	{
 		ProductState foundState = null;

@@ -2,10 +2,11 @@ package ModelLayer;
 
 public class ProductState {
 	
+	private int id;
 	private double currentCost;
 	private double currentPrice; 
 	private int purchased;
-	private Product product; 
+	private Product product;
 	
 	public ProductState() {
 		
@@ -18,6 +19,14 @@ public class ProductState {
 		this.currentPrice = currentPrice;
 		this.purchased = purchased;
 		this.product = product;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getCurrentCost() {
