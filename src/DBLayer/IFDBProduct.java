@@ -14,6 +14,6 @@ public interface IFDBProduct {
     //insert a new Product
     public int insertProduct(Product product) throws Exception;
     //update information about an Product
-    public int updateProduct(Product product);
+    public int updateProduct(Product product) throws Exception;
     
 }
