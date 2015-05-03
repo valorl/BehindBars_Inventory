@@ -2,13 +2,14 @@ package ModelLayer;
 
 public class QuantLoc {
 
+	private int id;
 	private double quantity; 
 	private String location; 
-	
+
 	public QuantLoc() {
-		
+
 	}
-	
+
 	public QuantLoc(double quantity,
 			String location) {
 		super();
@@ -16,7 +17,15 @@ public class QuantLoc {
 		this.location = location;
 	}
 
-		public double getQuantity() {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getQuantity() {
 		return quantity;
 	}
 
@@ -33,5 +42,5 @@ public class QuantLoc {
 	}
 
 	
-	
+
 }
