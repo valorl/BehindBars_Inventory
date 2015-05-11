@@ -1,0 +1,5 @@
+.root {
+	-fx-background-image: url(background.png);
+	-fx-background-repeat: repeat;
+	-fx-base: #24AAD7;
+}

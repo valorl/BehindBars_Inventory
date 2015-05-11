@@ -61,6 +61,7 @@ public class DBProduct implements IFDBProduct{
 		try{ // insert new product
 			String query="INSERT INTO product(id, name, cost, price, unitVolume, type, purchased)  VALUES('?,?,?,?,?,?,?)";
 
+			DbConnection.startTransaction();
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, product.getId());
 			prepInsert.setString(2, product.getName());
@@ -84,6 +85,7 @@ public class DBProduct implements IFDBProduct{
 			//						product.getSupplierId() + "')";
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
+			DbConnection.commitTransaction();
 
 			if(product.getQuantLocs() != null &&product.getQuantLocs().size() > 0) {
 				DBQuantLoc dbQL = new DBQuantLoc();
@@ -115,6 +117,7 @@ public class DBProduct implements IFDBProduct{
 
 		}//end try
 		catch(SQLException ex){
+			DbConnection.rollbackTransaction();
 			System.out.println("Product not inserted");
 			throw new Exception ("Product is not inserted correctly");
 		}

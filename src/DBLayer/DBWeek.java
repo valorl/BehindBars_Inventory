@@ -24,7 +24,7 @@ public class DBWeek implements IFDBWeek{
 	}
 
 	//get one week based on its number, year, month
-	public Week findWeek(int number, int year, int month, boolean retriveAssociation) throws Exception
+	public Week findWeek(int number,int month,int year, boolean retriveAssociation) throws Exception
 	{   
 		String wClause = "  number = '" + number + "'"+"', "+
 				"year ='"+ year+"', "+"', "+

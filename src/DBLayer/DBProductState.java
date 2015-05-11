@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import ModelLayer.Product;
 import ModelLayer.ProductState;
-import ModelLayer.QuantLoc;
 
 public class DBProductState implements IFDBProductState{
 
@@ -73,15 +72,7 @@ public class DBProductState implements IFDBProductState{
 			prepInsert.setQueryTimeout(5);
 			prepInsert.executeUpdate();
 			
-			if(productState.getQuantLocs() != null &&productState.getQuantLocs().size() > 0) {
-				DBQuantLoc dbQL = new DBQuantLoc();
-
-				for (QuantLoc qLoc : productState.getQuantLocs()) 
-				{
-					dbQL.insertQuantLoc(qLoc, productState);
-				}
-			}
-
+			
 
 
 		}//end try
@@ -119,15 +110,6 @@ public class DBProductState implements IFDBProductState{
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();
-			
-			if(productState.getQuantLocs() != null && productState.getQuantLocs().size() > 0) {
-				DBQuantLoc dbQL = new DBQuantLoc();
-
-				for (QuantLoc qLoc : productState.getQuantLocs()) 
-				{
-					dbQL.updateQuantLoc(qLoc, productState);
-				}
-			}
 
 		}//try to close
 		catch(Exception ex){
@@ -193,13 +175,6 @@ public class DBProductState implements IFDBProductState{
 					DBProduct dbProduct = new DBProduct();
 					Product product = dbProduct.findProduct(productStateObj.getProduct().getId(), false);
 					productStateObj.setProduct(product);
-					
-					DBQuantLoc dbQL = new DBQuantLoc();
-					ArrayList<QuantLoc> qLList = dbQL.getStateQLs(productStateObj, false);
-					if(qLList != null && qLList.size() > 0) 
-					{
-						productStateObj.setQuantLocs(qLList);
-					}
 				}
 			}
 			else{ //no productState was found
@@ -232,24 +207,6 @@ public class DBProductState implements IFDBProductState{
 				list.add(productStateObj);
 			}//end while
 			stmt.close();     
-			
-			while( results.next() ){
-				ProductState productStateObj = new ProductState();
-				productStateObj = buildProductState(results);
-				
-				DBQuantLoc dbQL = new DBQuantLoc();
-				if(retrieveAssociation) {
-					
-					ArrayList<QuantLoc> qLList = dbQL.getStateQLs(productStateObj, false);
-					if(qLList != null && qLList.size() > 0) 
-					{
-						productStateObj.setQuantLocs(qLList);
-					}
-				}
-				list.add(productStateObj);
-			}//end while
-			stmt.close();   
-			
 			if(retrieveAssociation) {}
 
 			if(list.size() == 0) 

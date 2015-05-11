@@ -104,5 +104,15 @@ public class Week {
 		return foundState;
 	}
 	
+	public ProductState getState(int index) 
+	{
+		ProductState state = null;
+		if(index < stateList.size()) 
+		{
+			state = stateList.get(index);
+		}
+		return state;
+	}
+	
 
 }

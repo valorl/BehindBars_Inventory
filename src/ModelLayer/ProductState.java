@@ -6,7 +6,8 @@ public class ProductState {
 	
 	private int id;
 	private double currentCost;
-	private double currentPrice; 
+	private double currentPrice;
+	private double sold;
 	private int purchased;
 	private Product product;
 	private ArrayList<QuantLoc> quantLocs;
@@ -15,14 +16,15 @@ public class ProductState {
 		
 	}
 
-	public ProductState(double currentCost,
-			double currentPrice, int purchased, Product product) {
+	public ProductState(Product product) {
 		super();
-		this.currentCost = currentCost;
-		this.currentPrice = currentPrice;
-		this.purchased = purchased;
 		this.product = product;
-		this.quantLocs = quantLocs;
+		this.purchased = product.getPurchased();
+		this.currentCost = product.getCost();
+		this.currentPrice = product.getPrice();
+		
+		quantLocs = new ArrayList<QuantLoc>();
+		
 	}
 
 	public int getId() {
@@ -49,6 +51,14 @@ public class ProductState {
 		this.currentPrice = currentPrice;
 	}
 
+	public double getSold() {
+		return sold;
+	}
+
+	public void setSold(double sold) {
+		this.sold = sold;
+	}
+
 	public int getPurchased() {
 		return purchased;
 	}
@@ -66,42 +76,51 @@ public class ProductState {
 	}
 	
 	// QuantLoc GET, SET, ADD, REMOVE, FIND
-	public ArrayList<QuantLoc> getQuantLocs() {
-		return quantLocs;
-	}
-	public void setQuantLocs(ArrayList<QuantLoc> quantLocs) {
-		this.quantLocs = quantLocs;
-	}
-	public void addQuantLoc(QuantLoc qLock) 
-	{
-		if(!quantLocs.contains(qLock)) 
-		{
-			quantLocs.add(qLock);
+		public ArrayList<QuantLoc> getQuantLocs() {
+			return quantLocs;
 		}
-	}
-	public void removeQuantLoc(QuantLoc qLock) 
-	{
-		quantLocs.remove(qLock);
-	}
-	public QuantLoc findQuantLoc(String location) 
-	{
-		QuantLoc foundQL = null;
-		boolean found = false;
-		int i = 0;
-		while(!found && i < quantLocs.size()) 
+		public void setQuantLocs(ArrayList<QuantLoc> quantLocs) {
+			this.quantLocs = quantLocs;
+		}
+		public void addQuantLoc(QuantLoc qLock) 
 		{
-			if(quantLocs.get(i).getLocation().toLowerCase().equals(location.toLowerCase())) 
+			if(!quantLocs.contains(qLock)) 
 			{
-				foundQL = quantLocs.get(i);
-				found = true;
-			}
-			else 
-			{
-				i++;
+				quantLocs.add(qLock);
 			}
 		}
-		return foundQL;
+		public void removeQuantLoc(QuantLoc qLock) 
+		{
+			quantLocs.remove(qLock);
+		}
+		public QuantLoc findQuantLoc(String location) 
+		{
+			QuantLoc foundQL = null;
+			boolean found = false;
+			int i = 0;
+			while(!found && i < quantLocs.size()) 
+			{
+				if(quantLocs.get(i).getLocation().toLowerCase().equals(location.toLowerCase())) 
+				{
+					foundQL = quantLocs.get(i);
+					found = true;
+				}
+				else 
+				{
+					i++;
+				}
+			}
+			return foundQL;
+		}
+		
+	// Sum up quantities from all QuantLocs
+	public double getTotalQuantity() 
+	{
+		return quantLocs.stream().mapToDouble(QuantLoc::getQuantity).sum();
 	}
 	
-
+	
+	
+	
+	
 }
