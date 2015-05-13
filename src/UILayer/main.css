@@ -1,5 +1,36 @@
+@font-face {
+    font-family: 'RobotoMedium';
+    src: url('Roboto-Medium.ttf');
+} 
+
+
 .root {
 	-fx-background-image: url(background.png);
 	-fx-background-repeat: repeat;
 	-fx-base: #24AAD7;
+}
+
+.flat-button {
+	-fx-background-color: #24AAD7;
+	-fx-border-radius: 0;
+	-fx-background-radius: 0;
+	-fx-font-family: "Roboto";
+	-fx-font-size: 20px;
+	-fx-text-fill: #fff;
+	-fx-max-height: 60px;
+	-fx-pref-height: 60px;
+}
+
+.flat-button-small {
+	-fx-pref-width:80px;
+	-fx-max-width:80px;
+}
+
+.navfirst {
+	-fx-border-radius: 5 0 0 5;
+  	-fx-background-radius: 5 0 0 5;
+}
+.navlast {
+	-fx-border-radius: 0 5 5 0;
+	-fx-background-radius: 0 5 5 0;
 }

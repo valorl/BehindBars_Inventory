@@ -5,9 +5,10 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import com.enartee.FlatButton;
@@ -17,19 +18,48 @@ public class MainController implements Initializable{
 	private static final String MENU_COLOR = "#24aad7";
 	private static final String MENU_COLOR_HOVER = "#50BBDF";
 	
+	public static String inventoryID = "inventory";
+    public static String inventoryFXML = "inventory.fxml";
+    public static String stocktakeID = "stocktake";
+    public static String stocktakeFXML = "stocktake.fxml";
+    public static String resultsID = "results";
+    public static String resultsFXML = "results.fxml";
+    public static String keylinesID = "keylines";
+    public static String keylinesFXML = "keylines.fxml";
+	
+    private PaneChanger changer;
+    
 	@FXML
 	private HBox navbox;
 	
 	@FXML
-	private StackPane contentPane;
+	private Pane contentPane;
 		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		constructButtons();		
 		
+		constructButtons();	
+		constructContent();
+	}
+	
+	private void constructContent() 
+	{
+		
+		changer = new PaneChanger();
+		changer.loadPane(inventoryID, inventoryFXML);
+		changer.loadPane(stocktakeID, stocktakeFXML);
+		changer.loadPane(resultsID, resultsFXML);
+		changer.loadPane(keylinesID, keylinesFXML);
+		
+		
+		Group content = new Group();
+		content.getChildren().add(changer);
+		contentPane.getChildren().add(content);
 	}
 
-	private void constructButtons() {		
+	private void constructButtons() {	
+		
+			// INVENTORY
 		
 			FlatButton btn_inventory = new FlatButton("Inventory");
 			btn_inventory.setMaxWidth(Double.MAX_VALUE);
@@ -37,44 +67,74 @@ public class MainController implements Initializable{
 			btn_inventory.setStartColor(Color.web(MENU_COLOR));
 			btn_inventory.setEndColor(Color.web(MENU_COLOR_HOVER));
 			HBox.setHgrow(btn_inventory, Priority.ALWAYS);
+			
+			btn_inventory.setOnAction((e) -> {
+				changer.setPane(inventoryID);			    
+			});
+			
 			navbox.getChildren().add(btn_inventory);
 			
-			
+			// STOCKTAKE
 			
 			FlatButton btn_stocktake = new FlatButton("Stocktake");
 			btn_stocktake.setMaxWidth(Double.MAX_VALUE);
 			btn_stocktake.setStartColor(Color.web(MENU_COLOR));
 			btn_stocktake.setEndColor(Color.web(MENU_COLOR_HOVER));
 			HBox.setHgrow(btn_stocktake, Priority.ALWAYS);
+			
+			btn_stocktake.setOnAction((e) -> {
+				changer.setPane(stocktakeID);			    
+			});
+			
 			navbox.getChildren().add(btn_stocktake);
+			
+			// RESULTS
 			
 			FlatButton btn_results = new FlatButton("Results");
 			btn_results.setMaxWidth(Double.MAX_VALUE);
 			btn_results.setStartColor(Color.web(MENU_COLOR));
 			btn_results.setEndColor(Color.web(MENU_COLOR_HOVER));
 			HBox.setHgrow(btn_results, Priority.ALWAYS);
+			
+			btn_results.setOnAction((e) -> {
+				changer.setPane(resultsID);			    
+			});
+			
 			navbox.getChildren().add(btn_results);
+			
+			// KEY LINES
 			
 			FlatButton btn_keylines = new FlatButton("Key Lines");
 			btn_keylines.setMaxWidth(Double.MAX_VALUE);
 			btn_keylines.setStartColor(Color.web(MENU_COLOR));
 			btn_keylines.setEndColor(Color.web(MENU_COLOR_HOVER));
 			HBox.setHgrow(btn_keylines, Priority.ALWAYS);
+			
+			btn_keylines.setOnAction((e) -> {
+				changer.setPane(keylinesID);			    
+			});
+			
 			navbox.getChildren().add(btn_keylines);
 			
-			FlatButton btn_employees = new FlatButton("");
-			btn_employees.setMaxWidth(100);
+			// EMPLOYEES
+			
+			FlatButton btn_employees = new FlatButton("E");
+
+			btn_employees.getStyleClass().addAll("flat-button-small");
 			btn_employees.setStartColor(Color.web(MENU_COLOR));
 			btn_employees.setEndColor(Color.web(MENU_COLOR_HOVER));
-			HBox.setHgrow(btn_employees, Priority.ALWAYS);
+			HBox.setHgrow(btn_employees, Priority.NEVER);			
 			navbox.getChildren().add(btn_employees);
 			
-			FlatButton btn_settings = new FlatButton("");
-			btn_settings.setMaxWidth(100);
-			btn_settings.getStyleClass().add("navlast");
+			// SETTINGS
+			
+			FlatButton btn_settings = new FlatButton("S");
+
+			btn_settings.getStyleClass().addAll("navlast","flat-button-small");
 			btn_settings.setStartColor(Color.web(MENU_COLOR));
 			btn_settings.setEndColor(Color.web(MENU_COLOR_HOVER));
-			HBox.setHgrow(btn_settings, Priority.ALWAYS);
+			HBox.setHgrow(btn_settings, Priority.NEVER);
+			
 			navbox.getChildren().add(btn_settings);		
 			
 		}
