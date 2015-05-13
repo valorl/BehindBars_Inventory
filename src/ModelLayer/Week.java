@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Week {
 	
-	private int id;
+	private double id;
 	private int number; 
 	private int month; 
 	private int year; 
@@ -24,11 +24,11 @@ public class Week {
 		this.stateList = stateList;
 	}
 	
-	public int getId() {
+	public double getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(double id) {
 		this.id = id;
 	}
 
