@@ -13,12 +13,12 @@ public class Main extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		System.setProperty("prism.lcdtext", "false"); // Improves font quality
+		
 		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
 		
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
-		
-		primaryStage.setTitle("Behind Bars Inventory");
+		primaryStage.setTitle("Inventory");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		}
