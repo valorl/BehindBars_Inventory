@@ -1,21 +1,30 @@
 @font-face {
-    font-family: 'RobotoMedium';
-    src: url('Roboto-Medium.ttf');
+    font-family: 'Ubuntu';
+    src: url('UBUNTU-REGULAR.TTF');
 } 
+@font-face {
+	font-family: 'Roboto';
+	src: url(Roboto-Medium.ttf);
+}
 
 
 .root {
 	-fx-background-image: url(background.png);
 	-fx-background-repeat: repeat;
-	-fx-base: #24AAD7;
+	/*-fx-base: #24AAD7;*/
+	-fx-font-family: Verdana;
+	
+	
 }
 
 .flat-button {
 	-fx-background-color: #24AAD7;
 	-fx-border-radius: 0;
 	-fx-background-radius: 0;
-	-fx-font-family: "Roboto";
-	-fx-font-size: 20px;
+	/*-fx-font-family: Roboto-Medium;*/
+	/*-fx-font-family: "Roboto";*/
+	-fx-font-family: "Ubuntu";
+	-fx-font-size: 25px;
 	-fx-text-fill: #fff;
 	-fx-max-height: 60px;
 	-fx-pref-height: 60px;
@@ -34,3 +43,16 @@
 	-fx-border-radius: 0 5 5 0;
 	-fx-background-radius: 0 5 5 0;
 }
+
+.button .text {
+	-fx-effect: dropshadow( one-pass-box , rgba(100, 100, 100, 0.9) , 0, 0.0 , 0 , 1);
+}
+
+.button, .combo-box-base {
+	-fx-background-color: #24AAD7;
+}
+.button:hover, .combo-box-base:hover 
+{
+	-fx-background-color: #50BBDF;
+}
+

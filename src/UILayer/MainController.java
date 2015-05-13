@@ -45,11 +45,17 @@ public class MainController implements Initializable{
 	private void constructContent() 
 	{
 		
+		contentPane.setMaxWidth(Double.MAX_VALUE);
+		contentPane.setMaxHeight(Double.MAX_VALUE);
+		
 		changer = new PaneChanger();
 		changer.loadPane(inventoryID, inventoryFXML);
 		changer.loadPane(stocktakeID, stocktakeFXML);
 		changer.loadPane(resultsID, resultsFXML);
 		changer.loadPane(keylinesID, keylinesFXML);
+		
+		changer.setMaxHeight(Double.MAX_VALUE);
+		changer.setMaxWidth(Double.MAX_VALUE);
 		
 		
 		Group content = new Group();
