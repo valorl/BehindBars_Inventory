@@ -5,9 +5,9 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.Group;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 
@@ -18,20 +18,32 @@ public class MainController implements Initializable{
 	private static final String MENU_COLOR = "#24aad7";
 	private static final String MENU_COLOR_HOVER = "#50BBDF";
 	
+	public static String inventoryID = "inventory";
+    public static String inventoryFXML = "inventory.fxml";
+	
+    private PaneChanger changer;
+    
 	@FXML
 	private HBox navbox;
 	
 	@FXML
-	private Parent contentPane;
+	private Pane contentPane;
 		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		constructButtons();	
+		constructContent();
+	}
+	
+	private void constructContent() 
+	{
 		
-		contentPane = new GridPane();
-		
-		contentPane.setStyle("-fx-background-color: #fff");
+		changer = new PaneChanger();
+		changer.loadPane(inventoryID, inventoryFXML);
+		Group content = new Group();
+		content.getChildren().add(changer);
+		contentPane.getChildren().add(content);
 	}
 
 	private void constructButtons() {	
@@ -41,6 +53,11 @@ public class MainController implements Initializable{
 			btn_inventory.setStartColor(Color.web(MENU_COLOR));
 			btn_inventory.setEndColor(Color.web(MENU_COLOR_HOVER));
 			HBox.setHgrow(btn_inventory, Priority.ALWAYS);
+			
+			btn_inventory.setOnAction((e) -> {
+				changer.setPane(inventoryID);			    
+			});
+			
 			navbox.getChildren().add(btn_inventory);
 			
 			
