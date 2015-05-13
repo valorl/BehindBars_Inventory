@@ -13,13 +13,13 @@ public class DBWeekTest {
 	public void insertWeekTest()
 	{			
 		Week testWeek = new Week();
-		testWeek.setId(2.3);
 		testWeek.setNumber(2);
 		testWeek.setMonth(3);
 		testWeek.setYear(2015);	
+		
 
-		Employee testEmp = new Employee();
-		testEmp.setId(01);
+		Employee employee = new Employee();
+		testWeek.setEmployee(employee);
 		
 		DBWeek dbWeek = new DBWeek();
 		try {
@@ -33,8 +33,45 @@ public class DBWeekTest {
 			ex.printStackTrace();
 			System.out.print("Insert failed");
 		}
+	}
 		
+		@Test
+		public void findWeekTest()
+		{
+			Week findWeek = new Week();
+			findWeek.getNumber();
+			findWeek.getMonth();
+			findWeek.getYear();
+			
+			DBWeek dbWeek = new DBWeek();
+			try {
+				dbWeek.findWeek(2, 3, 2015, retriveAssociation);
+				System.out.print("Week found");
+			}
+			catch(Exception ex)
+			{
+				fail();
+				ex.printStackTrace();
+				System.out.print("Could not find week");
+			}
+		}
+		
+		/*@Test
+		public void updateWeekTest()
+		{
+			Week updateWeek = new Week();
+			
+		}
+		*/
+		
+		/*@Test
+		public void deleteWeekTest()
+		{
+			Week deleteWeek = new Week();
+			deleteWeek.
+		}
+		*/
 	}
 
-}
+
 
