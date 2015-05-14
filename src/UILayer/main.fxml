@@ -37,7 +37,7 @@
          </children>
       </GridPane>
       
-      <Pane fx:id="contentPane" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <StackPane fx:id="contentPane" maxWidth="1.7976931348623157E308" maxHeight="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       
    </children>
    <padding>

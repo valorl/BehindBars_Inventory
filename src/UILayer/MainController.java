@@ -5,10 +5,11 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import com.enartee.FlatButton;
@@ -33,7 +34,7 @@ public class MainController implements Initializable{
 	private HBox navbox;
 	
 	@FXML
-	private Pane contentPane;
+	private StackPane contentPane;
 		
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -54,13 +55,15 @@ public class MainController implements Initializable{
 		changer.loadPane(resultsID, resultsFXML);
 		changer.loadPane(keylinesID, keylinesFXML);
 		
+		
 		changer.setMaxHeight(Double.MAX_VALUE);
 		changer.setMaxWidth(Double.MAX_VALUE);
 		
 		
-		Group content = new Group();
-		content.getChildren().add(changer);
-		contentPane.getChildren().add(content);
+		//Group content = new Group();
+		//content.getChildren().add(changer);
+		contentPane.setAlignment(Pos.TOP_LEFT);
+		contentPane.getChildren().add(changer);
 	}
 
 	private void constructButtons() {	

@@ -24,6 +24,13 @@ public class DBProduct implements IFDBProduct{
 	{
 		return muchWhere("", retriveAssociation);
 	}
+	//get every product of given category
+	public ArrayList<Product> getAllOf(String category, boolean retrieveAssociation) throws Exception 
+	{
+		String wClause = "type = '" + category + "'";
+		
+		return muchWhere(wClause, retrieveAssociation);
+	}
 	//get one product based on its id
 	public Product findProduct(int id, boolean retriveAssociation) throws Exception
 	{   
@@ -42,6 +49,7 @@ public class DBProduct implements IFDBProduct{
 		return product;
 
 	}
+	
 
 
 	//insert a new product

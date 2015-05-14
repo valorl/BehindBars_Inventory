@@ -308,7 +308,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 	
 	private QuantLoc buildQuantLoc(ResultSet results)
 	{   
-		QuantLoc QLObj = null;
+		QuantLoc QLObj = new QuantLoc();
 		try{ // the columns from the table product are used
 			QLObj.setId(results.getInt("id"));
 			QLObj.setQuantity(results.getDouble("quantity"));
@@ -316,7 +316,8 @@ public class DBQuantLoc implements IFDBQuantLoc{
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error in building the product object");
+			e.printStackTrace();
+			System.out.println("Error in building the QL object");
 		}
 		return QLObj;
 	}

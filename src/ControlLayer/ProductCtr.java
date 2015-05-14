@@ -1,4 +1,4 @@
-package ControlLayer;
+ package ControlLayer;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,10 @@ public class ProductCtr {
 	public Product findProduct(int id, boolean retriveAssociation) throws Exception
 	{
 		return dbProduct.findProduct(id, retriveAssociation);
+	}
+	public ArrayList<Product> getAllOf(String category) throws Exception
+	{
+		return dbProduct.getAllOf(category, true);
 	}
 
 	public void updateProduct(String name, double cost, double price, ArrayList<QuantLoc> quantLocs, double unitVolume, String type,
