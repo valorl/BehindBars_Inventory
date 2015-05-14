@@ -18,7 +18,9 @@ public class Product {
 	
 	// CONSTRUCTORS
 	
-	public Product() {};
+	public Product() {
+		quantLocs = new ArrayList<QuantLoc>();
+	};
 	
 	public Product(String name, double cost, double price,
 			ArrayList<QuantLoc> quantLocs, double unitVolume, String type,

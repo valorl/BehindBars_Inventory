@@ -79,7 +79,7 @@ public class DBWeek implements IFDBWeek{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new week
-			String query="INSERT INTO week(id, number, month, year, employeeId)  VALUES('?,?,?,?,?)";
+			String query="INSERT INTO week(id, number, month, year, employeeId)  VALUES(?,?,?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, week.getId());
@@ -114,7 +114,7 @@ public class DBWeek implements IFDBWeek{
 
 		try{ // update week
 
-			String query="UPDATE week SET id = '?', number = '?', month = '?', year = '?', employeeId = '?' WHERE id = '?' ";
+			String query="UPDATE week SET id = ?, number = ?, month = ?, year = ?, employeeId = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, week.getId());
@@ -152,7 +152,7 @@ public class DBWeek implements IFDBWeek{
 		try{ // delete from week
 
 
-			String query="DELETE FROM week WHERE id = '?'";
+			String query="DELETE FROM week WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, id);
 

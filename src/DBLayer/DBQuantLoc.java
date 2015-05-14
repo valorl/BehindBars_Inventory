@@ -59,7 +59,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new alcohol
-			String query="INSERT INTO quantloc(id, quantity, location, productID, stateID)  VALUES('?,?,?,?,?)";
+			String query="INSERT INTO quantloc(id, quantity, location, productID, stateID)  VALUES(?,?,?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, quantLoc.getId());
@@ -147,7 +147,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 
 		try{ // update product
 
-			String query="UPDATE quantLoc SET id = '?', quantity = '?', location = '?', productID = '?', stateID = '?' WHERE id = '?' ";
+			String query="UPDATE quantLoc SET id = ?, quantity = ?, location = ?, productID = ?, stateID = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, QLObj.getId());
@@ -194,7 +194,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 
 		try{ // update product
 
-			String query="UPDATE quantLoc SET id = '?', quantity = '?', location = '?', productID = '?', stateID = '?' WHERE id = '?' ";
+			String query="UPDATE quantLoc SET id = ?, quantity = ?, location = ?, productID = ?, stateID = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, QLObj.getId());
@@ -224,7 +224,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 		PreparedStatement prepDelete = null;
 
 		try{ // delete from product
-			String query="DELETE FROM quantLoc WHERE id = '?'";
+			String query="DELETE FROM quantLoc WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, quantLoc.getId());
 

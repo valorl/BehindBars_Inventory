@@ -51,7 +51,7 @@ public class DBFruit implements IFDBFruit{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new fruit
-			String query="INSERT INTO fruit(productID, totalWeight)  VALUES('?,?)";
+			String query="INSERT INTO fruit(productID, totalWeight)  VALUES(?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, fruit.getId());
@@ -96,7 +96,7 @@ public class DBFruit implements IFDBFruit{
 
 		try{ // update fruit
 
-			String query="UPDATE fruit SET productID = '?', totalWeight = '?' WHERE productID = '?' ";
+			String query="UPDATE fruit SET productID = ?, totalWeight = ? WHERE productID = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, fruit.getId());
@@ -126,7 +126,7 @@ public class DBFruit implements IFDBFruit{
 		try{ 
 
 
-			String query="DELETE FROM fruit WHERE productID = '?'";
+			String query="DELETE FROM fruit WHERE productID = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, productID);
 

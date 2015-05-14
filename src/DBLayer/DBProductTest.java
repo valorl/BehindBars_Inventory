@@ -50,9 +50,10 @@ public class DBProductTest {
 		}
 		catch(Exception ex) 
 		{
-			fail();
 			ex.printStackTrace();
 			System.out.print("Insert not OK");
+			fail();
+			
 		}
 	}	
 	

@@ -49,6 +49,7 @@ public class DBProduct implements IFDBProduct{
 	public int insertProduct(Product product) throws Exception
 	{  //call to get the next id number
 		int nextid = GetMax.getMaxId("Select max(id) from product");
+		
 		nextid = nextid + 1;
 		System.out.println("next id = " +  nextid);
 		product.setId(nextid);
@@ -59,7 +60,7 @@ public class DBProduct implements IFDBProduct{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new product
-			String query="INSERT INTO product(id, name, cost, price, unitVolume, type, purchased)  VALUES('?,?,?,?,?,?,?)";
+			String query="INSERT INTO product(id, name, cost, price, unitVolume, type, purchased)  VALUES(?,?,?,?,?,?,?)";
 
 			DbConnection.startTransaction();
 			prepInsert = con.prepareStatement(query);
@@ -118,6 +119,8 @@ public class DBProduct implements IFDBProduct{
 		}//end try
 		catch(SQLException ex){
 			DbConnection.rollbackTransaction();
+			ex.printStackTrace();
+			System.out.println(ex);
 			System.out.println("Product not inserted");
 			throw new Exception ("Product is not inserted correctly");
 		}
@@ -152,7 +155,7 @@ public class DBProduct implements IFDBProduct{
 
 		try{ // update product
 
-			String query="UPDATE product SET id = '?', name = '?', cost = '?', price = '?', unitVolume = '?', type = '?', purchased = '?' WHERE id = '?' ";
+			String query="UPDATE product SET id = ?, name = ?, cost = ?, price = ?, unitVolume = ?, type = ?, purchased = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, product.getId());
@@ -220,7 +223,7 @@ public class DBProduct implements IFDBProduct{
 		try{ // delete from product
 
 
-			String query="DELETE FROM product WHERE id = '?'";
+			String query="DELETE FROM product WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, product.getId());
 

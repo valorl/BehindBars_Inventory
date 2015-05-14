@@ -119,7 +119,7 @@ public class DBCocktails {
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new ingredient
-			String query="INSERT INTO cocktails(cocktailID, ingredientID, volume)  VALUES('?,?,?)";
+			String query="INSERT INTO cocktails(cocktailID, ingredientID, volume)  VALUES(?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, alcohol.getId());
@@ -152,7 +152,7 @@ public class DBCocktails {
 		try{ 
 
 
-			String query="DELETE FROM cocktails WHERE cocktailID = '?' AND ingredientID = '?'";
+			String query="DELETE FROM cocktails WHERE cocktailID = ? AND ingredientID = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, alcohol.getId());
 			prepDelete.setInt(2, ingredient.getId());

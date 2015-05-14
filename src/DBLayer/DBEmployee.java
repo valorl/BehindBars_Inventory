@@ -54,7 +54,7 @@ public class DBEmployee implements IFDBEmployee {
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new employee
-			String query="INSERT INTO employee(id, name, phoneNo)  VALUES('?,?,?)";
+			String query="INSERT INTO employee(id, name, phoneNo)  VALUES(?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, employee.getId());
@@ -88,7 +88,7 @@ public class DBEmployee implements IFDBEmployee {
 
 		try{ // update employee
 
-			String query="UPDATE employee SET id = '?', name = '?', phoneNo = '?' WHERE id = '?' ";
+			String query="UPDATE employee SET id = ?, name = ?, phoneNo = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, employee.getId());
@@ -125,7 +125,7 @@ public class DBEmployee implements IFDBEmployee {
 		try{ // delete from employee
 
 
-			String query="DELETE FROM employee WHERE id = '?'";
+			String query="DELETE FROM employee WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, id);
 

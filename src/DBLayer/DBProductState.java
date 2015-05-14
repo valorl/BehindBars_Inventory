@@ -57,7 +57,7 @@ public class DBProductState implements IFDBProductState{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new productState
-			String query="INSERT INTO productState(id, currentCost, currentPrice, purchased, productID, weekID)  VALUES('?,?,?,?,?,?)";
+			String query="INSERT INTO productState(id, currentCost, currentPrice, purchased, productID, weekID)  VALUES(?,?,?,?,?,?)";
 
 			
 			prepInsert = con.prepareStatement(query);
@@ -97,7 +97,7 @@ public class DBProductState implements IFDBProductState{
 
 		try{ // update productState
 
-			String query="UPDATE productState SET id = '?', currentCost = '?', currentPrice = '?', purchased = '?', productID = '?', weekID = '?' WHERE id = '?' ";
+			String query="UPDATE productState SET id = ?, currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, productState.getId());
@@ -136,7 +136,7 @@ public class DBProductState implements IFDBProductState{
 		try{ // delete from productState
 
 
-			String query="DELETE FROM productState WHERE id = '?'";
+			String query="DELETE FROM productState WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, id);
 

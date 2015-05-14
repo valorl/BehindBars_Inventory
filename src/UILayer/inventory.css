@@ -13,4 +13,9 @@
 	-fx-max-height: 40px;
 	-fx-background-radius: 2 0 0 2;
 }
+.combo-box-base {
+	-fx-pref-height: 25px;
+	-fx-min-heihgt: 25px;
+	-fx-max-height: 25px;
+}
 

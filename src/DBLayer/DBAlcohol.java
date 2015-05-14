@@ -51,7 +51,7 @@ public class DBAlcohol implements IFDBAlcohol{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new alcohol
-			String query="INSERT INTO alcohol(productID, fullWeight, emptyWeight, density, totalVolume)  VALUES('?,?,?,?,?)";
+			String query="INSERT INTO alcohol(productID, fullWeight, emptyWeight, density, totalVolume)  VALUES(?,?,?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, alcohol.getId());
@@ -103,7 +103,7 @@ public class DBAlcohol implements IFDBAlcohol{
 
 		try{ // update alcohol
 
-			String query="UPDATE alcohol SET productID = '?', fullWeight = '?', emptyWeight = '?', density = '?', totalVolume = '?' WHERE productID = '?' ";
+			String query="UPDATE alcohol SET productID = ?, fullWeight = ?, emptyWeight = ?, density = ?, totalVolume = ? WHERE productID = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, alcohol.getId());
@@ -142,7 +142,7 @@ public class DBAlcohol implements IFDBAlcohol{
 		try{ 
 
 
-			String query="DELETE FROM alcohol WHERE id = '?'";
+			String query="DELETE FROM alcohol WHERE id = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, alcohol.getId());
 

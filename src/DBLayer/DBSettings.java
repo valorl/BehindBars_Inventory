@@ -43,7 +43,7 @@ public class DBSettings implements IFDBSettings {
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new week
-			String query="INSERT INTO settings(settingCode, value)  VALUES('?,?)";
+			String query="INSERT INTO settings(settingCode, value)  VALUES(?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setString(1, settingCode);
@@ -74,7 +74,7 @@ public class DBSettings implements IFDBSettings {
 
 		try{ // update week
 
-			String query="UPDATE week SET settingCode = '?', value = '?' WHERE settingCode = '?' ";
+			String query="UPDATE week SET settingCode = ?, value = ? WHERE settingCode = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setString(1, settingCode);
@@ -110,7 +110,7 @@ public class DBSettings implements IFDBSettings {
 		try{ // delete from week
 
 
-			String query="DELETE FROM week WHERE settingCode = '?'";
+			String query="DELETE FROM week WHERE settingCode = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setString(1, settingCode);
 
