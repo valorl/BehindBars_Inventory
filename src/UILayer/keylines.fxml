@@ -34,7 +34,7 @@
                   </HBox>
                </children>
             </HBox>
-            <TableView fx:id="table_inventory" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+            <TableView fx:id="table_keylines" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
          </children>
       </VBox>
    </children>
