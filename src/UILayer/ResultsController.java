@@ -75,7 +75,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, String>("name"));
 
-		// Bars
+		// Bars - week1
 		TableColumn<ResultsData, Double> bar1Col = new TableColumn<ResultsData, Double>("Bar 1");
 		bar1Col.setMinWidth(150);
 		bar1Col.setCellValueFactory(
@@ -90,16 +90,46 @@ public class ResultsController implements Initializable, ChangeablePane{
 		bar3Col.setMinWidth(150);
 		bar3Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar3"));
-		// TOTAL
+		
+		// TOTAL WEEK 1
 		TableColumn<ResultsData, Double> totalCol = new TableColumn<ResultsData, Double>("Total");
 		totalCol.setMinWidth(150);
 		totalCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("total"));
 		
+		// SALES WEEK 1
 		TableColumn<ResultsData, Double> salesCol = new TableColumn<ResultsData, Double>("Sales");
 		salesCol.setMinWidth(150);
 		salesCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("sales"));
+		
+		// BARS WEEK 2
+		TableColumn<ResultsData, Double> bar1Week2Col = new TableColumn<ResultsData, Double>("Bar 1");
+		bar1Week2Col.setMinWidth(150);
+		bar1Week2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("bar1Week2"));
+
+		TableColumn<ResultsData, Double> bar2Week2Col = new TableColumn<ResultsData, Double>("Bar 2");
+		bar2Week2Col.setMinWidth(150);
+		bar2Week2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("bar2Week2"));
+
+		TableColumn<ResultsData, Double> bar3Week2Col = new TableColumn<ResultsData, Double>("Bar 3");
+		bar3Week2Col.setMinWidth(150);
+		bar3Week2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("bar3Week2"));
+		
+		// TOTAL WEEK 2
+		TableColumn<ResultsData, Double> totalWeek2Col = new TableColumn<ResultsData, Double>("Total");
+		totalWeek2Col.setMinWidth(150);
+		totalWeek2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("totalWeek2"));
+		
+		// SALES WEEK 2
+		TableColumn<ResultsData, Double> salesWeek2Col = new TableColumn<ResultsData, Double>("Sales");
+		salesWeek2Col.setMinWidth(150);
+		salesWeek2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("salesWeek2"));
 		
 		// VARIANCE
 		TableColumn<ResultsData, Double> varianceCol = new TableColumn<ResultsData, Double>("Variance");
@@ -112,14 +142,20 @@ public class ResultsController implements Initializable, ChangeablePane{
 		revenueCol.setMinWidth(150);
 		revenueCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("revenue"));
-		
+
 		// DIFFERENCE FROM SALES
-				TableColumn<ResultsData, Double> differenceCol = new TableColumn<ResultsData, Double>("Difference from sales");
-				differenceCol.setMinWidth(150);
-				differenceCol.setCellValueFactory(
-						new PropertyValueFactory<ResultsData, Double>("difference"));
+		TableColumn<ResultsData, Double> differenceCol = new TableColumn<ResultsData, Double>("Difference from sales");
+		differenceCol.setMinWidth(150);
+		differenceCol.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("difference"));
+
+		// DIFFERENCE FROM SALES
+		TableColumn<ResultsData, Double> lossGainCol = new TableColumn<ResultsData, Double>("L/G");
+		lossGainCol.setMinWidth(150);
+		lossGainCol.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("lossGain"));
 				
-		table_results.getColumns().addAll(idCol, nameCol, bar1Col, bar2Col, bar3Col, totalCol, salesCol, varianceCol, revenueCol, differenceCol);
+		table_results.getColumns().addAll(idCol, nameCol, bar1Col, bar2Col, bar3Col, totalCol, salesCol, bar1Week2Col, bar2Week2Col, bar3Week2Col, totalWeek2Col, salesWeek2Col, varianceCol, revenueCol, differenceCol, lossGainCol);
 		
 		for(Object column : table_results.getColumns().toArray()) 
 		{
