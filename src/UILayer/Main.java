@@ -20,6 +20,8 @@ public class Main extends Application{
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
 		
+		primaryStage.setMinHeight(600);
+		primaryStage.setMinWidth(1000);
 		primaryStage.setTitle("Inventory");
 		primaryStage.setScene(scene);
 		primaryStage.show();

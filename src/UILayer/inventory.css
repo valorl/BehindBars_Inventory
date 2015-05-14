@@ -2,9 +2,15 @@
 	-fx-text-fill: #fff;
 	-fx-font-size: 18px;
 	-fx-cursor: hand;
+	-fx-height: 40px;
+	-fx-min-height: 40px;
+	-fx-pref-height: 40px;
 }
 
-.combo-box, .button, .text-field {
-	-fx-height: 40px;
+ .text-field {
+	-fx-pref-height: 40px;
+	-fx-min-heihgt: 40px;
+	-fx-max-height: 40px;
+	-fx-background-radius: 2 0 0 2;
 }
 
