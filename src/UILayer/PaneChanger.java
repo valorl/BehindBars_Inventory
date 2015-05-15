@@ -43,6 +43,7 @@ public class PaneChanger  extends StackPane {
             addPane(name, loadPane);
             return true;
         } catch (Exception e) {
+        	e.printStackTrace();
             System.out.println(e.getMessage());
             return false;
         }

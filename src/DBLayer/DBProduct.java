@@ -28,7 +28,7 @@ public class DBProduct implements IFDBProduct{
 	public ArrayList<Product> getAllOf(String category, boolean retrieveAssociation) throws Exception 
 	{
 		String wClause = "type = '" + category + "'";
-		
+
 		return muchWhere(wClause, retrieveAssociation);
 	}
 	//get one product based on its id
@@ -49,7 +49,38 @@ public class DBProduct implements IFDBProduct{
 		return product;
 
 	}
-	
+
+	public ArrayList<String> getTypes() throws Exception
+	{
+		ArrayList<String> types = new ArrayList<String>();
+		
+		String query="SELECT DISTINCT type FROM product";
+		PreparedStatement prepStmt = null;
+		try{
+			prepStmt = con.prepareStatement(query);
+			
+			ResultSet results = prepStmt.executeQuery();
+			
+			while(results.next()) 
+			{
+				types.add(results.getString("type"));
+			}
+			
+			if(!(types.size() > 0)) 
+			{
+				throw new Exception("No types returned.");
+			}
+			
+		}
+		catch(SQLException ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Error while getting product types.");
+		}
+		
+		return types;
+	}
+
 
 
 	//insert a new product
@@ -57,7 +88,7 @@ public class DBProduct implements IFDBProduct{
 	public int insertProduct(Product product) throws Exception
 	{  //call to get the next id number
 		int nextid = GetMax.getMaxId("Select max(id) from product");
-		
+
 		nextid = nextid + 1;
 		System.out.println("next id = " +  nextid);
 		product.setId(nextid);
@@ -106,7 +137,7 @@ public class DBProduct implements IFDBProduct{
 			}
 
 			if(product.getType() != null) {
-				if(Product.checkType(product.getType())) 
+				if(Product.checkTypeForAlcoholic(product.getType())) 
 				{
 					Alcohol alcohol = (Alcohol) product;
 					DBAlcohol dbAlcohol = new DBAlcohol();
@@ -188,7 +219,7 @@ public class DBProduct implements IFDBProduct{
 			}
 
 			if(product.getType() != null) {
-				if(Product.checkType(product.getType())) 
+				if(Product.checkTypeForAlcoholic(product.getType())) 
 				{
 					Alcohol alcohol = (Alcohol) product;
 					DBAlcohol dbAlcohol = new DBAlcohol();
@@ -239,7 +270,7 @@ public class DBProduct implements IFDBProduct{
 			rc = prepDelete.executeUpdate();
 
 			if(product.getType() != null) {
-				if(Product.checkType(product.getType())) 
+				if(Product.checkTypeForAlcoholic(product.getType())) 
 				{
 					//Alcohol alcohol = (Alcohol) product;
 					DBAlcohol dbAlcohol = new DBAlcohol();
@@ -307,6 +338,7 @@ public class DBProduct implements IFDBProduct{
 		return productObj;
 	}
 
+
 	private ArrayList<Product> muchWhere(String wClause, boolean retrieveAssociation) throws Exception
 	{
 		ResultSet results;
@@ -323,10 +355,10 @@ public class DBProduct implements IFDBProduct{
 			while( results.next() ){
 				Product productObj = new Product();
 				productObj = buildProduct(results);	
-				
+
 				DBQuantLoc dbQL = new DBQuantLoc();
 				if(retrieveAssociation) {
-					
+
 					ArrayList<QuantLoc> qLList = dbQL.getProductQLs(productObj, false);
 					if(qLList != null && qLList.size() > 0) 
 					{
@@ -336,7 +368,7 @@ public class DBProduct implements IFDBProduct{
 				list.add(productObj);
 			}//end while
 			stmt.close();     
-			
+
 
 			if(list.size() == 0) 
 			{
@@ -359,7 +391,7 @@ public class DBProduct implements IFDBProduct{
 		try{ // the columns from the table product are used
 
 			String type = results.getString("type");
-			if(Product.checkType(type)) 
+			if(Product.checkTypeForAlcoholic(type)) 
 			{
 				productObj = new Alcohol();
 			}
@@ -380,7 +412,7 @@ public class DBProduct implements IFDBProduct{
 			productObj.setType(results.getString("type"));
 			productObj.setPurchased(results.getInt("purchased"));
 
-			if(Product.checkType(type)) 
+			if(Product.checkTypeForAlcoholic(type)) 
 			{
 				DBAlcohol dbAlcohol = new DBAlcohol();
 				Alcohol alcoholObj = dbAlcohol.findAlcohol(results.getInt("id"), false);
@@ -421,6 +453,7 @@ public class DBProduct implements IFDBProduct{
 
 		return query;
 	}
+
 
 
 }

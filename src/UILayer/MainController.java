@@ -27,7 +27,7 @@ public class MainController implements Initializable{
     public static String resultsFXML = "results.fxml";
     public static String keylinesID = "keylines";
     public static String keylinesFXML = "keylines.fxml";
-	
+	 
     private PaneChanger changer;
     
 	@FXML

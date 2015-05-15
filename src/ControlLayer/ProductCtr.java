@@ -49,4 +49,9 @@ public class ProductCtr {
 	{
 		dbProduct.delete(product);
 	}
+	
+	public ArrayList<String> getTypes() throws Exception
+	{
+		return dbProduct.getTypes();
+	}
 }

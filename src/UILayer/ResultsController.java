@@ -45,7 +45,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		mainHbox.getStylesheets().addAll(getClass().getResource("results.css").toExternalForm());
+		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 
 		initWeightable();
 	}

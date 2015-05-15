@@ -1,12 +1,15 @@
 package ModelLayer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Product {
 	
-	private static final String[] ALCOHOLIC_TYPES = {"vodka" , "rum" , "gin"};
+	private static ArrayList<String> ALCOHOLIC_TYPES = new ArrayList<>(Arrays.asList("vodka", "gin", "rum", "tequilla", "scotch", "brandy", "bitter", "liqueur"));
 	
+	
+
 	private int id;
 	private String name;
 	private double cost;
@@ -39,6 +42,13 @@ public class Product {
 
 
 	// GET & SET
+	
+	public static ArrayList<String> getAlcoholicTypes() {
+		return ALCOHOLIC_TYPES;
+	}
+	public static void addAlcoholicType(String type) {
+		ALCOHOLIC_TYPES.add(type);
+	}
 	
 	public int getId() {
 		return id;
@@ -128,22 +138,16 @@ public class Product {
 		return foundQL;
 	}
 	
-	public static boolean checkType(String type) 
+	public static boolean checkTypeForAlcoholic(String type) 
 	{
-		boolean found = false;
-		int i = 0;
-		while(!found && i < ALCOHOLIC_TYPES.length) 
+		if(ALCOHOLIC_TYPES.contains(type)) 
 		{
-			if(ALCOHOLIC_TYPES[i].equals(type.toLowerCase())) 
-			{
-				found = true;
-			}
-			else 
-			{
-				i++;
-			}
+			return true;
 		}
-		return found;
+		else 
+		{
+			return false;
+		}
 	}
 	
 	

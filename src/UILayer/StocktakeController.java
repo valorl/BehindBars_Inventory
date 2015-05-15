@@ -45,7 +45,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		mainHbox.getStylesheets().addAll(getClass().getResource("stocktake.css").toExternalForm());
+		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 
 		initWeightable();
 	}
