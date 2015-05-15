@@ -17,22 +17,13 @@ public class DBProductTest {
 	public void insertProductTest() 
 	{
 		Product testProduct = new Product();
-		testProduct.setId(1);
+		testProduct.setId(20);
 		testProduct.setName("Ringnes draft");
 		testProduct.setCost(5000.00);
 		testProduct.setPrice(110.00);
 		testProduct.setUnitVolume(2000);
-		testProduct.setType("Draft Beer");
+		testProduct.setType("draft beer");
 		testProduct.setPurchased(3);
-
-		//		Alcohol testAlcohol = new Alcohol();
-		//		testAlcohol.setId(1);
-		//		testAlcohol.setFullWeight(5000);
-		//		testAlcohol.setEmptyWeight(2000);
-		//		//testAlcohol.setDensity();
-		//		testAlcohol.setTotalVolume(70);
-		//		testAlcohol.setType("Alcohol");
-
 
 
 		QuantLoc testQuantLoc1 = new QuantLoc();
@@ -51,6 +42,48 @@ public class DBProductTest {
 		testProduct.addQuantLoc(testQuantLoc3);
 
 
+		DBProduct dbProduct = new DBProduct();
+		try {
+			dbProduct.insertProduct(testProduct);
+			System.out.print("Product Insert OK");
+
+		}
+		catch(Exception ex) 
+		{
+			ex.printStackTrace();
+			System.out.print("Product Insert not OK");
+			fail();
+
+		}
+	}
+	
+	@Test
+	public void insertProductTest2() 
+	{
+		Product testProduct = new Product();
+		testProduct.setId(20);
+		testProduct.setName("Pampero");
+		testProduct.setCost(500.00);
+		testProduct.setPrice(90.00);
+		testProduct.setUnitVolume(70);
+		testProduct.setType("rum");
+		testProduct.setPurchased(10);
+
+
+		QuantLoc testQuantLoc1 = new QuantLoc();
+		testQuantLoc1.setLocation("bar1");
+		testQuantLoc1.setQuantity(2);
+		testProduct.addQuantLoc(testQuantLoc1);
+
+		QuantLoc testQuantLoc2 = new QuantLoc();
+		testQuantLoc2.setLocation("bar2");
+		testQuantLoc2.setQuantity(2);
+		testProduct.addQuantLoc(testQuantLoc2);
+
+		QuantLoc testQuantLoc3 = new QuantLoc();
+		testQuantLoc3.setLocation("bar3");
+		testQuantLoc3.setQuantity(6);
+		testProduct.addQuantLoc(testQuantLoc3);
 
 
 		DBProduct dbProduct = new DBProduct();
@@ -68,161 +101,205 @@ public class DBProductTest {
 		}
 	}
 
-
+	
 	@Test
-
-	public void insertAlcoholTest()
+	public void insertProductTest3() 
 	{
-
-		Alcohol testAlcohol = new Alcohol();
-		testAlcohol.setId(1);
-		testAlcohol.setName("Zacapa");
-		testAlcohol.setCost(300.00);
-		testAlcohol.setPrice(80.00);
-		testAlcohol.setUnitVolume(70);
-		testAlcohol.setPurchased(3);
-		testAlcohol.setFullWeight(5000);
-		testAlcohol.setEmptyWeight(2000);
-		//testAlcohol.setDensity();
-		testAlcohol.setTotalVolume(70);
-		testAlcohol.setType("Rum");
+		Product testProduct = new Product();
+		testProduct.setId(20);
+		testProduct.setName("Gordons");
+		testProduct.setCost(500.00);
+		testProduct.setPrice(90.00);
+		testProduct.setUnitVolume(70);
+		testProduct.setType("gin");
+		testProduct.setPurchased(10);
 
 
 		QuantLoc testQuantLoc1 = new QuantLoc();
 		testQuantLoc1.setLocation("bar1");
-		testQuantLoc1.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc1);
-
-		QuantLoc testQuantLoc2 = new QuantLoc();
-		testQuantLoc2.setLocation("bar2");
-		testQuantLoc2.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc2);
-
-		QuantLoc testQuantLoc3 = new QuantLoc();
-		testQuantLoc3.setLocation("bar3");
-		testQuantLoc3.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc3);
-
-		DBAlcohol dbAlcohol = new DBAlcohol();
-		try {
-			dbAlcohol.insertAlcohol(testAlcohol);
-			System.out.print("Alcohol Insert OK");
-
-		}
-		catch(Exception ex) 
-		{
-			ex.printStackTrace();
-			System.out.print("Alcohol Insert not OK");
-			fail();
-
-		}
-	}
-
-
-
-	@Test
-
-	public void insertFruitTest()
-	{
-
-		Fruit testFruit = new Fruit();
-		//		testFruit.setId(1);
-		testFruit.setName("Oranges");
-		testFruit.setCost(20.00);
-		testFruit.setPrice(2.00);
-		testFruit.setUnitVolume(10);
-		testFruit.setType("Fruit");
-		testFruit.setPurchased(20);
-		testFruit.setTotalWeight(20);
-
-
-		QuantLoc testQuantLoc1 = new QuantLoc();
-		testQuantLoc1.setLocation("bar1");
-		testQuantLoc1.setQuantity(5);
-		testFruit.addQuantLoc(testQuantLoc1);
+		testQuantLoc1.setQuantity(2);
+		testProduct.addQuantLoc(testQuantLoc1);
 
 		QuantLoc testQuantLoc2 = new QuantLoc();
 		testQuantLoc2.setLocation("bar2");
 		testQuantLoc2.setQuantity(2);
-		testFruit.addQuantLoc(testQuantLoc2);
+		testProduct.addQuantLoc(testQuantLoc2);
 
 		QuantLoc testQuantLoc3 = new QuantLoc();
 		testQuantLoc3.setLocation("bar3");
-		testQuantLoc3.setQuantity(13);
-		testFruit.addQuantLoc(testQuantLoc3);
+		testQuantLoc3.setQuantity(6);
+		testProduct.addQuantLoc(testQuantLoc3);
 
-		DBFruit dbFruit = new DBFruit();
+
+		DBProduct dbProduct = new DBProduct();
 		try {
-			dbFruit.insertFruit(testFruit);
-			System.out.print("Fruit Insert OK");
+			dbProduct.insertProduct(testProduct);
+			System.out.print("Product Insert OK");
 
 		}
 		catch(Exception ex) 
 		{
 			ex.printStackTrace();
-			System.out.print("Fruit Insert not OK");
+			System.out.print("Product Insert not OK");
 			fail();
-		}
-	}
-
-
-	@Test
-	public void findProductTest() throws Exception
-	{
-
-		DBProduct dbProduct = new DBProduct();
-		Product testProduct = dbProduct.findProduct(1,false);
-
-		try{
-			dbProduct.findProduct(1,false); 
-			System.out.print("Test Product name:" + testProduct.getName());
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();	
-			System.out.print("Could not find Product");
 
 		}
 	}
 
-	@Test
-	public void updateProductTest() throws Exception
-	{
+//	@Test
 
-		DBProduct dbProduct = new DBProduct();
-		Product testProduct = dbProduct.findProduct(1, false);
-
-		try{
-			testProduct.setCost(400.00);
-			System.out.print("Test Product new cost is:" + testProduct.getCost());
-			dbProduct.updateProduct(testProduct);
-		}
-		catch (Exception ex)
-
-		{
-			ex.printStackTrace();
-			System.out.print("could not update product");
-		}
-	}
-
-	@Test
-	public void deleteProductTest()
-	{
-
-		DBProduct dbProduct = new DBProduct();
-
-		try{
-			Product testProduct = dbProduct.findProduct(1, true);
-			dbProduct.delete(testProduct);
-			System.out.print("Product deleted");
-
-		}
-		catch (Exception ex)
-		{
-			System.out.print("Product not deleted");
-		}
-
-	}
+//	public void insertAlcoholTest()
+//	{
+//
+//		Alcohol testAlcohol = new Alcohol();
+//		testAlcohol.setId(1);
+//		testAlcohol.setName("Zacapa");
+//		testAlcohol.setCost(300.00);
+//		testAlcohol.setPrice(80.00);
+//		testAlcohol.setUnitVolume(70);
+//		testAlcohol.setPurchased(3);
+//		testAlcohol.setFullWeight(5000);
+//		testAlcohol.setEmptyWeight(2000);
+//		//testAlcohol.setDensity();
+//		testAlcohol.setTotalVolume(70);
+//		testAlcohol.setType("Rum");
+//
+//
+//		QuantLoc testQuantLoc1 = new QuantLoc();
+//		testQuantLoc1.setLocation("bar1");
+//		testQuantLoc1.setQuantity(1);
+//		testAlcohol.addQuantLoc(testQuantLoc1);
+//
+//		QuantLoc testQuantLoc2 = new QuantLoc();
+//		testQuantLoc2.setLocation("bar2");
+//		testQuantLoc2.setQuantity(1);
+//		testAlcohol.addQuantLoc(testQuantLoc2);
+//
+//		QuantLoc testQuantLoc3 = new QuantLoc();
+//		testQuantLoc3.setLocation("bar3");
+//		testQuantLoc3.setQuantity(1);
+//		testAlcohol.addQuantLoc(testQuantLoc3);
+//
+//		DBAlcohol dbAlcohol = new DBAlcohol();
+//		try {
+//			dbAlcohol.insertAlcohol(testAlcohol);
+//			System.out.print("Alcohol Insert OK");
+//
+//		}
+//		catch(Exception ex) 
+//		{
+//			ex.printStackTrace();
+//			System.out.print("Alcohol Insert not OK");
+//			fail();
+//
+//		}
+//	}
+//
+//
+//
+//	@Test
+//
+//	public void insertFruitTest()
+//	{
+//
+//		Fruit testFruit = new Fruit();
+//		//		testFruit.setId(1);
+//		testFruit.setName("Oranges");
+//		testFruit.setCost(20.00);
+//		testFruit.setPrice(2.00);
+//		testFruit.setUnitVolume(10);
+//		testFruit.setType("Fruit");
+//		testFruit.setPurchased(20);
+//		testFruit.setTotalWeight(20);
+//
+//
+//		QuantLoc testQuantLoc1 = new QuantLoc();
+//		testQuantLoc1.setLocation("bar1");
+//		testQuantLoc1.setQuantity(5);
+//		testFruit.addQuantLoc(testQuantLoc1);
+//
+//		QuantLoc testQuantLoc2 = new QuantLoc();
+//		testQuantLoc2.setLocation("bar2");
+//		testQuantLoc2.setQuantity(2);
+//		testFruit.addQuantLoc(testQuantLoc2);
+//
+//		QuantLoc testQuantLoc3 = new QuantLoc();
+//		testQuantLoc3.setLocation("bar3");
+//		testQuantLoc3.setQuantity(13);
+//		testFruit.addQuantLoc(testQuantLoc3);
+//
+//		DBFruit dbFruit = new DBFruit();
+//		try {
+//			dbFruit.insertFruit(testFruit);
+//			System.out.print("Fruit Insert OK");
+//
+//		}
+//		catch(Exception ex) 
+//		{
+//			ex.printStackTrace();
+//			System.out.print("Fruit Insert not OK");
+//			fail();
+//		}
+//	}
+//
+//
+//	@Test
+//	public void findProductTest() throws Exception
+//	{
+//
+//		DBProduct dbProduct = new DBProduct();
+//		Product testProduct = dbProduct.findProduct(1,false);
+//
+//		try{
+//			dbProduct.findProduct(1,false); 
+//			System.out.print("Test Product name:" + testProduct.getName());
+//		}
+//		catch (Exception ex)
+//		{
+//			ex.printStackTrace();	
+//			System.out.print("Could not find Product");
+//
+//		}
+//	}
+//
+//	@Test
+//	public void updateProductTest() throws Exception
+//	{
+//
+//		DBProduct dbProduct = new DBProduct();
+//		Product testProduct = dbProduct.findProduct(1, false);
+//
+//		try{
+//			testProduct.setCost(400.00);
+//			System.out.print("Test Product new cost is:" + testProduct.getCost());
+//			dbProduct.updateProduct(testProduct);
+//		}
+//		catch (Exception ex)
+//
+//		{
+//			ex.printStackTrace();
+//			System.out.print("could not update product");
+//		}
+//	}
+//
+////	@Test
+////	public void deleteProductTest()
+////	{
+////
+////		DBProduct dbProduct = new DBProduct();
+////
+////		try{
+////			Product testProduct = dbProduct.findProduct(1, true);
+////			dbProduct.delete(testProduct);
+////			System.out.print("Product deleted");
+////
+//		}
+//		catch (Exception ex)
+//		{
+//			System.out.print("Product not deleted");
+//		}
+//
+//	}
 
 
 }
