@@ -67,28 +67,28 @@ public class KeylinesController implements Initializable, ChangeablePane{
 				new PropertyValueFactory<KeylinesData, Integer>("id"));
 		// NAME
 		TableColumn<KeylinesData, String> nameCol = new TableColumn<KeylinesData, String>("Name");
-		nameCol.setMinWidth(220);
+		nameCol.setMinWidth(180);
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, String>("name"));
 
 		// WEEKS
 		TableColumn<KeylinesData, Double> week1Col = new TableColumn<KeylinesData, Double>("Week 1");
-		week1Col.setMinWidth(150);
+		week1Col.setMinWidth(120);
 		week1Col.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("week1"));
 
 		TableColumn<KeylinesData, Double> week2Col = new TableColumn<KeylinesData, Double>("Week 2");
-		week2Col.setMinWidth(150);
+		week2Col.setMinWidth(120);
 		week2Col.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("week2"));
 
 		TableColumn<KeylinesData, Double> week3Col = new TableColumn<KeylinesData, Double>("Week 3");
-		week3Col.setMinWidth(150);
+		week3Col.setMinWidth(120);
 		week3Col.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("week3"));
 		
 		TableColumn<KeylinesData, Double> week4Col = new TableColumn<KeylinesData, Double>("Week 4");
-		week4Col.setMinWidth(150);
+		week4Col.setMinWidth(120);
 		week4Col.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("week4"));
 		

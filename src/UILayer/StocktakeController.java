@@ -71,55 +71,55 @@ public class StocktakeController implements Initializable, ChangeablePane{
 				new PropertyValueFactory<StocktakeData, Integer>("id"));
 		// NAME
 		TableColumn<StocktakeData, String> nameCol = new TableColumn<StocktakeData, String>("Name");
-		nameCol.setMinWidth(220);
+		nameCol.setMinWidth(140);
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, String>("name"));
 
 		// STORAGE BOTTLE
 		TableColumn<StocktakeData, Double> storageCol = new TableColumn<StocktakeData, Double>("Storage bottle");
-		storageCol.setMinWidth(150);
+		storageCol.setMinWidth(120);
 		storageCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("storage"));
 
 		// BAR 1 BOTTLES
 		TableColumn<StocktakeData, Double> bar1Col = new TableColumn<StocktakeData, Double>("Bar 1 bottles");
-		bar1Col.setMinWidth(150);
+		bar1Col.setMinWidth(120);
 		bar1Col.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar1"));
 		
 		// BAR 1 OPEN
 		TableColumn<StocktakeData, Double> bar1openCol = new TableColumn<StocktakeData, Double>("Bar 1 open (gr)");
-		bar1openCol.setMinWidth(150);
+		bar1openCol.setMinWidth(120);
 		bar1openCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar1open"));
 		
 		// BAR 2 BOTTLES
 		TableColumn<StocktakeData, Double> bar2Col = new TableColumn<StocktakeData, Double>("Bar 2");
-		bar2Col.setMinWidth(150);
+		bar2Col.setMinWidth(120);
 		bar2Col.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar2"));
 		
 		// BAR 2 OPEN
 		TableColumn<StocktakeData, Double> bar2openCol = new TableColumn<StocktakeData, Double>("Bar 2 open (gr)");
-		bar2openCol.setMinWidth(150);
+		bar2openCol.setMinWidth(120);
 		bar2openCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar2open"));
 
 		// BAR 3 BOTTLES
 		TableColumn<StocktakeData, Double> bar3Col = new TableColumn<StocktakeData, Double>("Bar 3");
-		bar3Col.setMinWidth(150);
+		bar3Col.setMinWidth(120);
 		bar3Col.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar3"));
 		
 		// BAR 3 OPEN
 		TableColumn<StocktakeData, Double> bar3openCol = new TableColumn<StocktakeData, Double>("Bar 3 open (gr)");
-		bar3openCol.setMinWidth(150);
+		bar3openCol.setMinWidth(120);
 		bar3openCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("bar3open"));
 		
 		// SALES
 		TableColumn<StocktakeData, Double> salesCol = new TableColumn<StocktakeData, Double>("Sales");
-		salesCol.setMinWidth(150);
+		salesCol.setMinWidth(120);
 		salesCol.setCellValueFactory(
 				new PropertyValueFactory<StocktakeData, Double>("sales"));
 		
