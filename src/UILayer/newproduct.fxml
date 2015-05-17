@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="anc_main" prefHeight="506.0" prefWidth="323.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="UILayer.NewProductController">
+   <children>
+      <ComboBox fx:id="cbox_category" layoutX="103.0" layoutY="18.0" prefWidth="150.0" />
+      <Label layoutX="47.0" layoutY="22.0" text="Category:" />
+      <Label layoutX="63.0" layoutY="57.0" text="Name:" />
+      <TextField fx:id="txt_name" layoutX="104.0" layoutY="53.0" />
+      <TextField fx:id="txt_unit" layoutX="104.0" layoutY="89.0" />
+      <Label fx:id="lbl_unit" layoutX="30.0" layoutY="93.0" text="Unit volume:" />
+      <AnchorPane fx:id="anc_weights" layoutX="4.0" layoutY="193.0" prefHeight="74.0" prefWidth="315.0">
+         <children>
+            <Label layoutX="38.0" layoutY="14.0" text="Full bottle:" />
+            <TextField fx:id="txt_full" layoutX="100.0" layoutY="10.0" />
+            <TextField fx:id="txt_empty" layoutX="100.0" layoutY="42.0" />
+            <Label layoutX="23.0" layoutY="46.0" text="Empty bottle:" />
+            <Label layoutX="257.0" layoutY="14.0" text="gr" />
+            <Label layoutX="257.0" layoutY="46.0" text="gr" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="anc_ingredients" layoutX="4.0" layoutY="267.0" prefHeight="168.0" prefWidth="315.0">
+         <children>
+            <Label layoutX="21.0" layoutY="14.0" text="Ingredients:" />
+            <ComboBox fx:id="cbox_cocktail_cat" layoutX="9.0" layoutY="43.0" prefHeight="25.0" prefWidth="125.0" />
+            <ComboBox fx:id="cbox_ingredient" layoutX="9.0" layoutY="77.0" prefHeight="25.0" prefWidth="125.0" />
+            <TextField layoutX="9.0" layoutY="109.0" prefHeight="25.0" prefWidth="35.0" />
+            <Label layoutX="48.0" layoutY="113.0" text="cl" />
+            <Button fx:id="btn_add" layoutX="72.0" layoutY="109.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Add" />
+            <ListView layoutX="144.0" layoutY="14.0" prefHeight="146.0" prefWidth="165.0" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="lbl_unit1" layoutX="66.0" layoutY="128.0" text="Cost :" />
+      <TextField fx:id="txt_cost" layoutX="104.0" layoutY="124.0" />
+      <TextField fx:id="txt_retail" layoutX="104.0" layoutY="158.0" />
+      <Label fx:id="lbl_unit11" layoutX="35.0" layoutY="162.0" text="Retail price:" />
+      <Label layoutX="260.0" layoutY="128.0" text="Kr/bottle" />
+      <Label layoutX="260.0" layoutY="163.0" text="Kr/cl" />
+      <Label layoutX="260.0" layoutY="93.0" text="cl" />
+      <Button fx:id="btn_confirm" layoutX="22.0" layoutY="459.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="132.0" text="Confirm" />
+      <Button fx:id="btn_cancel" layoutX="169.0" layoutY="459.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="132.0" text="Cancel" />
+      <Label fx:id="txt_output" layoutX="22.0" layoutY="435.0" prefHeight="17.0" prefWidth="279.0" />
+   </children>
+</AnchorPane>

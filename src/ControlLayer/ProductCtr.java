@@ -44,6 +44,10 @@ public class ProductCtr {
 		dbProduct.updateProduct(product);
 		
 	}
+	public void updateProduct(Product product) throws Exception
+	{
+		dbProduct.updateProduct(product);
+	}
 	
 	public void deleteProduct(Product product) throws Exception
 	{

@@ -9,16 +9,18 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 
+	private static final String ROOT_FXML = "main.fxml";
+	private static final String MAIN_CSS = "main.css";
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
 	//	System.setProperty("prism.lcdtext", "false"); // Improves font quality
 		
-		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource(ROOT_FXML));
 		
 		Scene scene = new Scene(root,1500,800);
-		scene.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource(MAIN_CSS).toExternalForm());
 		
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(1000);
@@ -38,6 +40,14 @@ public class Main extends Application{
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	public static String getRootFxml() {
+		return ROOT_FXML;
+	}
+
+	public static String getMainCss() {
+		return MAIN_CSS;
 	}
 
 }

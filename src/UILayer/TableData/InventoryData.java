@@ -1,11 +1,10 @@
 package UILayer.TableData;
 
-import java.text.DecimalFormat;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import ModelLayer.Alcohol;
 import ModelLayer.Product;
 
@@ -24,8 +23,8 @@ public class InventoryData {
 	private DoubleProperty priceContainer;
 
 	// If alcohol
-	private DoubleProperty fullBottle;
-	private DoubleProperty emptyBottle;
+	private DoubleProperty fullWeight;
+	private DoubleProperty emptyWeight;
 
 	// Constructor - converts Product obj into InventoryData
 	public InventoryData(Product product) 
@@ -40,13 +39,13 @@ public class InventoryData {
 
 		if(Product.checkTypeForAlcoholic(product.getType())) {
 			Alcohol alc = (Alcohol) product;
-			this.fullBottle = new SimpleDoubleProperty(alc.getFullWeight());
-			this.emptyBottle = new SimpleDoubleProperty(alc.getEmptyWeight());
+			this.fullWeight = new SimpleDoubleProperty(alc.getFullWeight());
+			this.emptyWeight = new SimpleDoubleProperty(alc.getEmptyWeight());
 		}
 		else 
 		{
-			this.fullBottle = null;
-			this.emptyBottle = null;
+			this.fullWeight = new SimpleDoubleProperty();
+			this.emptyWeight = new SimpleDoubleProperty();
 		}
 		this.costUnit = new SimpleDoubleProperty();
 		this.priceContainer = new SimpleDoubleProperty();
@@ -54,9 +53,71 @@ public class InventoryData {
 		updatePriceContainer();
 		System.out.println("InventoryData created: " + id + name + costContainer + priceUnit + unitVolume);
 
+		this.name.addListener((obs, oldName, newName) -> 
+		productObj.setName(newName));
+
+		this.costContainer.addListener((obs, oldCostContainer, newCostContainer) -> {
+			productObj.setCost((double) newCostContainer);
+			updateCostUnit();
+		});
+
+		this.priceUnit.addListener((obs, oldPriceUnit, newPriceUnit) -> {
+			productObj.setPrice((double) newPriceUnit);
+			updatePriceContainer();
+		});
+
+		this.unitVolume.addListener((obs, oldUnitVolume, newUnitVolume) -> {
+			productObj.setUnitVolume((double) newUnitVolume);
+		});
+
+		this.fullWeight.addListener((obs, oldFullWeight, newFullWeight) -> {
+			if(productObj instanceof Alcohol) {
+				Alcohol alc = (Alcohol) productObj;
+				alc.setFullWeight((double) newFullWeight);
+			}
+		});
+		
+		this.emptyWeight.addListener((obs, oldEmptyWeight, newEmptyWeight) -> {
+			if(productObj instanceof Alcohol) {
+				Alcohol alc = (Alcohol) productObj;
+				alc.setEmptyWeight((double) newEmptyWeight);
+			}
+		});
+
+
+	}
+	// GET PROPERTIES
+
+
+	public StringProperty nameProperty() {
+		return name;
+	}
+	public DoubleProperty costContainerProperty() {
+		return costContainer;
+	}
+	public DoubleProperty priceUnitProperty() {
+		return priceUnit;
+	}
+	public DoubleProperty unitVolumeProperty() {
+		return unitVolume;
 	}
 
-	// GET & SET
+	public DoubleProperty costUnitProperty() {
+		return costUnit;
+	}
+	public DoubleProperty priceContainerProperty() {
+		return priceContainer;
+	}
+
+	public DoubleProperty fullWeightProperty() {
+		return fullWeight;
+	}
+	public DoubleProperty emptyWeightProperty() {
+		return emptyWeight; 
+	}
+
+
+	// GET & SET ATTRIBUTES
 	public Product getProduct() 
 	{
 		return productObj;
@@ -72,8 +133,8 @@ public class InventoryData {
 	public String getName() {
 		return name.get();
 	}
-	public void setName(String name) {
-		this.name.set(name);
+	public final void setName(String name) {
+		this.nameProperty().set(name);
 	}
 
 	public double getCostContainer() {
@@ -81,6 +142,8 @@ public class InventoryData {
 	}
 	public void setCostContainer(double costBottle) {
 		this.costContainer.set(costBottle);
+		productObj.setCost(costBottle);
+		updateCostUnit();
 	}
 	public double getCostUnit() {
 		return costUnit.get();
@@ -94,6 +157,8 @@ public class InventoryData {
 	}
 	public void setPriceUnit(double priceCl) {
 		this.priceUnit.set(priceCl);
+		productObj.setPrice(priceCl);
+		updatePriceContainer();
 	}
 	public double getPriceContainer() {
 		return priceContainer.get();
@@ -107,24 +172,36 @@ public class InventoryData {
 	}
 	public void setUnitVolume(double unitVolume) {
 		this.unitVolume.set(unitVolume);
+		productObj.setUnitVolume(unitVolume);
 	}
 
-	public double getFullBottle() {
-		if(fullBottle == null) {
+	public double getFullWeight() {
+		if(fullWeight == null) {
 			return 0;
 		}
-		return fullBottle.get();
+		return fullWeight.get();
 	}
-	public void setFullBottle(double fullBottle) {
-		this.fullBottle.set(fullBottle);
+	public void setFullWeight(double fullBottle) {
+
+		if(productObj instanceof Alcohol) {
+			this.fullWeight.set(fullBottle);
+			Alcohol alc = (Alcohol) productObj;
+			alc.setFullWeight(fullBottle);			
+		}
 	}
 
-	public double getEmptyBottle() {
-		if(emptyBottle == null) return 0;
-		return emptyBottle.get();
+	public double getEmptyWeight() {
+		if(emptyWeight == null) {
+			return 0;
+		}
+		return emptyWeight.get();
 	}
-	public void setEmptyBottle(double emptyBottle) {
-		this.emptyBottle.set(emptyBottle);
+	public void setEmptyWeight(double emptyBottle) {
+		this.emptyWeight.set(emptyBottle);
+		if(productObj instanceof Alcohol) {
+			Alcohol alc = (Alcohol) productObj;
+			alc.setEmptyWeight(emptyBottle);			
+		}
 	}
 	// END GET & SET
 
@@ -135,7 +212,7 @@ public class InventoryData {
 
 		cost = Math.round(cost * 100);
 		cost = cost/100;
-		
+
 		costUnit.set(cost);
 	}
 	public void updatePriceContainer() {
