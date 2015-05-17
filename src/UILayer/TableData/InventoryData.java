@@ -53,6 +53,9 @@ public class InventoryData {
 		updatePriceContainer();
 		System.out.println("InventoryData created: " + id + name + costContainer + priceUnit + unitVolume);
 
+		
+		// PROPERTY LISTENERS - Sync InventoryData with Product , update calculated costs & prices
+		
 		this.name.addListener((obs, oldName, newName) -> 
 		productObj.setName(newName));
 
@@ -86,9 +89,9 @@ public class InventoryData {
 
 
 	}
-	// GET PROPERTIES
-
-
+	
+	
+	// GETTERS -  PROPERTIES
 	public StringProperty nameProperty() {
 		return name;
 	}
@@ -117,7 +120,7 @@ public class InventoryData {
 	}
 
 
-	// GET & SET ATTRIBUTES
+	// GETTERS & SETTERS - OBJECT ATTRIBUTES / PRIMITIVES
 	public Product getProduct() 
 	{
 		return productObj;
@@ -203,9 +206,9 @@ public class InventoryData {
 			alc.setEmptyWeight(emptyBottle);			
 		}
 	}
-	// END GET & SET
+	// END GETTERS & SETTERS
 
-	// PRICE CALCS
+	// COST & PRICE CALCULATIONS
 	public void updateCostUnit() 
 	{
 		double cost = this.costContainer.get()/unitVolume.get();

@@ -120,17 +120,13 @@ public class InventoryController implements Initializable, ChangeablePane{
 		nameCol.setMinWidth(180);
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, String>("name"));
-		nameCol.setCellFactory(new Callback<TableColumn<InventoryData, String>, TableCell<InventoryData, String>>() {
-			@Override public TableCell<InventoryData, String> call(TableColumn<InventoryData, String> list) {
-				return new TextFieldTableCell<InventoryData, String>(new DefaultStringConverter());
-			}
-		});
+		nameCol.setCellFactory(TextFieldTableCell.forTableColumn());    // Making the cell editable with a TextField
 
 		table_inventory.getColumns().add(nameCol);
 
 		// UNIT VOLUME
 		TableColumn<InventoryData, Double> unitCol = new TableColumn<InventoryData, Double>("Unit Volume\n     (cl)");
-		unitCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		unitCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));  // Making the cell editable with a TextField
 		unitCol.setMinWidth(100);
 		unitCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, Double>("unitVolume"));
@@ -142,13 +138,13 @@ public class InventoryController implements Initializable, ChangeablePane{
 		weightCol.visibleProperty().bind(weightVisible);
 		TableColumn<InventoryData, Double> fullBottleCol = new TableColumn<InventoryData, Double>("Full bottle");
 		fullBottleCol.setMinWidth(100);
-		fullBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		fullBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Making the cell editable with a TextField
 		fullBottleCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, Double>("fullBottle"));
 		fullBottleCol.visibleProperty().bind(weightVisible);
 		TableColumn<InventoryData, Double> emptyBottleCol = new TableColumn<InventoryData, Double>("Empty bottle");
 		emptyBottleCol.setMinWidth(100);
-		emptyBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		emptyBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Making the cell editable with a TextField
 		emptyBottleCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, Double>("emptyBottle"));
 		emptyBottleCol.visibleProperty().bind(weightVisible);
@@ -159,7 +155,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		TableColumn costCol = new TableColumn("Cost");
 		TableColumn costContainerCol = new TableColumn<InventoryData, Double>();
 		costContainerCol.setMinWidth(80);
-		costContainerCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		costContainerCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Making the cell editable with a TextField
 		costContainerCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, Double>("costContainer"));
 
@@ -179,7 +175,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		TableColumn retailUnitCol = new TableColumn<InventoryData, Double>();
 		retailUnitCol.setMinWidth(80);
-		retailUnitCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		retailUnitCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));  // Making the cell editable with a TextField
 		retailUnitCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, Double>("priceUnit"));
 		TableColumn retailContainerCol = new TableColumn<InventoryData, Double>();
@@ -194,6 +190,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		table_inventory.getColumns().addAll(costCol,retailCol);
 
+		
+		// Make the columns non-resizable
 		for(Object column : table_inventory.getColumns().toArray()) 
 		{
 			TableColumn col = (TableColumn) column;
@@ -207,6 +205,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 			}
 		}
 		
+		
+		// Adjust table width according to columns, when changing categories
 		this.weightVisible.addListener((obs, oldVisible, newVisible) -> {
 			
 			
@@ -256,8 +256,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 			weightVisible.set(false);
 		}
 	}
+	
 	// Fetch data from the DB depending on the category
-
 	private ArrayList<InventoryData> getData(String category) 
 	{
 		ArrayList<InventoryData> invData = new ArrayList<InventoryData>();
