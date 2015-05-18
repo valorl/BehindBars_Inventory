@@ -19,3 +19,7 @@
 	-fx-max-height: 25px;
 }
 
+.radio-button {
+	-fx-text-fill: #fff;
+	
+	}

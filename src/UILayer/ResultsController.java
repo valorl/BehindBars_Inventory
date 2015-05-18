@@ -12,8 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import ControlLayer.ProductCtr;
 import ModelLayer.Product;
 import UILayer.TableData.ResultsData;
@@ -24,13 +25,17 @@ public class ResultsController implements Initializable, ChangeablePane{
 	ProductCtr productCtr;
 
 	@FXML
-	private HBox mainHbox;
+	private VBox mainVbox;
 
 	@FXML
 	private Button btn_save;
 
 	@FXML
 	private ComboBox<String> cbox_category = new ComboBox<String>();
+	
+	@FXML
+	private ToggleGroup group;
+	
 
 	@FXML
 	private TableView<ResultsData> table_results = new TableView<ResultsData>();
@@ -45,7 +50,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
+		mainVbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 
 		initWeightable();
 	}
@@ -155,7 +160,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		lossGainCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("lossGain"));
 				
-		table_results.getColumns().addAll(idCol, nameCol, bar1Col, bar2Col, bar3Col, totalCol, salesCol, bar1Week2Col, bar2Week2Col, bar3Week2Col, totalWeek2Col, salesWeek2Col, varianceCol, revenueCol, differenceCol, lossGainCol);
+		table_results.getColumns().addAll(nameCol, bar1Col, bar2Col, bar3Col, totalCol, salesCol, bar1Week2Col, bar2Week2Col, bar3Week2Col, totalWeek2Col, salesWeek2Col, varianceCol, revenueCol, differenceCol, lossGainCol);
 		
 		for(Object column : table_results.getColumns().toArray()) 
 		{

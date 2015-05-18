@@ -6,37 +6,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<HBox fx:id="mainHbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.ResultsController">
+<VBox fx:id="mainVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.ResultsController">
    <children>
-      <VBox prefHeight="400.0" prefWidth="1300.0">
+      <HBox prefHeight="42.0" prefWidth="1142.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="500.0" spacing="10.0">
-                     <children>
-                        <DatePicker prefHeight="25.0" prefWidth="92.0" />
-                        <RadioButton mnemonicParsing="false" text="Week" />
-                        <RadioButton mnemonicParsing="false" text="Month" />
-                        <Button mnemonicParsing="false" text="Show" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="600.0" spacing="10.0">
-                     <children>
-                        <ComboBox prefHeight="25.0" prefWidth="83.0" />
-                        <TextField />
-                        <Button mnemonicParsing="false" text="S" />
-                     </children>
-                  </HBox>
+               		<DatePicker prefHeight="25.0" prefWidth="150.0" />
+					<fx:define>  
+   						<ToggleGroup fx:id="group" />  
+					</fx:define>  
+                    <RadioButton fx:id="week" mnemonicParsing="false" text="Week" toggleGroup="$group"/>
+                    <RadioButton fx:id="month" mnemonicParsing="false" text="Month" toggleGroup="$group"/>
+                    <Button mnemonicParsing="false" text="Show" />
+                    
                </children>
             </HBox>
-            <TableView fx:id="table_results" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
+               <children>
+                  <ComboBox fx:id="cbox_category" prefWidth="150.0" />
+                  <TextField />
+                  <Button mnemonicParsing="false" text="Button" />
+               </children>
+            </HBox>
          </children>
-      </VBox>
+      </HBox>
+      <TableView editable="true" fx:id="table_results" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
    </children>
-</HBox>
+</VBox>

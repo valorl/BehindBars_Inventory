@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import ControlLayer.ProductCtr;
 import ModelLayer.Product;
 import UILayer.TableData.KeylinesData;
@@ -23,7 +23,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	ProductCtr productCtr;
 	
 	@FXML
-	private HBox mainHbox;
+	private VBox mainVbox;
 	
 	@FXML
 	private Button btn_save;
@@ -43,7 +43,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
+		mainVbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 		initWeightable();
 	}
 	
