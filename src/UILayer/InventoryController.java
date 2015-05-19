@@ -89,7 +89,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 		initButtons();
 		initComboBox();
-		updateData(true);
+		updateData();
 		createTable((String)cbox_category.getValue().toString().toLowerCase());
 
 	}
@@ -190,7 +190,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		table_inventory.getColumns().addAll(costCol,retailCol);
 
-		
+
 		// Make the columns non-resizable
 		for(Object column : table_inventory.getColumns().toArray()) 
 		{
@@ -204,12 +204,12 @@ public class InventoryController implements Initializable, ChangeablePane{
 				}
 			}
 		}
-		
-		
+
+
 		// Adjust table width according to columns, when changing categories
 		this.weightVisible.addListener((obs, oldVisible, newVisible) -> {
-			
-			
+
+
 			if(!newVisible) {
 				table_inventory.setMaxWidth(table_inventory.getMaxWidth() - fullBottleCol.getMinWidth() - emptyBottleCol.getMinWidth());
 				table_inventory.setPrefWidth(table_inventory.getPrefWidth() - fullBottleCol.getMinWidth() - emptyBottleCol.getMinWidth());
@@ -220,19 +220,19 @@ public class InventoryController implements Initializable, ChangeablePane{
 				table_inventory.setPrefWidth(table_inventory.getPrefWidth() + fullBottleCol.getMinWidth() + emptyBottleCol.getMinWidth());
 			}
 		});
-		
-//		table_inventory.minWidthProperty().bind(nameCol.minWidthProperty()
-//				.add(unitCol.widthProperty())
-//				.add(weightCol.widthProperty())
-//				.add(costCol.widthProperty())
-//				.add(retailCol.widthProperty())
-//				.add(2.0));
+
+		//		table_inventory.minWidthProperty().bind(nameCol.minWidthProperty()
+		//				.add(unitCol.widthProperty())
+		//				.add(weightCol.widthProperty())
+		//				.add(costCol.widthProperty())
+		//				.add(retailCol.widthProperty())
+		//				.add(2.0));
 		//table_inventory.maxWidthProperty().bind(table_inventory.minWidthProperty());
 
 	}
 
 	// Update table data 
-	private void updateData(boolean firstLoad) 
+	private void updateData() 
 	{
 
 		String category = (String)cbox_category.getValue().toString().toLowerCase();
@@ -256,7 +256,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 			weightVisible.set(false);
 		}
 	}
-	
+
 	// Fetch data from the DB depending on the category
 	private ArrayList<InventoryData> getData(String category) 
 	{
@@ -324,13 +324,13 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		cbox_category.setOnAction((e) -> {
 			updateColumns(cbox_category.getValue().toString().toLowerCase());
-			updateData(false);
+			updateData();
 		});
 
 		updateCategories();
 
 	}
-	
+
 
 	public void updateCategories() 
 	{
@@ -361,6 +361,11 @@ public class InventoryController implements Initializable, ChangeablePane{
 		btn_save.setOnAction((e) -> {
 			commitChanges();
 		});
+
+		btn_delete.setOnAction((e) -> {
+			deleteProduct();
+			updateData();
+		});
 	}
 
 	private void commitChanges() 
@@ -386,14 +391,14 @@ public class InventoryController implements Initializable, ChangeablePane{
 			}
 		}).start();
 
-		updateData(false);
+		updateData();
 
 
 
 	}
 
 	private void discardChanges() {
-		updateData(false);
+		updateData();
 	}
 
 	private void newProduct() {
@@ -430,11 +435,31 @@ public class InventoryController implements Initializable, ChangeablePane{
 			ex.printStackTrace();
 		}
 		cbox_category.setValue(product.getType());
-		updateData(false);
+		updateData();
 	}
 
 	public ObservableList<String> getCategories() {
 		return categories;
+	}
+
+	private void deleteProduct() {
+
+		InventoryData dataObj = table_inventory.getSelectionModel().getSelectedItem();
+		
+		if(dataObj != null) {
+			Product prodObj = dataObj.getProduct();
+			try {
+				productCtr.deleteProduct(prodObj);
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+				//message to be shown
+			}
+		}
+		else {
+			// message to be shown
+		}
+
 	}
 }
 
