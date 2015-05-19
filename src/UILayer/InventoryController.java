@@ -4,12 +4,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,19 +20,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.converter.DefaultStringConverter;
 import ControlLayer.ProductCtr;
-import ModelLayer.Alcohol;
 import ModelLayer.Product;
 import UILayer.TableData.InventoryData;
 
@@ -52,13 +54,10 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private HBox mainHbox;
 
 	@FXML
-	private Button btn_save;
+	private Button btn_save, btn_new, btn_delete, btn_search;
 
 	@FXML
-	private Button btn_new;
-
-	@FXML
-	private Button btn_delete;
+	private TextField txt_search;
 
 	@FXML
 	private ComboBox cbox_category = new ComboBox();
@@ -86,12 +85,37 @@ public class InventoryController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		
+		
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
 		initButtons();
 		initComboBox();
+		initSearch();
 		updateData();
 		createTable((String)cbox_category.getValue().toString().toLowerCase());
 
+		mainHbox.setOnKeyPressed((e) -> {
+			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
+				txt_search.requestFocus();
+		    }
+			
+			if(e.getCode() == KeyCode.S) {
+				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
+				index++;
+				index = index % (cbox_category.getItems().size()-1);
+				cbox_category.setValue(cbox_category.getItems().get(index));
+				cbox_category.fireEvent(new ActionEvent());
+			}
+			
+//			if(e.getCode() == KeyCode.W) {
+//				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
+//				index--;
+//				index = index % (cbox_category.getItems().size()-1);
+//				cbox_category.setValue(cbox_category.getItems().get(index));
+//				cbox_category.fireEvent(new ActionEvent());
+//				
+//			}
+		});
 	}
 
 	@Override
@@ -106,7 +130,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		boolean isAlcohol = Product.checkTypeForAlcoholic(category);
 		if(category.toLowerCase().equals("spirits")) isAlcohol = true;
 
-
+		table_inventory.setPlaceholder(new Label("No products found."));
 		table_inventory.setMaxWidth(802);
 		table_inventory.setPrefWidth(802);
 
@@ -445,7 +469,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private void deleteProduct() {
 
 		InventoryData dataObj = table_inventory.getSelectionModel().getSelectedItem();
-		
+
 		if(dataObj != null) {
 			Product prodObj = dataObj.getProduct();
 			try {
@@ -461,7 +485,74 @@ public class InventoryController implements Initializable, ChangeablePane{
 		}
 
 	}
-}
+
+	private void initSearch() {
+
+		txt_search.setPromptText("Search...");
+
+		//		txt_search.textProperty().addListener(new ChangeListener<String>() {
+		//			@Override
+		//			public void changed(ObservableValue<? extends String> observable,
+		//					String oldValue, String newValue) {
+		//
+		//				searchResults();
+		//			}
+		//		});
+
+		txt_search.textProperty().addListener(new InvalidationListener() {
+
+
+			@Override
+
+			public void invalidated(Observable o) {
+
+				if(txt_search.textProperty().get().isEmpty()) {
+
+					table_inventory.setItems(data);
+
+					return;
+
+				}
+
+				ObservableList<InventoryData> newItems = FXCollections.observableArrayList();
+				
+
+				for(InventoryData dataItem : data) {
+					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+
+				table_inventory.setItems(newItems);
+			}
+
+
+		});
+		
+	}
+
+		private void searchResults() {
+
+			ObservableList<InventoryData> oldData = FXCollections.observableArrayList(data);
+
+			if(txt_search.getText().length() > 0 ) {
+				data.clear();
+
+				for(InventoryData dataItem : oldData) {
+					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+						data.add(dataItem);
+					}
+				}
+
+			}
+			else {
+				updateData();
+			}
+		}
+	
+		
+	}
+
 
 
 

@@ -6,13 +6,15 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 import com.enartee.FlatButton;
+
+
 
 public class MainController implements Initializable{
 
@@ -36,6 +38,9 @@ public class MainController implements Initializable{
 	@FXML
 	private StackPane contentPane;
 		
+	@FXML
+	private GridPane mainGrid;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
@@ -145,6 +150,40 @@ public class MainController implements Initializable{
 			HBox.setHgrow(btn_settings, Priority.NEVER);
 			
 			navbox.getChildren().add(btn_settings);		
+			
+			
+			// Navigation keyboard shortcuts
+
+			mainGrid.setOnKeyPressed((e) -> {
+				
+				
+				if(e.isShortcutDown()) 
+				{
+					switch (e.getCode()) {
+					case DIGIT1:
+						btn_inventory.fire();
+						break;
+					case DIGIT2:
+						btn_stocktake.fire();
+						break;
+					case DIGIT3:
+						btn_results.fire();
+						break;
+					case DIGIT4:
+						btn_keylines.fire();
+						break;
+					case E:
+						btn_employees.fire();
+						break;
+					case S:
+						btn_settings.fire();
+						break;
+
+					default:
+						break;
+					}
+				}
+			});
 			
 		}
 		
