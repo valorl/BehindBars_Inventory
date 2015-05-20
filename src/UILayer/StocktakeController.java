@@ -2,23 +2,35 @@ package UILayer;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import ControlLayer.ProductCtr;
+import DBLayer.DBProductState;
+import DBLayer.DBWeek;
+import ModelLayer.Alcohol;
 import ModelLayer.Product;
-import UILayer.TableData.InventoryData;
+import ModelLayer.ProductState;
+import ModelLayer.QuantLoc;
+import ModelLayer.Week;
 import UILayer.TableData.StocktakeData;
+
 
 public class StocktakeController implements Initializable, ChangeablePane{
 
@@ -36,7 +48,10 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	@FXML
 	private TableView<StocktakeData> table_stocktake = new TableView<StocktakeData>();
-
+	
+	@FXML
+	private TextField txt_search;
+	
 	private ObservableList<StocktakeData> data;
 
 	public StocktakeController() 
@@ -48,8 +63,15 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	public void initialize(URL location, ResourceBundle resources) {
 
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
-
+		initButtons();
+		initSearch();
 		initWeightable();
+		
+		mainHbox.setOnKeyPressed((e) -> {
+			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
+				txt_search.requestFocus();
+		    }
+		});
 	}
 
 	@Override
@@ -157,6 +179,13 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		updateData();
 		
 	}
+	
+	private void initButtons() {
+		btn_save.setOnAction((e) -> {
+			saveData();
+		});
+
+	}
 
 
 	private void updateData() 
@@ -175,7 +204,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	private ArrayList<StocktakeData> getData(String category) 
 	{
-		ArrayList<StocktakeData> invData = new ArrayList<StocktakeData>();
+		ArrayList<StocktakeData> stockData = new ArrayList<StocktakeData>();
 		ArrayList<Product> products = null;
 		try{
 			products = productCtr.getAllOf(category);
@@ -188,13 +217,113 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		if(products != null) {
 			for(Product product : products) {
 				StocktakeData newData = new StocktakeData(product);
-				invData.add(newData);
+				stockData.add(newData);
 			}
 		}
 		
-		return invData;
+		return stockData;
 
 	}
+	
+	private void saveData()
+	{
+		Date date = new Date();
+		Week week = new Week();
+		week.createWeek(date);
+		QuantLoc storage = new QuantLoc();
+		QuantLoc bar1 = new QuantLoc();
+		QuantLoc bar2 = new QuantLoc();
+		QuantLoc bar3 = new QuantLoc();
+		
+		ProductState productState = new ProductState();
+		DBProductState dbState = new DBProductState();
+		
+		ObservableList<StocktakeData> stData = table_stocktake.getItems();
+		
+		for(StocktakeData item : stData) {
+			Product product = item.getProduct();
+
+
+			try{
+				productState.setProduct(product);
+				storage.setLocation("storage");
+				storage.setQuantity(item.getStorage() * product.getUnitVolume());
+				productState.addQuantLoc(storage);
+				
+				Alcohol alc = (Alcohol) product;
+				
+				bar1.setLocation("bar1");
+				bar1.setQuantity((item.getBar1() * product.getUnitVolume()) + item.getBar1open()/alc.calculateDensity());
+				productState.addQuantLoc(bar1);
+				
+				bar2.setLocation("bar2");
+				bar2.setQuantity((item.getBar2() * product.getUnitVolume()) + item.getBar2open()/alc.calculateDensity());
+				productState.addQuantLoc(bar2);
+				
+				bar3.setLocation("bar3");
+				bar3.setQuantity((item.getBar3() * product.getUnitVolume()) + item.getBar3open()/alc.calculateDensity());
+				productState.addQuantLoc(bar3);
+				
+				productState.setSold(item.getSales());
+				
+				week.addState(productState);
+				
+				dbState.insertProductState(productState, week.getId());
+				
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+			
+			try {
+				DBWeek dbWeek = new DBWeek();
+				dbWeek.insertWeek(week);
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+
+
+		updateData();
+	}
+	
+	private void initSearch() {
+
+		txt_search.setPromptText("Search...");
+
+		txt_search.textProperty().addListener(new InvalidationListener() {
+
+
+			@Override
+
+			public void invalidated(Observable o) {
+
+				if(txt_search.textProperty().get().isEmpty()) {
+
+					table_stocktake.setItems(data);
+
+					return;
+
+				}
+
+				ObservableList<StocktakeData> newItems = FXCollections.observableArrayList();
+				
+
+				for(StocktakeData dataItem : data) {
+					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+
+				table_stocktake.setItems(newItems);
+			}
+
+
+		});
+	}
+
 
 
 }

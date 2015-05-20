@@ -57,7 +57,7 @@ public class DBProductState implements IFDBProductState{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new productState
-			String query="INSERT INTO productState(id, currentCost, currentPrice, purchased, productID, weekID)  VALUES(?,?,?,?,?,?)";
+			String query="INSERT INTO productState(id, currentCost, currentPrice, purchased, productID, weekID, sold)  VALUES(?,?,?,?,?,?,?)";
 
 			
 			prepInsert = con.prepareStatement(query);
@@ -67,6 +67,7 @@ public class DBProductState implements IFDBProductState{
 			prepInsert.setInt(4, productState.getPurchased());
 			prepInsert.setInt(5, productState.getProduct().getId());
 			prepInsert.setInt(6, weekID);
+			prepInsert.setDouble(7, productState.getSold());
 
 			
 			prepInsert.setQueryTimeout(5);
@@ -97,7 +98,7 @@ public class DBProductState implements IFDBProductState{
 
 		try{ // update productState
 
-			String query="UPDATE productState SET id = ?, currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? WHERE id = ? ";
+			String query="UPDATE productState SET id = ?, currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? sold = ? WHERE id = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, productState.getId());
@@ -107,6 +108,7 @@ public class DBProductState implements IFDBProductState{
 			prepUpdate.setInt(5, productState.getProduct().getId());
 			prepUpdate.setInt(6, productState.getId());
 			prepUpdate.setInt(7, weekID);
+			prepUpdate.setDouble(8, productState.getSold());
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();
@@ -238,6 +240,7 @@ public class DBProductState implements IFDBProductState{
 			productStateObj.setCurrentPrice(results.getDouble("currentPrice"));
 			productStateObj.setPurchased(results.getInt("purchased"));			
 			productStateObj.setProduct(product);
+			productStateObj.setSold(results.getDouble("sold"));
 
 
 		}

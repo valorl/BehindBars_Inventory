@@ -11,7 +11,7 @@ public class StocktakeData {
 	
 	// From Product
 	private Product productObj;
-	private ProductState productStateObj;
+	//private ProductState productStateObj;
 	private SimpleIntegerProperty id;
 	private SimpleStringProperty name;
 	
@@ -30,7 +30,6 @@ public class StocktakeData {
 	public StocktakeData(Product product) 
 	{
 		this.productObj = product;
-		productStateObj = new ProductState();
 		
 		this.id = new SimpleIntegerProperty(product.getId());
 		this.name = new SimpleStringProperty(product.getName());
@@ -45,28 +44,28 @@ public class StocktakeData {
 		
 		this.sales = new SimpleDoubleProperty();
 		// PROPERTY LISTENERS
-		
-		this.storage.addListener((obs, oldStorage, newStorage) -> 
-		productStateObj.setSold((double) newStorage));
-		
-		this.bar1.addListener((obs, oldBar1Bottle, newBar1Bottle) ->
-		productStateObj.setSold((double) newBar1Bottle));
-		
-		this.bar1open.addListener((obs, oldBar1open, newBar1open) ->
-		productStateObj.setSold((double) newBar1open));
-		
-		this.bar2.addListener((obs, oldBar2, newBar2) ->
-		productStateObj.setSold((double) newBar2));
-		this.bar2open.addListener((obs, oldBar2open, newBar2open) ->
-		productStateObj.setSold((double) newBar2open));
-		
-		this.bar3.addListener((obs, oldBar3, newBar3) ->
-		productStateObj.setSold((double) newBar3));
-		this.bar3open.addListener((obs, oldBar3open, newBar3open) ->
-		productStateObj.setSold((double) newBar3open));
-		
-		this.sales.addListener((obs, oldSales, newSales) ->
-		productStateObj.setSold((double) newSales));
+//		
+//		this.storage.addListener((obs, oldStorage, newStorage) -> 
+//		productStateObj.setSold((double) newStorage));
+//		
+//		this.bar1.addListener((obs, oldBar1Bottle, newBar1Bottle) ->
+//		productStateObj.setSold((double) newBar1Bottle));
+//		
+//		this.bar1open.addListener((obs, oldBar1open, newBar1open) ->
+//		productStateObj.setSold((double) newBar1open));
+//		
+//		this.bar2.addListener((obs, oldBar2, newBar2) ->
+//		productStateObj.setSold((double) newBar2));
+//		this.bar2open.addListener((obs, oldBar2open, newBar2open) ->
+//		productStateObj.setSold((double) newBar2open));
+//		
+//		this.bar3.addListener((obs, oldBar3, newBar3) ->
+//		productStateObj.setSold((double) newBar3));
+//		this.bar3open.addListener((obs, oldBar3open, newBar3open) ->
+//		productStateObj.setSold((double) newBar3open));
+//		
+//		this.sales.addListener((obs, oldSales, newSales) ->
+//		productStateObj.setSold((double) newSales));
 	}
 	
 	// GETTERS PROPERTIES
@@ -207,6 +206,11 @@ public class StocktakeData {
 		return sales.get();
 	}
 	
+	public Product getProduct() 
+	{
+		return productObj;
+	}
+
 	
 	// END GET & SET
 }

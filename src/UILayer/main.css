@@ -78,3 +78,7 @@
 	-fx-prompt-text-fill: #fff;
 }
 
+.date-picker-popup {
+	 -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.2) , 0, 0.0 , 0 , 0 );
+}
+

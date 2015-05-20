@@ -10,12 +10,13 @@
       <TableView fx:id="table_stocktake" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
       <VBox minWidth="200.0" prefHeight="180.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="NEVER">
          <children>
-            <HBox VBox.vgrow="NEVER">
+           <TextField fx:id="txt_search" />
+           <!-- <HBox VBox.vgrow="NEVER">
                <children>
                   <TextField />
                   <Button mnemonicParsing="false" text="Button" />
                </children>
-            </HBox>
+            </HBox>-->
             <ComboBox fx:id="cbox_category" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
             <Button fx:id="btn_save" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" />
             <HBox spacing="15.0">
