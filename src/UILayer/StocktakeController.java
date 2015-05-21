@@ -252,18 +252,18 @@ public class StocktakeController implements Initializable, ChangeablePane{
 				storage.setQuantity(item.getStorage() * product.getUnitVolume());
 				productState.addQuantLoc(storage);
 				
-				Measurable alc = (Measurable) product;
+				Measurable mes = (Measurable) product;
 				
 				bar1.setLocation("bar1");
-				bar1.setQuantity((item.getBar1() * product.getUnitVolume()) + item.getBar1open()/alc.calculateDensity());
+				bar1.setQuantity((item.getBar1() * product.getUnitVolume()) + item.getBar1open()/mes.calculateDensity());
 				productState.addQuantLoc(bar1);
 				
 				bar2.setLocation("bar2");
-				bar2.setQuantity((item.getBar2() * product.getUnitVolume()) + item.getBar2open()/alc.calculateDensity());
+				bar2.setQuantity((item.getBar2() * product.getUnitVolume()) + item.getBar2open()/mes.calculateDensity());
 				productState.addQuantLoc(bar2);
 				
 				bar3.setLocation("bar3");
-				bar3.setQuantity((item.getBar3() * product.getUnitVolume()) + item.getBar3open()/alc.calculateDensity());
+				bar3.setQuantity((item.getBar3() * product.getUnitVolume()) + item.getBar3open()/mes.calculateDensity());
 				productState.addQuantLoc(bar3);
 				
 				productState.setSold(item.getSales());
