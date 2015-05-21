@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import ModelLayer.Alcohol;
+import ModelLayer.Measurable;
 import ModelLayer.Product;
 
 
@@ -100,8 +100,8 @@ public class NewProductController implements Initializable{
 				product.setCost(Double.parseDouble(cost));
 				product.setPrice(Double.parseDouble(retail));
 
-				if(Product.checkTypeForAlcoholic(cbox_category.getValue().toLowerCase())) {
-					Alcohol alc = (Alcohol) product;					
+				if(TypeManager.isMeasurableDrinkType(cbox_category.getValue().toLowerCase())) {
+					Measurable alc = (Measurable) product;					
 					alc.setFullWeight(Double.parseDouble(full));
 					alc.setEmptyWeight(Double.parseDouble(empty));
 					product = alc; 
@@ -143,7 +143,7 @@ public class NewProductController implements Initializable{
 	}
 
 	private void updateLayout() {
-		if(Product.checkTypeForAlcoholic(cbox_category.getValue().toLowerCase())) {
+		if(TypeManager.isMeasurableDrinkType(cbox_category.getValue().toLowerCase())) {
 			anc_weights.setDisable(false);
 			anc_ingredients.setDisable(true);
 		}

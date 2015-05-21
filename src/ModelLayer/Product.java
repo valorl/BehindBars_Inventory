@@ -43,12 +43,7 @@ public class Product {
 
 	// GET & SET
 	
-	public static ArrayList<String> getAlcoholicTypes() {
-		return ALCOHOLIC_TYPES;
-	}
-	public static void addAlcoholicType(String type) {
-		ALCOHOLIC_TYPES.add(type);
-	}
+	
 	
 	public int getId() {
 		return id;
@@ -137,19 +132,6 @@ public class Product {
 		}
 		return foundQL;
 	}
-	
-	public static boolean checkTypeForAlcoholic(String type) 
-	{
-		if(ALCOHOLIC_TYPES.contains(type)) 
-		{
-			return true;
-		}
-		else 
-		{
-			return false;
-		}
-	}
-	
 	
 	
 	

@@ -3,24 +3,24 @@ package ModelLayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Alcohol extends Product {
+public class Measurable extends Product {
 
 	private double fullWeight;
 	private double emptyWeight;
 	private double density;
 	private double totalVolume;
-	private HashMap<Alcohol,Double> cocktailContents;
+	private HashMap<Measurable,Double> cocktailContents;
 	
 	
 	// CONSTRUCTORS
 	
-	public Alcohol() {}
+	public Measurable() {}
 	
-	public Alcohol(boolean isCocktail) 
+	public Measurable(boolean isCocktail) 
 	{
 		if(isCocktail) 
 		{
-			cocktailContents = new HashMap<Alcohol,Double>();
+			cocktailContents = new HashMap<Measurable,Double>();
 		}
 		else 
 		{
@@ -28,7 +28,7 @@ public class Alcohol extends Product {
 		}
 	}
 
-	public Alcohol(String name, double cost, double price,
+	public Measurable(String name, double cost, double price,
 			ArrayList<QuantLoc> quantLocs, double unitVolume, String type,
 			int purchased, double fullWeight, double emptyWeight,
 			double totalVolume) {
@@ -37,7 +37,7 @@ public class Alcohol extends Product {
 		this.emptyWeight = emptyWeight;
 		this.totalVolume = totalVolume;
 		
-		cocktailContents = new HashMap<Alcohol,Double>();
+		cocktailContents = new HashMap<Measurable,Double>();
 	};
 	
 
@@ -84,26 +84,26 @@ public class Alcohol extends Product {
 			return false;
 		}
 	}
-	public HashMap<Alcohol,Double> getCocktailContents() {
+	public HashMap<Measurable,Double> getCocktailContents() {
 		return cocktailContents;
 	}
-	public void setCocktailContents(HashMap<Alcohol,Double> cocktailContents) {
+	public void setCocktailContents(HashMap<Measurable,Double> cocktailContents) {
 		this.cocktailContents = cocktailContents;
 	}
-	public void addIngredient(Alcohol ingredient, double volume) {
+	public void addIngredient(Measurable ingredient, double volume) {
 		if(!cocktailContents.containsKey(ingredient)) 
 		{
 			cocktailContents.put(ingredient, volume);
 		}
 	}
-	public void removeIngredient(Alcohol ingredient) {
+	public void removeIngredient(Measurable ingredient) {
 		cocktailContents.remove(ingredient);
 	}
-	public Alcohol findIngredient(String name) 
+	public Measurable findIngredient(String name) 
 	{
-		Alcohol foundIngredient = null;
+		Measurable foundIngredient = null;
 		boolean found = false;
-		for(Alcohol ingredient : cocktailContents.keySet()) 
+		for(Measurable ingredient : cocktailContents.keySet()) 
 		{
 			if(!found && ingredient.getName().toLowerCase().equals(name.toLowerCase())) 
 			{

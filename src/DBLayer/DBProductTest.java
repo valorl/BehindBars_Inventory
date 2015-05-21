@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import ModelLayer.Alcohol;
+import ModelLayer.Measurable;
 import ModelLayer.Fruit;
 import ModelLayer.Product;
 import ModelLayer.QuantLoc;
@@ -152,48 +152,48 @@ public class DBProductTest {
 
 	@Test
 
-	public void insertAlcoholTest()
+	public void insertMeasurableTest()
 	{
 
-		Alcohol testAlcohol = new Alcohol();
-		testAlcohol.setId(1);
-		testAlcohol.setName("Zacapa");
-		testAlcohol.setCost(300.00);
-		testAlcohol.setPrice(80.00);
-		testAlcohol.setUnitVolume(70);
-		testAlcohol.setPurchased(3);
-		testAlcohol.setFullWeight(5000);
-		testAlcohol.setEmptyWeight(2000);
-		//testAlcohol.setDensity();
-		testAlcohol.setTotalVolume(70);
-		testAlcohol.setType("Rum");
+		Measurable testMeasurable = new Measurable();
+		testMeasurable.setId(1);
+		testMeasurable.setName("Zacapa");
+		testMeasurable.setCost(300.00);
+		testMeasurable.setPrice(80.00);
+		testMeasurable.setUnitVolume(70);
+		testMeasurable.setPurchased(3);
+		testMeasurable.setFullWeight(5000);
+		testMeasurable.setEmptyWeight(2000);
+		//testMeasurable.setDensity();
+		testMeasurable.setTotalVolume(70);
+		testMeasurable.setType("Rum");
 
 
 		QuantLoc testQuantLoc1 = new QuantLoc();
 		testQuantLoc1.setLocation("bar1");
 		testQuantLoc1.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc1);
+		testMeasurable.addQuantLoc(testQuantLoc1);
 
 		QuantLoc testQuantLoc2 = new QuantLoc();
 		testQuantLoc2.setLocation("bar2");
 		testQuantLoc2.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc2);
+		testMeasurable.addQuantLoc(testQuantLoc2);
 
 		QuantLoc testQuantLoc3 = new QuantLoc();
 		testQuantLoc3.setLocation("bar3");
 		testQuantLoc3.setQuantity(1);
-		testAlcohol.addQuantLoc(testQuantLoc3);
+		testMeasurable.addQuantLoc(testQuantLoc3);
 
-		DBAlcohol dbAlcohol = new DBAlcohol();
+		DBMeasurable dbMeasurable = new DBMeasurable();
 		try {
-			dbAlcohol.insertAlcohol(testAlcohol);
-			System.out.print("Alcohol Insert OK");
+			dbMeasurable.insertMeasurable(testMeasurable);
+			System.out.print("Measurable Insert OK");
 
 		}
 		catch(Exception ex) 
 		{
 			ex.printStackTrace();
-			System.out.print("Alcohol Insert not OK");
+			System.out.print("Measurable Insert not OK");
 			fail();
 
 		}

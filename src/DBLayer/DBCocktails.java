@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import ModelLayer.Alcohol;
+import ModelLayer.Measurable;
 
 public class DBCocktails {
 
@@ -21,11 +21,11 @@ public class DBCocktails {
 		con = DbConnection.getInstance().getDBcon();
 	}
 
-	public boolean isCocktail(Alcohol alcohol) throws Exception
+	public boolean isCocktail(Measurable measurable) throws Exception
 	{
 		ResultSet results = null;
 		boolean isCocktail = false;
-		String query = buildQuery("cocktailID = " + alcohol.getId());
+		String query = buildQuery("cocktailID = " + measurable.getId());
 
 		try{
 			Statement stmt = con.createStatement();
@@ -48,25 +48,25 @@ public class DBCocktails {
 		return isCocktail;
 	}
 
-	public Alcohol retrieveIngredients(Alcohol alcohol) throws Exception
+	public Measurable retrieveIngredients(Measurable measurable) throws Exception
 	{
-		Alcohol alcoholObj = alcohol;
+		Measurable measurableObj = measurable;
 		ResultSet results = null;
-		String query = buildQuery("cocktailID = " + alcohol.getId());
-		ArrayList<Alcohol> ingredients = new ArrayList<Alcohol>();
+		String query = buildQuery("cocktailID = " + measurable.getId());
+		ArrayList<Measurable> ingredients = new ArrayList<Measurable>();
 
 		try {
 			Statement stmt = con.createStatement();
 			stmt.setQueryTimeout(5);
 			results = stmt.executeQuery(query);
 
-			DBAlcohol dbAlcohol = new DBAlcohol();
+			DBMeasurable dbMeasurable = new DBMeasurable();
 
 			while(results.next()) {
 
-				Alcohol ingredient = dbAlcohol.findAlcohol(results.getInt("cocktailID"), false);
+				Measurable ingredient = dbMeasurable.findMeasurable(results.getInt("cocktailID"), false);
 				double volume = results.getDouble("volume");
-				alcoholObj.addIngredient(ingredient, volume);
+				measurableObj.addIngredient(ingredient, volume);
 
 			}
 		}
@@ -74,18 +74,18 @@ public class DBCocktails {
 			throw new Exception("Get ingredients failed.");
 		}
 
-		return alcoholObj;
+		return measurableObj;
 	}
 
-	public void insertContents(Alcohol alcohol) throws Exception
+	public void insertContents(Measurable measurable) throws Exception
 	{
-		Alcohol alcoholObj = alcohol;
-		HashMap<Alcohol,Double> ingredientList = alcohol.getCocktailContents();
+		Measurable measurableObj = measurable;
+		HashMap<Measurable,Double> ingredientList = measurable.getCocktailContents();
 
-		for(Map.Entry<Alcohol, Double> entry : ingredientList.entrySet()) 
+		for(Map.Entry<Measurable, Double> entry : ingredientList.entrySet()) 
 		{
 			try{
-				insertIngredient(alcohol, entry.getKey(),entry.getValue());
+				insertIngredient(measurable, entry.getKey(),entry.getValue());
 			}
 			catch(Exception ex) {
 				throw new Exception(ex.toString());
@@ -95,24 +95,24 @@ public class DBCocktails {
 	
 	
 	
-	public void updateContents(Alcohol alcohol) throws Exception 
+	public void updateContents(Measurable measurable) throws Exception 
 	{
-		Alcohol alcoholObj = alcohol;
-		deleteContents(alcoholObj);		
-		insertContents(alcoholObj);
+		Measurable measurableObj = measurable;
+		deleteContents(measurableObj);		
+		insertContents(measurableObj);
 	}
 	
-	public void deleteContents(Alcohol alcohol) throws Exception 
+	public void deleteContents(Measurable measurable) throws Exception 
 	{
-		Alcohol alcoholObj = alcohol;
-		Set<Alcohol> ingredients = alcoholObj.getCocktailContents().keySet();
-		for(Alcohol ingredient : ingredients) 
+		Measurable measurableObj = measurable;
+		Set<Measurable> ingredients = measurableObj.getCocktailContents().keySet();
+		for(Measurable ingredient : ingredients) 
 		{
-			deleteIngredient(alcoholObj, ingredient);
+			deleteIngredient(measurableObj, ingredient);
 		}
 	}
 	
-	private int insertIngredient(Alcohol alcohol, Alcohol ingredient, double volume) throws Exception
+	private int insertIngredient(Measurable measurable, Measurable ingredient, double volume) throws Exception
 	{
 		int rc = -1;
 
@@ -122,7 +122,7 @@ public class DBCocktails {
 			String query="INSERT INTO cocktails(cocktailID, ingredientID, volume)  VALUES(?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
-			prepInsert.setInt(1, alcohol.getId());
+			prepInsert.setInt(1, measurable.getId());
 			prepInsert.setInt(2, ingredient.getId());
 			prepInsert.setDouble(3,volume);
 
@@ -142,7 +142,7 @@ public class DBCocktails {
 		return(rc);
 	}
 	
-	private int deleteIngredient(Alcohol alcohol, Alcohol ingredient) throws Exception
+	private int deleteIngredient(Measurable measurable, Measurable ingredient) throws Exception
 	{
 		int rc=-1;
 
@@ -154,7 +154,7 @@ public class DBCocktails {
 
 			String query="DELETE FROM cocktails WHERE cocktailID = ? AND ingredientID = ?";
 			prepDelete = con.prepareStatement(query);
-			prepDelete.setInt(1, alcohol.getId());
+			prepDelete.setInt(1, measurable.getId());
 			prepDelete.setInt(2, ingredient.getId());
 
 			prepDelete.setQueryTimeout(5);

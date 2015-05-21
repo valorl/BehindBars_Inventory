@@ -127,7 +127,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private void createTable(String category)
 	{
 
-		boolean isAlcohol = Product.checkTypeForAlcoholic(category);
+		boolean isAlcohol = TypeManager.isMeasurableDrinkType(category);
 		if(category.toLowerCase().equals("spirits")) isAlcohol = true;
 
 		table_inventory.setPlaceholder(new Label("No products found."));
@@ -268,7 +268,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 	}
 
 	private void updateColumns(String category) {
-		if(Product.checkTypeForAlcoholic(category) || category.equals("spirits")) {
+		if(TypeManager.isMeasurableDrinkType(category) || category.equals("spirits")) {
 			containerProperty.set("Per bottle");
 			unitProperty.set("Per cl");
 			weightVisible.set(true);
@@ -289,7 +289,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		try{
 			if(category.toLowerCase().equals("spirits")) 
 			{
-				for(String type : Product.getAlcoholicTypes()) 
+				for(String type : TypeManager.getMeasurableDrinks()) 
 				{
 					products.addAll(productCtr.getAllOf(type));
 				}

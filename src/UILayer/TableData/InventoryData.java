@@ -5,8 +5,9 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import ModelLayer.Alcohol;
+import ModelLayer.Measurable;
 import ModelLayer.Product;
+import UILayer.TypeManager;
 
 public class InventoryData {
 
@@ -22,7 +23,7 @@ public class InventoryData {
 	private DoubleProperty costUnit;
 	private DoubleProperty priceContainer;
 
-	// If alcohol
+	// If measurable
 	private DoubleProperty fullWeight;
 	private DoubleProperty emptyWeight;
 
@@ -37,10 +38,10 @@ public class InventoryData {
 		this.priceUnit = new SimpleDoubleProperty(product.getPrice());
 		this.unitVolume = new SimpleDoubleProperty(product.getUnitVolume());
 
-		if(Product.checkTypeForAlcoholic(product.getType())) {
-			Alcohol alc = (Alcohol) product;
-			this.fullWeight = new SimpleDoubleProperty(alc.getFullWeight());
-			this.emptyWeight = new SimpleDoubleProperty(alc.getEmptyWeight());
+		if(TypeManager.isMeasurableDrinkType(product.getType())) {
+			Measurable mes = (Measurable) product;
+			this.fullWeight = new SimpleDoubleProperty(mes.getFullWeight());
+			this.emptyWeight = new SimpleDoubleProperty(mes.getEmptyWeight());
 		}
 		else 
 		{
@@ -74,16 +75,16 @@ public class InventoryData {
 		});
 
 		this.fullWeight.addListener((obs, oldFullWeight, newFullWeight) -> {
-			if(productObj instanceof Alcohol) {
-				Alcohol alc = (Alcohol) productObj;
-				alc.setFullWeight((double) newFullWeight);
+			if(productObj instanceof Measurable) {
+				Measurable mes = (Measurable) productObj;
+				mes.setFullWeight((double) newFullWeight);
 			}
 		});
 		
 		this.emptyWeight.addListener((obs, oldEmptyWeight, newEmptyWeight) -> {
-			if(productObj instanceof Alcohol) {
-				Alcohol alc = (Alcohol) productObj;
-				alc.setEmptyWeight((double) newEmptyWeight);
+			if(productObj instanceof Measurable) {
+				Measurable mes = (Measurable) productObj;
+				mes.setEmptyWeight((double) newEmptyWeight);
 			}
 		});
 
@@ -186,10 +187,10 @@ public class InventoryData {
 	}
 	public void setFullWeight(double fullBottle) {
 
-		if(productObj instanceof Alcohol) {
+		if(productObj instanceof Measurable) {
 			this.fullWeight.set(fullBottle);
-			Alcohol alc = (Alcohol) productObj;
-			alc.setFullWeight(fullBottle);			
+			Measurable mes = (Measurable) productObj;
+			mes.setFullWeight(fullBottle);			
 		}
 	}
 
@@ -201,9 +202,9 @@ public class InventoryData {
 	}
 	public void setEmptyWeight(double emptyBottle) {
 		this.emptyWeight.set(emptyBottle);
-		if(productObj instanceof Alcohol) {
-			Alcohol alc = (Alcohol) productObj;
-			alc.setEmptyWeight(emptyBottle);			
+		if(productObj instanceof Measurable) {
+			Measurable mes = (Measurable) productObj;
+			mes.setEmptyWeight(emptyBottle);			
 		}
 	}
 	// END GETTERS & SETTERS

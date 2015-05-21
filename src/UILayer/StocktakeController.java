@@ -9,7 +9,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,9 +21,10 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import ControlLayer.ProductCtr;
+import ControlLayer.WeekCtr;
 import DBLayer.DBProductState;
 import DBLayer.DBWeek;
-import ModelLayer.Alcohol;
+import ModelLayer.Measurable;
 import ModelLayer.Product;
 import ModelLayer.ProductState;
 import ModelLayer.QuantLoc;
@@ -36,6 +36,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	PaneChanger changer;
 	ProductCtr productCtr;
+	WeekCtr weekCtr;
 
 	@FXML
 	private HBox mainHbox;
@@ -57,6 +58,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	public StocktakeController() 
 	{
 		productCtr = new ProductCtr();
+		weekCtr = new WeekCtr();
 	}
 
 	@Override
@@ -228,8 +230,8 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	private void saveData()
 	{
 		Date date = new Date();
-		Week week = new Week();
-		week.createWeek(date);
+		Week week = weekCtr.createWeek(date);
+		
 		QuantLoc storage = new QuantLoc();
 		QuantLoc bar1 = new QuantLoc();
 		QuantLoc bar2 = new QuantLoc();
@@ -250,7 +252,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 				storage.setQuantity(item.getStorage() * product.getUnitVolume());
 				productState.addQuantLoc(storage);
 				
-				Alcohol alc = (Alcohol) product;
+				Measurable alc = (Measurable) product;
 				
 				bar1.setLocation("bar1");
 				bar1.setQuantity((item.getBar1() * product.getUnitVolume()) + item.getBar1open()/alc.calculateDensity());

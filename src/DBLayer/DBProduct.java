@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import ModelLayer.Alcohol;
 import ModelLayer.Fruit;
+import ModelLayer.Measurable;
 import ModelLayer.Product;
 import ModelLayer.QuantLoc;
+import UILayer.TypeManager;
 
 public class DBProduct implements IFDBProduct{
 
@@ -137,11 +138,11 @@ public class DBProduct implements IFDBProduct{
 			}
 
 			if(product.getType() != null) {
-				if(Product.checkTypeForAlcoholic(product.getType())) 
+				if(TypeManager.isMeasurableDrinkType(product.getType())) 
 				{
-					Alcohol alcohol = (Alcohol) product;
-					DBAlcohol dbAlcohol = new DBAlcohol();
-					dbAlcohol.insertAlcohol(alcohol);
+					Measurable measurable = (Measurable) product;
+					DBMeasurable dbMeasurable = new DBMeasurable();
+					dbMeasurable.insertMeasurable(measurable);
 				}
 				else if(product.getType().toLowerCase().equals("fruit")) 
 				{
@@ -219,11 +220,11 @@ public class DBProduct implements IFDBProduct{
 			}
 
 			if(product.getType() != null) {
-				if(Product.checkTypeForAlcoholic(product.getType())) 
+				if(TypeManager.isMeasurableDrinkType(product.getType())) 
 				{
-					Alcohol alcohol = (Alcohol) product;
-					DBAlcohol dbAlcohol = new DBAlcohol();
-					//dbAlcohol.updateAlcohol(alcohol);
+					Measurable measurable = (Measurable) product;
+					DBMeasurable dbMeasurable = new DBMeasurable();
+					//dbMeasurable.updateMeasurable(measurable);
 				}
 				else if(product.getType().toLowerCase().equals("fruit")) 
 				{
@@ -270,11 +271,11 @@ public class DBProduct implements IFDBProduct{
 			rc = prepDelete.executeUpdate();
 
 			if(product.getType() != null) {
-				if(Product.checkTypeForAlcoholic(product.getType())) 
+				if(TypeManager.isMeasurableDrinkType(product.getType())) 
 				{
-					//Alcohol alcohol = (Alcohol) product;
-					DBAlcohol dbAlcohol = new DBAlcohol();
-					dbAlcohol.delete(dbAlcohol.findAlcohol(product.getId(), false));
+					//Measurable measurable = (Measurable) product;
+					DBMeasurable dbMeasurable = new DBMeasurable();
+					dbMeasurable.delete(dbMeasurable.findMeasurable(product.getId(), false));
 				}
 				else if(product.getType().toLowerCase().equals("fruit")) 
 				{
@@ -391,9 +392,9 @@ public class DBProduct implements IFDBProduct{
 		try{ // the columns from the table product are used
 
 			String type = results.getString("type");
-			if(Product.checkTypeForAlcoholic(type)) 
+			if(TypeManager.isMeasurableDrinkType(type)) 
 			{
-				productObj = new Alcohol();
+				productObj = new Measurable();
 			}
 			else if(type.toLowerCase().equals("fruit")) 
 			{
@@ -412,16 +413,16 @@ public class DBProduct implements IFDBProduct{
 			productObj.setType(results.getString("type"));
 			productObj.setPurchased(results.getInt("purchased"));
 
-			if(Product.checkTypeForAlcoholic(type)) 
+			if(TypeManager.isMeasurableDrinkType(type)) 
 			{
-				DBAlcohol dbAlcohol = new DBAlcohol();
-				Alcohol alcoholObj = dbAlcohol.findAlcohol(results.getInt("id"), false);
+				DBMeasurable dbMeasurable = new DBMeasurable();
+				Measurable measurableObj = dbMeasurable.findMeasurable(results.getInt("id"), false);
 
-				Alcohol castedProduct = (Alcohol) productObj;
-				castedProduct.setFullWeight(alcoholObj.getFullWeight());
-				castedProduct.setEmptyWeight(alcoholObj.getEmptyWeight());
-				castedProduct.setDensity(alcoholObj.getDensity());
-				castedProduct.setTotalVolume(alcoholObj.getTotalVolume());
+				Measurable castedProduct = (Measurable) productObj;
+				castedProduct.setFullWeight(measurableObj.getFullWeight());
+				castedProduct.setEmptyWeight(measurableObj.getEmptyWeight());
+				castedProduct.setDensity(measurableObj.getDensity());
+				castedProduct.setTotalVolume(measurableObj.getTotalVolume());
 				productObj = castedProduct;
 
 			}
