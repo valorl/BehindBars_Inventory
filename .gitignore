@@ -1,5 +1,6 @@
 # Compiled JAVA
 /bin
+*.class
 
 # Windows image file caches
 Thumbs.db

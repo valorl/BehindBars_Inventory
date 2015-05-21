@@ -15,6 +15,17 @@ public class WeekCtr {
 		dbWeek = new DBWeek();
 	}
 	
+	public Week createWeek(Date date) {
+		Week newWeek =  new Week();
+		int[] numbers = dateToNumbers(date);
+		
+		newWeek.setNumber(numbers[0]);
+		newWeek.setMonth(numbers[1]);
+		newWeek.setYear(numbers[2]);
+		
+		return newWeek;
+	}
+	
 	public Week findWeek(Date date) throws Exception 
 	{		
 		int[] numbers = dateToNumbers(date);

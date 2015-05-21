@@ -31,9 +31,10 @@
         
          <children>
             <HBox fx:id="navbox" GridPane.rowIndex="1">
-               <padding>
+              <!--  <padding>
                   <Insets left="40.0" right="40.0" />
-               </padding></HBox>
+               </padding> -->
+               </HBox>
          </children>
       </GridPane>
       
