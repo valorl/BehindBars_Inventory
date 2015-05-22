@@ -51,14 +51,13 @@ public class DBMeasurable implements IFDBMeasurable{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new measurable
-			String query="INSERT INTO measurable(productID, fullWeight, emptyWeight, density, totalVolume)  VALUES(?,?,?,?,?)";
+			String query="INSERT INTO measurable(productID, fullWeight, emptyWeight, totalMeasured)  VALUES(?,?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
-			prepInsert.setInt(1, measurable.getId());
+			prepInsert.setInt(1, measurable.getId()); 
 			prepInsert.setDouble(2, measurable.getFullWeight());
 			prepInsert.setDouble(3, measurable.getEmptyWeight());
-			prepInsert.setDouble(4, measurable.getDensity());
-			prepInsert.setDouble(5, measurable.getTotalVolume());
+			prepInsert.setDouble(4, measurable.getTotalMeasured());
 
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
@@ -69,6 +68,7 @@ public class DBMeasurable implements IFDBMeasurable{
 
 		}//end try
 		catch(SQLException ex){
+			ex.printStackTrace();
 			System.out.println("Measurable not inserted");
 			throw new Exception ("Measurable not inserted correctly");
 		}
@@ -103,14 +103,13 @@ public class DBMeasurable implements IFDBMeasurable{
 
 		try{ // update measurable
 
-			String query="UPDATE measurable SET productID = ?, fullWeight = ?, emptyWeight = ?, density = ?, totalVolume = ? WHERE productID = ? ";
+			String query="UPDATE measurable SET productID = ?, fullWeight = ?, emptyWeight = ?, totalMeasured = ? WHERE productID = ? ";
 
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, measurable.getId());
 			prepUpdate.setDouble(2, measurable.getFullWeight());
 			prepUpdate.setDouble(3, measurable.getEmptyWeight());
-			prepUpdate.setDouble(4, measurable.getDensity());
-			prepUpdate.setDouble(5, measurable.getTotalVolume());
+			prepUpdate.setDouble(5, measurable.getTotalMeasured());
 			prepUpdate.setInt(6, measurable.getId());
 
 			prepUpdate.setQueryTimeout(5);
@@ -238,19 +237,19 @@ public class DBMeasurable implements IFDBMeasurable{
 
 	private Measurable buildMeasurable(ResultSet results)
 	{   
-		Measurable measurableObj = null;
+		Measurable measurableObj = new Measurable();
 		try{ 
 
 
-			measurableObj.setId(results.getInt("id"));
+			measurableObj.setId(results.getInt("productId"));
 			measurableObj.setFullWeight(results.getDouble("fullWeight"));
 			measurableObj.setEmptyWeight(results.getDouble("emptyWeight"));
-			measurableObj.setDensity(results.getDouble("density"));
-			measurableObj.setTotalVolume(results.getDouble("totalVolume"));
+			measurableObj.setTotalMeasured(results.getDouble("totalMeasured"));
 
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			System.out.println("Error in building the measurable object");
 		}
 		return measurableObj;
@@ -258,7 +257,7 @@ public class DBMeasurable implements IFDBMeasurable{
 
 	private String buildQuery(String wClause)
 	{
-		String query="SELECT productID, fullWeight, emptyWeight, density, totalVolume FROM measurable";
+		String query="SELECT productID, fullWeight, emptyWeight, totalMeasured FROM measurable";
 
 		if (wClause.length()>0)
 			query=query+" WHERE "+ wClause;

@@ -413,7 +413,7 @@ public class DBProduct implements IFDBProduct{
 			productObj.setType(results.getString("type"));
 			productObj.setPurchased(results.getInt("purchased"));
 
-			if(TypeManager.isMeasurableDrinkType(type)) 
+			if(TypeManager.isMeasurableType(type)) 
 			{
 				DBMeasurable dbMeasurable = new DBMeasurable();
 				Measurable measurableObj = dbMeasurable.findMeasurable(results.getInt("id"), false);
@@ -422,7 +422,7 @@ public class DBProduct implements IFDBProduct{
 				castedProduct.setFullWeight(measurableObj.getFullWeight());
 				castedProduct.setEmptyWeight(measurableObj.getEmptyWeight());
 				castedProduct.setDensity(measurableObj.getDensity());
-				castedProduct.setTotalVolume(measurableObj.getTotalVolume());
+				castedProduct.setTotalMeasured(measurableObj.getTotalMeasured());
 				productObj = castedProduct;
 
 			}

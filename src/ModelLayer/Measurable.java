@@ -8,13 +8,15 @@ public class Measurable extends Product {
 	private double fullWeight;
 	private double emptyWeight;
 	private double density;
-	private double totalVolume;
+	private double totalMeasured;
 	private HashMap<Measurable,Double> cocktailContents;
 	
 	
 	// CONSTRUCTORS
 	
-	public Measurable() {}
+	public Measurable() {
+		cocktailContents = new HashMap<Measurable,Double>();
+	}
 	
 	public Measurable(boolean isCocktail) 
 	{
@@ -27,6 +29,17 @@ public class Measurable extends Product {
 			cocktailContents = null;
 		}
 	}
+	
+	public Measurable(Product product) {
+		this.setId(product.getId());
+		this.setName(product.getName());
+		this.setCost(product.getCost());
+		this.setPrice(product.getPrice());
+		this.setType(product.getType());
+		this.setUnitVolume(product.getUnitVolume());
+		
+		cocktailContents = new HashMap<Measurable,Double>();
+	}
 
 	public Measurable(String name, double cost, double price,
 			ArrayList<QuantLoc> quantLocs, double unitVolume, String type,
@@ -35,7 +48,7 @@ public class Measurable extends Product {
 		super(name, cost, price, quantLocs, unitVolume, type, purchased);
 		this.fullWeight = fullWeight;
 		this.emptyWeight = emptyWeight;
-		this.totalVolume = totalVolume;
+		this.totalMeasured = totalVolume;
 		
 		cocktailContents = new HashMap<Measurable,Double>();
 	};
@@ -64,11 +77,11 @@ public class Measurable extends Product {
 		this.density = density;
 	}
 
-	public double getTotalVolume() {
-		return totalVolume;
+	public double getTotalMeasured() {
+		return totalMeasured;
 	}
-	public void setTotalVolume(double totalVolume) {
-		this.totalVolume = totalVolume;
+	public void setTotalMeasured(double totalMeasured) {
+		this.totalMeasured = totalMeasured;
 	}
 	
 	// Cocktail IS, GET, SET, ADD, REMOVE, FIND
@@ -138,4 +151,6 @@ public class Measurable extends Product {
 		
 		return tempDensity;
 	}
+	
+
 }

@@ -80,28 +80,30 @@ public class DBCocktails {
 	public void insertContents(Measurable measurable) throws Exception
 	{
 		Measurable measurableObj = measurable;
-		HashMap<Measurable,Double> ingredientList = measurable.getCocktailContents();
-
-		for(Map.Entry<Measurable, Double> entry : ingredientList.entrySet()) 
-		{
-			try{
-				insertIngredient(measurable, entry.getKey(),entry.getValue());
-			}
-			catch(Exception ex) {
-				throw new Exception(ex.toString());
+		HashMap<Measurable,Double> ingredientList = measurableObj.getCocktailContents();
+		if(ingredientList != null && ingredientList.size() > 0) {
+			for(Map.Entry<Measurable, Double> entry : ingredientList.entrySet()) 
+			{
+				try{
+					System.out.println("\n\n INSERT CONTENTS: Cocktail ID: "  + measurableObj.getId() + "  Ingredient ID: " + entry.getKey().getId() + "\n\n");
+					insertIngredient(measurableObj, entry.getKey(),entry.getValue());
+				}
+				catch(Exception ex) {
+					throw new Exception(ex.toString());
+				}
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	public void updateContents(Measurable measurable) throws Exception 
 	{
 		Measurable measurableObj = measurable;
 		deleteContents(measurableObj);		
 		insertContents(measurableObj);
 	}
-	
+
 	public void deleteContents(Measurable measurable) throws Exception 
 	{
 		Measurable measurableObj = measurable;
@@ -111,7 +113,7 @@ public class DBCocktails {
 			deleteIngredient(measurableObj, ingredient);
 		}
 	}
-	
+
 	private int insertIngredient(Measurable measurable, Measurable ingredient, double volume) throws Exception
 	{
 		int rc = -1;
@@ -125,13 +127,16 @@ public class DBCocktails {
 			prepInsert.setInt(1, measurable.getId());
 			prepInsert.setInt(2, ingredient.getId());
 			prepInsert.setDouble(3,volume);
-
+			
+			System.out.println("\n\n INSERT INGREDIENT: Cocktail ID: "  + measurable.getId() + "  Ingredient ID: " + ingredient.getId() + "\n\n");
+			
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
 
 
 		}//end try
 		catch(SQLException ex){
+			ex.printStackTrace();
 			System.out.println("Ingredient not inserted");
 			throw new Exception ("Ingredient not inserted correctly");
 		}
@@ -141,7 +146,7 @@ public class DBCocktails {
 		}
 		return(rc);
 	}
-	
+
 	private int deleteIngredient(Measurable measurable, Measurable ingredient) throws Exception
 	{
 		int rc=-1;
@@ -170,7 +175,7 @@ public class DBCocktails {
 		}
 		return(rc);
 	}
-	
+
 	private String buildQuery(String wClause)
 	{
 		String query="SELECT cocktailID, ingredientID, volume FROM cocktails";

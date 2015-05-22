@@ -133,6 +133,10 @@ public class Product {
 		return foundQL;
 	}
 	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 	
 	
 	

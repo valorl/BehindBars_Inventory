@@ -38,10 +38,11 @@ public class InventoryData {
 		this.priceUnit = new SimpleDoubleProperty(product.getPrice());
 		this.unitVolume = new SimpleDoubleProperty(product.getUnitVolume());
 
-		if(TypeManager.isMeasurableDrinkType(product.getType())) {
+		if(TypeManager.isMeasurableType(product.getType())) {
 			Measurable mes = (Measurable) product;
 			this.fullWeight = new SimpleDoubleProperty(mes.getFullWeight());
 			this.emptyWeight = new SimpleDoubleProperty(mes.getEmptyWeight());
+			productObj = mes;
 		}
 		else 
 		{
@@ -52,7 +53,7 @@ public class InventoryData {
 		this.priceContainer = new SimpleDoubleProperty();
 		updateCostUnit();
 		updatePriceContainer();
-		System.out.println("InventoryData created: " + id + name + costContainer + priceUnit + unitVolume);
+		System.out.println("InventoryData created: " + id + name + costContainer + priceUnit + unitVolume + fullWeight + emptyWeight);
 
 		
 		// PROPERTY LISTENERS - Sync InventoryData with Product , update calculated costs & prices
@@ -180,9 +181,7 @@ public class InventoryData {
 	}
 
 	public double getFullWeight() {
-		if(fullWeight == null) {
-			return 0;
-		}
+
 		return fullWeight.get();
 	}
 	public void setFullWeight(double fullBottle) {
@@ -190,21 +189,21 @@ public class InventoryData {
 		if(productObj instanceof Measurable) {
 			this.fullWeight.set(fullBottle);
 			Measurable mes = (Measurable) productObj;
-			mes.setFullWeight(fullBottle);			
+			mes.setFullWeight(fullBottle);		
+			productObj = mes;
 		}
 	}
 
 	public double getEmptyWeight() {
-		if(emptyWeight == null) {
-			return 0;
-		}
+
 		return emptyWeight.get();
 	}
 	public void setEmptyWeight(double emptyBottle) {
 		this.emptyWeight.set(emptyBottle);
 		if(productObj instanceof Measurable) {
 			Measurable mes = (Measurable) productObj;
-			mes.setEmptyWeight(emptyBottle);			
+			mes.setEmptyWeight(emptyBottle);
+			productObj = mes;
 		}
 	}
 	// END GETTERS & SETTERS

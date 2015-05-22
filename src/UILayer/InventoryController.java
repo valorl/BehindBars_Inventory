@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,6 +14,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,9 +22,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,20 +36,21 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ControlLayer.ProductCtr;
 import ModelLayer.Product;
 import UILayer.TableData.InventoryData;
 
 public class InventoryController implements Initializable, ChangeablePane{
 
-	private static final String DEFAULT_SELECTION = "spirits";
+	//private static final String DEFAULT_SELECTION = "spirits";
 
 	private PaneChanger changer;
 	private ProductCtr productCtr;
 
 
 	private StringProperty containerProperty = new SimpleStringProperty("");
-	private SimpleStringProperty unitProperty = new SimpleStringProperty("");
+	private SimpleStringProperty unitProperty = new SimpleStringProperty("Per cl");
 	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
 
 	//private String container = "";
@@ -85,9 +91,10 @@ public class InventoryController implements Initializable, ChangeablePane{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		
-		
+
+
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
+		initMenuItem();
 		initButtons();
 		initComboBox();
 		initSearch();
@@ -97,8 +104,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 		mainHbox.setOnKeyPressed((e) -> {
 			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
 				txt_search.requestFocus();
-		    }
-			
+			}
+
 			if(e.getCode() == KeyCode.S) {
 				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
 				index++;
@@ -106,15 +113,15 @@ public class InventoryController implements Initializable, ChangeablePane{
 				cbox_category.setValue(cbox_category.getItems().get(index));
 				cbox_category.fireEvent(new ActionEvent());
 			}
-			
-//			if(e.getCode() == KeyCode.W) {
-//				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
-//				index--;
-//				index = index % (cbox_category.getItems().size()-1);
-//				cbox_category.setValue(cbox_category.getItems().get(index));
-//				cbox_category.fireEvent(new ActionEvent());
-//				
-//			}
+
+			//			if(e.getCode() == KeyCode.W) {
+			//				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
+			//				index--;
+			//				index = index % (cbox_category.getItems().size()-1);
+			//				cbox_category.setValue(cbox_category.getItems().get(index));
+			//				cbox_category.fireEvent(new ActionEvent());
+			//				
+			//			}
 		});
 	}
 
@@ -123,12 +130,12 @@ public class InventoryController implements Initializable, ChangeablePane{
 		changer = parent;		
 	}
 
-	// Initialize Table for Weightable liquids
+	// Initialize Table 
 	private void createTable(String category)
 	{
 
-		boolean isAlcohol = TypeManager.isMeasurableDrinkType(category);
-		if(category.toLowerCase().equals("spirits")) isAlcohol = true;
+		boolean isMeasurable = TypeManager.isMeasurableType(category);
+		if(category.toLowerCase().equals("spirits")) isMeasurable = true;
 
 		table_inventory.setPlaceholder(new Label("No products found."));
 		table_inventory.setMaxWidth(802);
@@ -136,6 +143,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 
 		table_inventory.setEditable(true);
+		
+		
 
 
 
@@ -160,17 +169,17 @@ public class InventoryController implements Initializable, ChangeablePane{
 		// WEIGHT -> Full bottle , Empty Bottle
 		TableColumn weightCol = new TableColumn("Weight (gr)");
 		weightCol.visibleProperty().bind(weightVisible);
-		TableColumn<InventoryData, Double> fullBottleCol = new TableColumn<InventoryData, Double>("Full bottle");
+		TableColumn<InventoryData, Double> fullBottleCol = new TableColumn<InventoryData, Double>("Full");
 		fullBottleCol.setMinWidth(100);
 		fullBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Making the cell editable with a TextField
 		fullBottleCol.setCellValueFactory(
-				new PropertyValueFactory<InventoryData, Double>("fullBottle"));
+				new PropertyValueFactory<InventoryData, Double>("fullWeight"));
 		fullBottleCol.visibleProperty().bind(weightVisible);
-		TableColumn<InventoryData, Double> emptyBottleCol = new TableColumn<InventoryData, Double>("Empty bottle");
+		TableColumn<InventoryData, Double> emptyBottleCol = new TableColumn<InventoryData, Double>("Empty");
 		emptyBottleCol.setMinWidth(100);
 		emptyBottleCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter())); // Making the cell editable with a TextField
 		emptyBottleCol.setCellValueFactory(
-				new PropertyValueFactory<InventoryData, Double>("emptyBottle"));
+				new PropertyValueFactory<InventoryData, Double>("emptyWeight"));
 		emptyBottleCol.visibleProperty().bind(weightVisible);
 		weightCol.getColumns().addAll(fullBottleCol, emptyBottleCol);
 		table_inventory.getColumns().add(weightCol);
@@ -229,7 +238,6 @@ public class InventoryController implements Initializable, ChangeablePane{
 			}
 		}
 
-
 		// Adjust table width according to columns, when changing categories
 		this.weightVisible.addListener((obs, oldVisible, newVisible) -> {
 
@@ -255,28 +263,42 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 	}
 
+	
+	private void initMenuItem() {
+		
+//		 showEditItem.setOnAction((e) -> {
+//			 showEdit();
+//		 });
+	}
+	
+	private void showEdit() {
+		
+	}
+	
 	// Update table data 
 	private void updateData() 
 	{
 
-		String category = (String)cbox_category.getValue().toString().toLowerCase();
-		data = FXCollections.observableArrayList(getData(category));
+		if(cbox_category.getValue() != null) {
+			String category = (String)cbox_category.getValue().toString().toLowerCase();
 
-		table_inventory.setItems(data);
+			data = FXCollections.observableArrayList(getData(category));
 
-		updateColumns((String)cbox_category.getValue().toString().toLowerCase());
+			table_inventory.setItems(data);
+
+			updateColumns((String)cbox_category.getValue().toString().toLowerCase());
+		}
 	}
 
 	private void updateColumns(String category) {
-		if(TypeManager.isMeasurableDrinkType(category) || category.equals("spirits")) {
-			containerProperty.set("Per bottle");
-			unitProperty.set("Per cl");
+
+		containerProperty.set("Per " + TypeManager.getUnit(category));
+
+		if(TypeManager.isMeasurableType(category) || category.equals("spirits")) {
+
 			weightVisible.set(true);
 		}
-		if(category.toLowerCase().equals("draft beer")) {
-
-			containerProperty.set("Per keg");
-			unitProperty.set("Per cl");
+		else {
 			weightVisible.set(false);
 		}
 	}
@@ -289,7 +311,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		try{
 			if(category.toLowerCase().equals("spirits")) 
 			{
-				for(String type : TypeManager.getMeasurableDrinks()) 
+				for(String type : TypeManager.getSpiritTypes()) 
 				{
 					products.addAll(productCtr.getAllOf(type));
 				}
@@ -515,7 +537,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 				}
 
 				ObservableList<InventoryData> newItems = FXCollections.observableArrayList();
-				
+
 
 				for(InventoryData dataItem : data) {
 					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
@@ -528,30 +550,30 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 
 		});
-		
+
 	}
 
-		private void searchResults() {
+	private void searchResults() {
 
-			ObservableList<InventoryData> oldData = FXCollections.observableArrayList(data);
+		ObservableList<InventoryData> oldData = FXCollections.observableArrayList(data);
 
-			if(txt_search.getText().length() > 0 ) {
-				data.clear();
+		if(txt_search.getText().length() > 0 ) {
+			data.clear();
 
-				for(InventoryData dataItem : oldData) {
-					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
-						data.add(dataItem);
-					}
+			for(InventoryData dataItem : oldData) {
+				if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+					data.add(dataItem);
 				}
+			}
 
-			}
-			else {
-				updateData();
-			}
 		}
-	
-		
+		else {
+			updateData();
+		}
 	}
+
+
+}
 
 
 
