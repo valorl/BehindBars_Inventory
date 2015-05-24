@@ -26,6 +26,7 @@
                </children>
             </HBox>
             <Button fx:id="btn_save" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" />
+            <Label fx:id="lbl_output" text="Output" />
          </children>
       </VBox>
    </children>

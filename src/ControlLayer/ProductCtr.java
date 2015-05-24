@@ -24,6 +24,11 @@ public class ProductCtr {
 	{
 		return dbProduct.findProduct(id, retriveAssociation);
 	}
+	
+	public ArrayList<Product> getAllProducts() throws Exception{
+		return dbProduct.getAllProducts(true);
+	}
+	
 	public ArrayList<Product> getAllOf(String category) throws Exception
 	{
 		return dbProduct.getAllOf(category, true);

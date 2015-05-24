@@ -7,7 +7,16 @@
 	-fx-pref-height: 40px;
 }
 
- .text-field {
+#btn_assistant {
+	-fx-font-size: 17px;
+}
+
+#lbl_date , #lbl_week {
+	-fx-text-fill: white;
+	-fx-font-size: 16px;
+}
+
+.text-field {
 	-fx-pref-height: 40px;
 	-fx-min-heihgt: 40px;
 	-fx-max-height: 40px;

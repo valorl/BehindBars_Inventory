@@ -47,6 +47,9 @@
 .button .text {
 	-fx-effect: dropshadow( one-pass-box , rgba(100, 100, 100, 0.9) , 0, 0.0 , 0 , 1);
 }
+.label {
+	-fx-effect: dropshadow( one-pass-box , rgba(100, 100, 100, 0.3) , 0, 0.0 , 0 , 1);
+}
 
 .button, .combo-box-base {
 	-fx-background-color: #24AAD7;

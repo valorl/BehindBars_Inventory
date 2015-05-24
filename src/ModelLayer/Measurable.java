@@ -137,7 +137,7 @@ public class Measurable extends Product {
 		{
 			if(fullWeight > emptyWeight) 
 			{
-				tempDensity = (fullWeight-emptyWeight)/super.getUnitVolume();
+				tempDensity = (fullWeight-emptyWeight)/(super.getUnitVolume()*10);
 			}
 			else 
 			{

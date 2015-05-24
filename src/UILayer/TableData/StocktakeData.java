@@ -70,35 +70,35 @@ public class StocktakeData {
 	
 	// GETTERS PROPERTIES
 	
-	public IntegerProperty getStorageProperty() {
+	public IntegerProperty storageProperty() {
 		return storage;
 	}
 	
-	public IntegerProperty getBar1BottleProperty() {
+	public IntegerProperty bar1BottleProperty() {
 		return bar1;
 	}
 	
-	public DoubleProperty getBar1OpenProperty() {
+	public DoubleProperty bar1OpenProperty() {
 		return bar1open;
 	}
 	
-	public IntegerProperty getBar2BottleProperty() {
+	public IntegerProperty bar2BottleProperty() {
 		return bar2;
 	}
 
-	public DoubleProperty getBar2OpenProperty() {
+	public DoubleProperty bar2OpenProperty() {
 		return bar2open;
 	}
 
-	public IntegerProperty getBar3BottleProperty() {
+	public IntegerProperty bar3BottleProperty() {
 		return bar3;
 	}
 
-	public DoubleProperty getBar3openProperty() {
+	public DoubleProperty bar3openProperty() {
 		return bar3open;
 	}
 
-	public DoubleProperty getSalesProperty() {
+	public DoubleProperty salesProperty() {
 		return sales;
 	}
 

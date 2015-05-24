@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -17,14 +19,31 @@
                   <Button mnemonicParsing="false" text="Button" />
                </children>
             </HBox>-->
-            <ComboBox fx:id="cbox_category" maxWidth="1.7976931348623157E308" prefWidth="150.0" />
-            <Button fx:id="btn_save" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" />
+            <ComboBox fx:id="cbox_category" maxWidth="1.7976931348623157E308" prefWidth="150.0">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin></ComboBox>
+            <Label fx:id="lbl_date" text="Date">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_week" text="Week #">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="-10.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="btn_assistant" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Stocktake assistant" />
             <HBox spacing="15.0">
                <children>
-                  <Button fx:id="btn_new" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btn_delete" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btn_save" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btn_clear" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Clear" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
+            <Label fx:id="lbl_output" text="Output" />
          </children>
       </VBox>
    </children>

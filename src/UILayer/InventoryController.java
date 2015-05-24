@@ -2,6 +2,7 @@ package UILayer;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
@@ -17,7 +18,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -60,6 +64,9 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private TextField txt_search;
 
 	@FXML
+	private Label lbl_output;
+
+	@FXML
 	private ComboBox cbox_category = new ComboBox();
 
 	@FXML
@@ -88,11 +95,12 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
+		clearOutput();
 		initMenuItem();
 		initButtons();
 		initComboBox();
 		initSearch();
-		
+
 		createTable();
 		updateData();
 
@@ -135,13 +143,14 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		// NAME
 		TableColumn<InventoryData, String> nameCol = new TableColumn<InventoryData, String>("Name");
+		nameCol.setSortType(TableColumn.SortType.ASCENDING);
 		nameCol.setMinWidth(180);
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<InventoryData, String>("name"));
 		nameCol.setCellFactory(TextFieldTableCell.forTableColumn());    // Making the cell editable with a TextField
 
 		table_inventory.getColumns().add(nameCol);
-
+		table_inventory.getSortOrder().add(nameCol);
 		// UNIT VOLUME
 		TableColumn<InventoryData, Double> unitCol = new TableColumn<InventoryData, Double>("Unit Volume\n     (cl)");
 		unitCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));  // Making the cell editable with a TextField
@@ -256,23 +265,24 @@ public class InventoryController implements Initializable, ChangeablePane{
 		//		 });
 	}
 
-	private void showEdit() {
-
-	}
+	
 
 	// Update table data 
 	private void updateData() 
 	{
 
-		if(cbox_category.getValue() != null) {
-			String category = (String)cbox_category.getValue().toString().toLowerCase();
-
-			data = FXCollections.observableArrayList(getData(category));
-
-			table_inventory.setItems(data);
-
-			updateColumns((String)cbox_category.getValue().toString().toLowerCase());
-		}
+		//		if(cbox_category.getValue() != null) {
+		//			String category = (String)cbox_category.getValue().toString().toLowerCase();
+		//
+		//			data = FXCollections.observableArrayList(getData(category));
+		//
+		//			table_inventory.setItems(data);
+		//
+		//			updateColumns((String)cbox_category.getValue().toString().toLowerCase());
+		//		}
+		
+		data = FXCollections.observableArrayList(getData(null));
+		filterData();
 	}
 
 	private void updateColumns(String category) {
@@ -291,22 +301,41 @@ public class InventoryController implements Initializable, ChangeablePane{
 	// Fetch data from the DB depending on the category
 	private ArrayList<InventoryData> getData(String category) 
 	{
+		//		ArrayList<InventoryData> invData = new ArrayList<InventoryData>();
+		//		ArrayList<Product> products = new ArrayList<Product>();
+		//		try{
+		//			if(category.toLowerCase().equals("spirits")) 
+		//			{
+		//				for(String type : TypeManager.getSpiritTypes()) 
+		//				{
+		//					products.addAll(productCtr.getAllOf(type));
+		//				}
+		//			}
+		//			else {
+		//				products = productCtr.getAllOf(category);
+		//			}
+		//		}
+		//		catch(Exception ex)
+		//		{
+		//			ex.printStackTrace();
+		//		}
+		//
+		//		if(products != null) {
+		//			for(Product product : products) {
+		//				InventoryData newData = new InventoryData(product);
+		//				invData.add(newData);
+		//			}
+		//		}
+		//
+		//		return invData;
+
 		ArrayList<InventoryData> invData = new ArrayList<InventoryData>();
 		ArrayList<Product> products = new ArrayList<Product>();
-		try{
-			if(category.toLowerCase().equals("spirits")) 
-			{
-				for(String type : TypeManager.getSpiritTypes()) 
-				{
-					products.addAll(productCtr.getAllOf(type));
-				}
-			}
-			else {
-				products = productCtr.getAllOf(category);
-			}
+
+		try {
+			products = productCtr.getAllProducts();
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex) {
 			ex.printStackTrace();
 		}
 
@@ -316,7 +345,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 				invData.add(newData);
 			}
 		}
-
+		
 		return invData;
 
 	}
@@ -354,14 +383,35 @@ public class InventoryController implements Initializable, ChangeablePane{
 		});
 
 		cbox_category.setOnAction((e) -> {
+
+			filterData();
+
 			updateColumns(cbox_category.getValue().toString().toLowerCase());
-			updateData();
+			//updateData();
 		});
 
 		updateCategories();
 
 	}
 
+	private void filterData() {
+		ObservableList<InventoryData> newItems = FXCollections.observableArrayList();
+
+
+		for(InventoryData dataItem : data) {
+			if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+				if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+					newItems.add(dataItem);
+				}
+			}
+			else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
+				newItems.add(dataItem);
+			}
+		}
+
+		table_inventory.setItems(newItems);
+		table_inventory.sort();
+	}
 
 	public void updateCategories() 
 	{
@@ -380,6 +430,8 @@ public class InventoryController implements Initializable, ChangeablePane{
 		}
 		cbox_category.setItems(categories);
 		cbox_category.setValue(cbox_category.getItems().get(0));
+		
+		updateColumns(cbox_category.getValue().toString().toLowerCase());
 
 
 	}
@@ -395,7 +447,6 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 		btn_delete.setOnAction((e) -> {
 			deleteProduct();
-			updateData();
 		});
 	}
 
@@ -478,17 +529,30 @@ public class InventoryController implements Initializable, ChangeablePane{
 		InventoryData dataObj = table_inventory.getSelectionModel().getSelectedItem();
 
 		if(dataObj != null) {
-			Product prodObj = dataObj.getProduct();
-			try {
-				productCtr.deleteProduct(prodObj);
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
-				//message to be shown
-			}
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Product deletion");
+			alert.setHeaderText("You are about to remove a product from the database.");
+			alert.setContentText("Are you sure?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				Product prodObj = dataObj.getProduct();
+				try {
+					productCtr.deleteProduct(prodObj);
+					output("Product deleted successfully.",false);
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+					output("An error occured while trying to delete a product.", true);
+				}
+				//updateData();
+				table_inventory.getItems().remove(dataObj);
+			} 
+
+
 		}
 		else {
-			// message to be shown
+			output("Error: No product selected.", true);
 		}
 
 	}
@@ -555,6 +619,20 @@ public class InventoryController implements Initializable, ChangeablePane{
 		else {
 			updateData();
 		}
+	}
+
+	private void output(String message, boolean isError) {
+		if(isError) {
+			lbl_output.setStyle("-fx-text-fill: #ff5722");
+		}
+		else {
+			lbl_output.setStyle("-fx-text-fill: #5af158");
+		}
+		lbl_output.setText(message);
+	}
+
+	private void clearOutput() {
+		lbl_output.setText("");
 	}
 
 

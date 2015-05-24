@@ -1,6 +1,7 @@
 package UILayer;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -17,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,9 +47,11 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	ProductCtr productCtr;
 	WeekCtr weekCtr;
 
+	Date date; 
+
 	private static final double DEFAULT_COLUMN_WIDTH = 85;
 	private static final double STRETCHED_COLUMN_WIDTH = 120;
-	
+
 	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
 	private DoubleProperty columnWidth = new SimpleDoubleProperty(DEFAULT_COLUMN_WIDTH);
 
@@ -66,6 +70,9 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	@FXML
 	private TextField txt_search;
 
+	@FXML
+	private Label lbl_output, lbl_week, lbl_date;
+
 	private ObservableList<StocktakeData> data;
 
 	private ObservableList<String> categories;
@@ -75,13 +82,17 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	{
 		productCtr = new ProductCtr();
 		weekCtr = new WeekCtr();
+
+		date = new Date();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		mainHbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
+		clearOutput();
 		initButtons();
+		initDates();
 		initSearch();initComboBox();
 		initSearch();
 		createTable();
@@ -207,13 +218,13 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			}
 		}
 
-		
+
 		// Adjust table width according to columns, when changing categories
 		this.weightVisible.addListener((obs, oldVisible, newVisible) -> {
 
 
 			if(!newVisible) {
-				
+
 				table_stocktake.setMaxWidth(STRETCHED_COLUMN_WIDTH*7+2);
 				table_stocktake.setPrefWidth(STRETCHED_COLUMN_WIDTH*7+2);
 			}
@@ -231,6 +242,14 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			saveData();
 		});
 
+	}
+
+	private void initDates() {
+		SimpleDateFormat mainDF = new SimpleDateFormat("d. MMMM yyyy");
+		SimpleDateFormat weekNr = new SimpleDateFormat("w");
+
+		lbl_date.setText(mainDF.format(date));
+		lbl_week.setText("Week " + weekNr.format(date));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -254,8 +273,10 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		});
 
 		cbox_category.setOnAction((e) -> {
-			//updateColumns(cbox_category.getValue().toString().toLowerCase());
-			updateData();
+			filterData();
+			updateColumns(cbox_category.getValue().toString().toLowerCase());
+			
+			//updateData();
 		});
 
 		updateCategories();
@@ -298,18 +319,30 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	private void updateData() 
 	{
 
-		if(cbox_category.getValue() != null) {
-			String category = (String)cbox_category.getValue().toString().toLowerCase();
-
-			data = FXCollections.observableArrayList(getData(category));
-
-			table_stocktake.setItems(data);
-
-			updateColumns((String)cbox_category.getValue().toString().toLowerCase());
-		}
+		data = FXCollections.observableArrayList(getData(null));
+		filterData();
 
 	}
 	
+	private void filterData() {
+		ObservableList<StocktakeData> newItems = FXCollections.observableArrayList();
+
+
+		for(StocktakeData dataItem : data) {
+			if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+				if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+					newItems.add(dataItem);
+				}
+			}
+			else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
+				newItems.add(dataItem);
+			}
+		}
+
+		table_stocktake.setItems(newItems);
+		table_stocktake.sort();
+	}
+
 	private void updateColumns(String category) {
 
 		//containerProperty.set("Per " + TypeManager.getUnit(category));
@@ -318,50 +351,40 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 			weightVisible.set(true);
 			this.columnWidth.set(DEFAULT_COLUMN_WIDTH);
-			
+
 		}
 		else {
 			weightVisible.set(false);
 			this.columnWidth.set(STRETCHED_COLUMN_WIDTH);
-			
+
 		}
 	}
 
 	private ArrayList<StocktakeData> getData(String category) 
 	{
-		ArrayList<StocktakeData> stockData = new ArrayList<StocktakeData>();
+		ArrayList<StocktakeData> invData = new ArrayList<StocktakeData>();
 		ArrayList<Product> products = new ArrayList<Product>();
-		try{
-			if(category.toLowerCase().equals("spirits")) 
-			{
-				for(String type : TypeManager.getSpiritTypes()) 
-				{
-					products.addAll(productCtr.getAllOf(type));
-				}
-			}
-			else {
-				products = productCtr.getAllOf(category);
-			}
+
+		try {
+			products = productCtr.getAllProducts();
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex) {
 			ex.printStackTrace();
 		}
 
 		if(products != null) {
 			for(Product product : products) {
 				StocktakeData newData = new StocktakeData(product);
-				stockData.add(newData);
+				invData.add(newData);
 			}
 		}
-
-		return stockData;
+		
+		return invData;
 
 	}
 
 	private void saveData()
 	{
-		Date date = new Date();
 		Week week = weekCtr.createWeek(date);
 
 
@@ -375,55 +398,67 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			Product product = item.getProduct();
 
 
-			try{
-				QuantLoc storage = new QuantLoc();
-				QuantLoc bar1 = new QuantLoc();
-				QuantLoc bar2 = new QuantLoc();
-				QuantLoc bar3 = new QuantLoc();				
 
-				productState.setProduct(product);
-				storage.setLocation("storage");
-				storage.setQuantity(item.getStorage() * product.getUnitVolume());
-				productState.addQuantLoc(storage);
+			QuantLoc storage = new QuantLoc();
+			QuantLoc bar1 = new QuantLoc();
+			QuantLoc bar2 = new QuantLoc();
+			QuantLoc bar3 = new QuantLoc();				
 
+			productState.setProduct(product);
+			storage.setLocation("storage");
+			storage.setQuantity(item.getStorage() * product.getUnitVolume());
+			productState.addQuantLoc(storage);
+
+
+			bar1.setLocation("bar1");
+			bar1.setQuantity((item.getBar1() * product.getUnitVolume()));
+
+			bar2.setLocation("bar2");
+			bar2.setQuantity((item.getBar2() * product.getUnitVolume()));
+
+			bar3.setLocation("bar3");
+			bar3.setQuantity((item.getBar3() * product.getUnitVolume()));
+
+			if(product instanceof Measurable) {
 				Measurable mes = (Measurable) product;
-
-				bar1.setLocation("bar1");
-				bar1.setQuantity((item.getBar1() * product.getUnitVolume()) + item.getBar1open()/mes.calculateDensity());
-				productState.addQuantLoc(bar1);
-
-				bar2.setLocation("bar2");
-				bar2.setQuantity((item.getBar2() * product.getUnitVolume()) + item.getBar2open()/mes.calculateDensity());
-				productState.addQuantLoc(bar2);
-
-				bar3.setLocation("bar3");
-				bar3.setQuantity((item.getBar3() * product.getUnitVolume()) + item.getBar3open()/mes.calculateDensity());
-				productState.addQuantLoc(bar3);
-
-				productState.setSold(item.getSales());
-
-				week.addState(productState);
-
-				dbState.insertProductState(productState, week.getId());
-
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
+				try {
+					double density = mes.calculateDensity();
+					bar1.setQuantity(bar1.getQuantity() + (item.getBar1open()/density)/10);
+					bar2.setQuantity(bar2.getQuantity() + (item.getBar2open()/density)/10);
+					bar3.setQuantity(bar3.getQuantity() + (item.getBar3open()/density)/10);
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			
 			}
 
-			try {
-				DBWeek dbWeek = new DBWeek();
-				dbWeek.insertWeek(week);
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
-			}
+			productState.addQuantLoc(bar1);
+			productState.addQuantLoc(bar2);
+			productState.addQuantLoc(bar3);
+
+			productState.setSold(item.getSales());
+
+			week.addState(productState);
+
+			//dbState.insertProductState(productState, week.getId());
+
 
 		}
 
+		try {
+			DBWeek dbWeek = new DBWeek();
+			dbWeek.insertWeek(week);
+			output("Stocktake for " + lbl_week.getText().toLowerCase() + " saved successfully.", false);
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+			output("An error occured while saving stocktake for " + lbl_week.getText().toLowerCase(), true);
+		}
 
-		updateData();
 	}
+
+
 
 	private void initSearch() {
 
@@ -459,6 +494,21 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 		});
 	}
+
+	private void output(String message, boolean isError) {
+		if(isError) {
+			lbl_output.setStyle("-fx-text-fill: #ff5722");
+		}
+		else {
+			lbl_output.setStyle("-fx-text-fill: #5af158");
+		}
+		lbl_output.setText(message);
+	}
+
+	private void clearOutput() {
+		lbl_output.setText("");
+	}
+
 
 
 
