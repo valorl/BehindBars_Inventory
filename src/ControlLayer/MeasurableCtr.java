@@ -24,13 +24,13 @@ public class MeasurableCtr {
 	}
 	
 	public void updateMeasurable(double density, double fullWeight, double emptyWeight,
-			double totalVolume) throws Exception
+			double totalMeasured) throws Exception
 	{
 		Measurable measurable = new Measurable();
 		measurable.setDensity(density);
 		measurable.setFullWeight(fullWeight);
 		measurable.setEmptyWeight(emptyWeight);
-		measurable.setTotalVolume(totalVolume);
+		measurable.setTotalMeasured(totalMeasured);
 		
 		dbMeasurable.updateMeasurable(measurable);
 		

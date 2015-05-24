@@ -6,15 +6,12 @@ import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,23 +19,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import ControlLayer.ProductCtr;
 import ModelLayer.Product;
+import UILayer.Converters.DoubleStringConverter;
 import UILayer.TableData.InventoryData;
 
 public class InventoryController implements Initializable, ChangeablePane{
@@ -57,7 +51,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 	//private String unit = "";
 
 	@FXML
-	private HBox mainHbox;
+	private AnchorPane mainHbox;
 
 	@FXML
 	private Button btn_save, btn_new, btn_delete, btn_search;
@@ -98,21 +92,22 @@ public class InventoryController implements Initializable, ChangeablePane{
 		initButtons();
 		initComboBox();
 		initSearch();
+		
+		createTable();
 		updateData();
-		createTable((String)cbox_category.getValue().toString().toLowerCase());
 
 		mainHbox.setOnKeyPressed((e) -> {
 			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
 				txt_search.requestFocus();
 			}
 
-			if(e.getCode() == KeyCode.S) {
-				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
-				index++;
-				index = index % (cbox_category.getItems().size()-1);
-				cbox_category.setValue(cbox_category.getItems().get(index));
-				cbox_category.fireEvent(new ActionEvent());
-			}
+			//			if(e.getCode() == KeyCode.S) {
+			//				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
+			//				index++;
+			//				index = index % (cbox_category.getItems().size()-1);
+			//				cbox_category.setValue(cbox_category.getItems().get(index));
+			//				cbox_category.fireEvent(new ActionEvent());
+			//			}
 
 			//			if(e.getCode() == KeyCode.W) {
 			//				int index = cbox_category.getItems().indexOf(cbox_category.getValue());
@@ -131,22 +126,12 @@ public class InventoryController implements Initializable, ChangeablePane{
 	}
 
 	// Initialize Table 
-	private void createTable(String category)
+	private void createTable()
 	{
-
-		boolean isMeasurable = TypeManager.isMeasurableType(category);
-		if(category.toLowerCase().equals("spirits")) isMeasurable = true;
-
 		table_inventory.setPlaceholder(new Label("No products found."));
 		table_inventory.setMaxWidth(802);
 		table_inventory.setPrefWidth(802);
-
-
 		table_inventory.setEditable(true);
-		
-		
-
-
 
 		// NAME
 		TableColumn<InventoryData, String> nameCol = new TableColumn<InventoryData, String>("Name");
@@ -263,18 +248,18 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 	}
 
-	
+
 	private void initMenuItem() {
-		
-//		 showEditItem.setOnAction((e) -> {
-//			 showEdit();
-//		 });
+
+		//		 showEditItem.setOnAction((e) -> {
+		//			 showEdit();
+		//		 });
 	}
-	
+
 	private void showEdit() {
-		
+
 	}
-	
+
 	// Update table data 
 	private void updateData() 
 	{

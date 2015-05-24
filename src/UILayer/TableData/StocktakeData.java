@@ -1,11 +1,11 @@
 package UILayer.TableData;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import ModelLayer.Product;
-import ModelLayer.ProductState;
 
 public class StocktakeData {
 	
@@ -15,12 +15,12 @@ public class StocktakeData {
 	private SimpleIntegerProperty id;
 	private SimpleStringProperty name;
 	
-	private DoubleProperty storage;
-	private DoubleProperty bar1;
+	private IntegerProperty storage;
+	private IntegerProperty bar1;
 	private DoubleProperty bar1open;
-	private DoubleProperty bar2;
+	private IntegerProperty bar2;
 	private DoubleProperty bar2open;
-	private DoubleProperty bar3;
+	private IntegerProperty bar3;
 	private DoubleProperty bar3open;
 	
 	private DoubleProperty sales;
@@ -34,12 +34,12 @@ public class StocktakeData {
 		this.id = new SimpleIntegerProperty(product.getId());
 		this.name = new SimpleStringProperty(product.getName());
 		
-		this.storage = new SimpleDoubleProperty();
-		this.bar1 = new SimpleDoubleProperty();
+		this.storage = new SimpleIntegerProperty();
+		this.bar1 = new SimpleIntegerProperty();
 		this.bar1open = new SimpleDoubleProperty();
-		this.bar2 = new SimpleDoubleProperty();
+		this.bar2 = new SimpleIntegerProperty();
 		this.bar2open = new SimpleDoubleProperty();
-		this.bar3 = new SimpleDoubleProperty();
+		this.bar3 = new SimpleIntegerProperty();
 		this.bar3open = new SimpleDoubleProperty();
 		
 		this.sales = new SimpleDoubleProperty();
@@ -70,11 +70,11 @@ public class StocktakeData {
 	
 	// GETTERS PROPERTIES
 	
-	public DoubleProperty getStorageProperty() {
+	public IntegerProperty getStorageProperty() {
 		return storage;
 	}
 	
-	public DoubleProperty getBar1BottleProperty() {
+	public IntegerProperty getBar1BottleProperty() {
 		return bar1;
 	}
 	
@@ -82,7 +82,7 @@ public class StocktakeData {
 		return bar1open;
 	}
 	
-	public DoubleProperty getBar2BottleProperty() {
+	public IntegerProperty getBar2BottleProperty() {
 		return bar2;
 	}
 
@@ -90,7 +90,7 @@ public class StocktakeData {
 		return bar2open;
 	}
 
-	public DoubleProperty getBar3BottleProperty() {
+	public IntegerProperty getBar3BottleProperty() {
 		return bar3;
 	}
 
@@ -111,11 +111,11 @@ public class StocktakeData {
 		this.id.set(id);
 	}
 
-	public void setStorage(double storage) {
+	public void setStorage(int storage) {
 		this.storage.set(storage);
 	}
 
-	public void setBar1(double bar1) {
+	public void setBar1(int bar1) {
 		this.bar1.set(bar1);
 	}
 
@@ -123,7 +123,7 @@ public class StocktakeData {
 		this.bar1open.set(bar1open);
 	}
 
-	public void setBar2(double bar2) {
+	public void setBar2(int bar2) {
 		this.bar2.set(bar2);
 	}
 
@@ -131,7 +131,7 @@ public class StocktakeData {
 		this.bar2open.set(bar2open);
 	}
 
-	public void setBar3(double bar3) {
+	public void setBar3(int bar3) {
 		this.bar3.set(bar3);
 	}
 
@@ -150,14 +150,14 @@ public class StocktakeData {
 		this.name.set(name);
 	}
 	
-	public double getStorage() {
+	public int getStorage() {
 		if(storage == null) {
 			return 0;
 		}
 		return storage.get();
 	}
 	
-	public double getBar1() {
+	public int getBar1() {
 		if(bar1 == null) {
 			return 0;
 		}
@@ -171,7 +171,7 @@ public class StocktakeData {
 		return bar1open.get();
 	}
 	
-	public double getBar2() {
+	public int getBar2() {
 		if(bar2 == null) {
 			return 0;
 		}
@@ -185,7 +185,7 @@ public class StocktakeData {
 		return bar2open.get();
 	}
 
-	public double getBar3() {
+	public int getBar3() {
 		if(bar3 == null) {
 			return 0;
 		}

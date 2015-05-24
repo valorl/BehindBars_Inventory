@@ -19,11 +19,11 @@ public class Main extends Application{
 		
 		Parent root = FXMLLoader.load(getClass().getResource(ROOT_FXML));
 		
-		Scene scene = new Scene(root,1500,800);
+		Scene scene = new Scene(root,1200,600);
 		scene.getStylesheets().add(getClass().getResource(MAIN_CSS).toExternalForm());
 		
 		primaryStage.setMinHeight(600);
-		primaryStage.setMinWidth(1000);
+		primaryStage.setMinWidth(1200);
 		primaryStage.setTitle("Inventory");
 		primaryStage.setScene(scene);
 		primaryStage.show();
