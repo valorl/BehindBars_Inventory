@@ -12,7 +12,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="826.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-               		<DatePicker prefHeight="25.0" prefWidth="150.0" />
+               		<DatePicker fx:id="datepicker" prefHeight="25.0" prefWidth="150.0" />
                     <RadioButton fx:id="radio_week" mnemonicParsing="false" text="Weeks" />
                     <RadioButton fx:id="radio_month" mnemonicParsing="false" text="Months" />
                     <Button fx:id="btn_show" mnemonicParsing="false" text="Show" />

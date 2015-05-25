@@ -1,7 +1,11 @@
 package UILayer;
 
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
@@ -14,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.RadioButton;
@@ -24,14 +29,17 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import ControlLayer.InventoryCtr;
 import ControlLayer.ProductCtr;
-import ModelLayer.Product;
+import ModelLayer.ItemResult;
+import ModelLayer.WeekResult;
 import UILayer.TableData.ResultsData;
 
 public class ResultsController implements Initializable, ChangeablePane{
 
 	PaneChanger changer;
 	ProductCtr productCtr;
+	InventoryCtr inventoryCtr;
 
 	private StringProperty week1name = new SimpleStringProperty();
 	private StringProperty week2name = new SimpleStringProperty();
@@ -57,6 +65,9 @@ public class ResultsController implements Initializable, ChangeablePane{
 	private TextField txt_search;
 
 	@FXML
+	private DatePicker datepicker;
+
+	@FXML
 	private TableView<ResultsData> table_results = new TableView<ResultsData>();
 
 	private ObservableList<ResultsData> data;
@@ -65,6 +76,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 	public ResultsController() 
 	{
 		productCtr = new ProductCtr();
+		inventoryCtr = new InventoryCtr();
 	}
 
 	@Override
@@ -101,7 +113,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 
 	private void initButtons() {
 		btn_show.setOnAction((e) -> {
-			// show results
+			updateData();
 		});
 	}
 
@@ -195,7 +207,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		//table_results.setMaxWidth(1142);
 		//table_results.setPrefWidth(1142);
 		//table_results.setEditable(true);
-		
+
 		table_results.setPlaceholder(new Label("Please pick a date within a week you would like to see results for."));
 
 
@@ -315,20 +327,47 @@ public class ResultsController implements Initializable, ChangeablePane{
 		for(TableColumn<ResultsData, ?> subColumn : subColumns) {
 			subColumn.getStyleClass().add("results-subcolumn");
 		}
-
-		updateData();
-
 	}
 
 
 	private void updateData() 
 	{
-
+		data = FXCollections.observableArrayList(getData());
+		filterData();
 	}
 
-	private ArrayList<ResultsData> getData(String category) 
+	private ArrayList<ResultsData> getData()
 	{
-		return null;
+		ArrayList<ResultsData> resData = new ArrayList<ResultsData>();
+
+		if(datepicker.getValue() != null) {
+			LocalDate ld = datepicker.getValue();
+			Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+			Date date = Date.from(instant);
+			System.out.println("DATE: " + date);
+
+			WeekResult wr = null;
+			try {
+				wr = inventoryCtr.getResults(date);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if(wr != null) {
+				week1name.set("Week " + wr.getWeekA().getNumber());
+				week2name.set("Week " + wr.getWeekB().getNumber());
+				
+				for(ItemResult result : wr.getResults()) {
+					ResultsData newItem = new ResultsData(result);
+					resData.add(newItem);
+				}
+			}
+		}		
+		if(resData.size() == 0) {
+			resData = null;
+		}		
+		return resData;
+
 	}
 
 	private void initSearch() {
