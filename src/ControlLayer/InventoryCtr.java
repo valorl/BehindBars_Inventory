@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ModelLayer.ItemResult;
-import ModelLayer.Product;
 import ModelLayer.ProductState;
 import ModelLayer.Week;
-import ModelLayer.WeekResult;
 
 public class InventoryCtr {
 	
@@ -22,13 +20,13 @@ public class InventoryCtr {
 	 Use-case: List Inventory Results
  	 Operation: displayResults(date)
 	*/
-	public WeekResult getResults(Date date) throws Exception 
+	public ArrayList<ItemResult> getResults(Date date) throws Exception 
 	{
 		
 		Week weekA = weekCtr.findWeek(date);
 		Week weekB = weekCtr.findPreviousWeek(weekA);
 		
-		WeekResult weekResult = new WeekResult();
+		ArrayList<ItemResult> weekResults = new ArrayList<ItemResult>();
 		
 		int maxSize = 0; 
 		if(weekA.getStateList().size() > weekB.getStateList().size()) {
@@ -41,11 +39,9 @@ public class InventoryCtr {
 		for(int i = 1; i <= maxSize; i++) 
 		{
 			ItemResult itemResult = new ItemResult();
-						
+			
 			ProductState productStateA = weekA.getState(i);
-			Product product = productStateA.getProduct();
-			itemResult.setProduct(product);
-			ProductState productStateB = weekB.getStateByProduct(product);
+			ProductState productStateB = weekB.getState(i);
 			
 			if(productStateA == null || productStateB == null) 
 			{
@@ -54,16 +50,26 @@ public class InventoryCtr {
 			}
 			else 
 			{
-				itemResult.setStates(productStateA, productStateB);
-				itemResult.calculateVariance();
-				itemResult.calculateRevenue();
+				double variance = calculateVariance(productStateA,productStateB);
+				itemResult.setVariance(variance);
+				double revenue = calculateRevenue(productStateA,productStateB);
+				itemResult.setRevenue(revenue);
 			}
-			weekResult.addResult(itemResult);
+			weekResults.add(itemResult);
 		}
 		
-		return weekResult;
+		return weekResults;
 	}
 	
-	
+	private double calculateVariance(ProductState stateA, ProductState stateB) 
+	{
+		return (stateA.getTotalQuantity() - stateB.getTotalQuantity());
+	}
+	private double calculateRevenue(ProductState stateA, ProductState stateB) 
+	{
+		double variance = calculateVariance(stateA,stateB);
+		return variance*(stateB.getCurrentPrice());
+		
+	}
 
 }

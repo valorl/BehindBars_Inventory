@@ -114,17 +114,5 @@ public class Week {
 		return state;
 	}
 	
-	public ProductState getStateByProduct(Product product) {
-		boolean found = false;
-		ProductState state = null;
-		for(ProductState pState : stateList) {
-			if(pState.getProduct().equals(product) && !found) {
-				state = pState;
-				found = true;
-			}
-		}
-		return state;
-	}
-	
 
 }

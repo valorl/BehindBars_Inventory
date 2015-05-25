@@ -5,10 +5,10 @@ import java.util.Arrays;
 
 
 public class Product {
-
+	
 	private static ArrayList<String> ALCOHOLIC_TYPES = new ArrayList<>(Arrays.asList("vodka", "gin", "rum", "tequilla", "scotch", "brandy", "bitter", "liqueur"));
-
-
+	
+	
 
 	private int id;
 	private String name;
@@ -18,17 +18,17 @@ public class Product {
 	private double unitVolume;
 	private String type;
 	private int purchased;
-
+	
 	// CONSTRUCTORS
-
+	
 	public Product() {
 		quantLocs = new ArrayList<QuantLoc>();
 	};
-
+	
 	public Product(String name, double cost, double price,
 			ArrayList<QuantLoc> quantLocs, double unitVolume, String type,
 			int purchased) {
-
+		
 		super();
 		this.name = name;
 		this.cost = cost;
@@ -42,9 +42,9 @@ public class Product {
 
 
 	// GET & SET
-
-
-
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -94,7 +94,7 @@ public class Product {
 	public void setPurchased(int purchased) {
 		this.purchased = purchased;
 	}
-
+	
 	// QuantLoc GET, SET, ADD, REMOVE, FIND
 	public ArrayList<QuantLoc> getQuantLocs() {
 		return quantLocs;
@@ -132,41 +132,14 @@ public class Product {
 		}
 		return foundQL;
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.name;
 	}
-
-	@Override
-	public boolean equals(Object other){
-		if (other instanceof Product) {
-			Product product = (Product) other;
-			if(product.getName().equals(this.getName())
-					&& product.getCost() == this.getCost()
-					&& product.getPrice() == this.getPrice()
-					&& product.getUnitVolume() == this.getUnitVolume()
-					&& product.getType().toLowerCase().equals(this.getType().toLowerCase())
-					&& product.getPurchased() == this.getPurchased()) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else if(other == this) {
-			return true;
-		}
-		else if(other == null) {
-			return false;
-		}
-		else {
-			return false;
-		}
-	}
-
-
-
-
-
+	
+	
+	
+	
+	
 }

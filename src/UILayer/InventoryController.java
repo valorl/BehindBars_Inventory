@@ -580,7 +580,6 @@ public class InventoryController implements Initializable, ChangeablePane{
 				if(txt_search.textProperty().get().isEmpty()) {
 
 					table_inventory.setItems(data);
-					filterData();
 
 					return;
 
