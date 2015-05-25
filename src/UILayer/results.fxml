@@ -8,29 +8,33 @@
 
 <VBox fx:id="mainVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.ResultsController">
    <children>
-      <HBox prefHeight="42.0" prefWidth="1142.0">
+      <HBox maxWidth="1.7976931348623157E308" prefHeight="42.0" VBox.vgrow="NEVER">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="826.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                		<DatePicker prefHeight="25.0" prefWidth="150.0" />
-					<fx:define>  
-   						<ToggleGroup fx:id="group" />  
-					</fx:define>  
-                    <RadioButton fx:id="week" mnemonicParsing="false" text="Week" toggleGroup="$group"/>
-                    <RadioButton fx:id="month" mnemonicParsing="false" text="Month" toggleGroup="$group"/>
-                    <Button mnemonicParsing="false" text="Show" />
+                    <RadioButton fx:id="radio_week" mnemonicParsing="false" text="Weeks" />
+                    <RadioButton fx:id="radio_month" mnemonicParsing="false" text="Months" />
+                    <Button fx:id="btn_show" mnemonicParsing="false" text="Show" />
+                  <Label fx:id="lbl_output" text="Output">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
                     
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="312.0" spacing="10.0">
                <children>
                   <ComboBox fx:id="cbox_category" prefWidth="150.0" />
                   <TextField />
-                  <Button mnemonicParsing="false" text="Button" />
                </children>
             </HBox>
          </children>
       </HBox>
-      <TableView editable="true" fx:id="table_results" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+      <TableView fx:id="table_results" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy></TableView>
    </children>
 </VBox>

@@ -18,15 +18,34 @@
 
 .text-field {
 	-fx-pref-height: 40px;
-	-fx-min-heihgt: 40px;
-	-fx-max-height: 40px;
-	-fx-background-radius: 2 0 0 2;
+	-fx-min-height: 40px;
+	-fx-max-heght: 40px;
+	-fx-background-radius: 2 2 2 2;
 }
 .combo-box-base {
 	-fx-pref-height: 25px;
-	-fx-min-heihgt: 25px;
+	-fx-min-height: 25px;
 	-fx-max-height: 25px;
 }
+
+.results-subcolumn{
+	-fx-font-size: 0.5em;
+}
+.results .text-field, .results .combo-box-base, .results .date-picker{
+	-fx-pref-height: 30px;
+	-fx-min-height: 30px;
+	-fx-max-height: 30px;
+	
+}
+.results .button {
+	-fx-font-size: 16px;
+	-fx-height: 30px;
+	-fx-min-height: 30px;
+	-fx-pref-height: 30px;
+}
+
+
+
 
 .radio-button {
 	-fx-text-fill: #fff;
