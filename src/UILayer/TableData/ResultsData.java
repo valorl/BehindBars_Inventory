@@ -1,15 +1,19 @@
 package UILayer.TableData;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import ModelLayer.ItemResult;
 import ModelLayer.Product;
+import ModelLayer.ProductState;
 
 public class ResultsData {
 	
-	// From Product
-	private Product productObj;
-	private SimpleIntegerProperty id;
+	// From ItemResult
+	private Product product;
+	private ProductState stateA;
+	private ProductState stateB;
+	
 	private SimpleStringProperty name;
 	
 	//Week 1
@@ -17,100 +21,107 @@ public class ResultsData {
 	private DoubleProperty bar2;
 	private DoubleProperty bar3;
 	private DoubleProperty total;
-	private DoubleProperty sales;
 	
 	//Week 2
 	private DoubleProperty bar1Week2;
 	private DoubleProperty bar2Week2;
 	private DoubleProperty bar3Week2;
 	private DoubleProperty totalWeek2;
-	private DoubleProperty salesWeek2;
 	
-	private DoubleProperty variance;
-	private DoubleProperty revenue;
-	private DoubleProperty difference;
+	// Sales
+	private DoubleProperty thSales;
+	private DoubleProperty actSales;
+	
+	// Revenue
+	private DoubleProperty thRevenue;
+	private DoubleProperty actRevenue;
+	
+	// Loss/Gain
 	private DoubleProperty lossGain;
 	
 	
 	// Constructor - converts Product obj into ResultsData
-	public ResultsData(Product product) 
+	public ResultsData(ItemResult result) 
 	{
-		this.productObj = product;
+		this.product = result.getProduct();
+		this.stateA = result.getStateA();
+		this.stateB = result.getStateB();
 		
-		this.id = new SimpleIntegerProperty(product.getId());
+		// Name
 		this.name = new SimpleStringProperty(product.getName());
 		
+		// Week 1
+		this.bar1 = new SimpleDoubleProperty(stateA.getQuantLocs().get(0).getQuantity());
+		this.bar2 = new SimpleDoubleProperty(stateA.getQuantLocs().get(1).getQuantity());
+		this.bar3 = new SimpleDoubleProperty(stateA.getQuantLocs().get(2).getQuantity());
+		this.total = new SimpleDoubleProperty(stateA.getTotalQuantity());
+		
+		// Week 2
+		this.bar1Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(0).getQuantity());
+		this.bar2Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(1).getQuantity());
+		this.bar3Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(2).getQuantity()); 
+		this.totalWeek2 = new SimpleDoubleProperty(stateB.getTotalQuantity());
+		
+		// Sales
+		this.thSales = new SimpleDoubleProperty(result.getVariance());
+		this.actSales = new SimpleDoubleProperty(stateB.getSold());
+		
+		// Revenue
+		this.thRevenue = new SimpleDoubleProperty(result.getRevenue());
+		this.actRevenue = new SimpleDoubleProperty(actSales.get()*product.getPrice());
+		
+		// Loss Gain
+		this.lossGain = new SimpleDoubleProperty();
+		lossGain.bind(actRevenue.subtract(thRevenue));
 	}
 	
 	// GETTERS - PROP
+	public DoubleProperty bar1Property() {
+		return bar1;
+	}
+	public DoubleProperty bar2Property() {
+		return bar2;
+	}
+	public DoubleProperty bar3Property() {
+		return bar3;
+	}
+	public DoubleProperty totalProperty() {
+		return total;
+	}
+	
+	public DoubleProperty bar1Week2Property() {
+		return bar1Week2;
+	}
+	public DoubleProperty bar2Week2Property() {
+		return bar2Week2;
+	}
+	public DoubleProperty bar3Week2Property() {
+		return bar3Week2;
+	}
+	public DoubleProperty totalWeek2Property() {
+		return totalWeek2;
+	}
+	
+	public DoubleProperty thSalesProperty() {
+		return thSales;
+	}
+	public DoubleProperty actSalesProperty() {
+		return actSales;
+	}
+	
+	public DoubleProperty thRevenueProperty() {
+		return thRevenue;
+	}
+	public DoubleProperty actRevenueProperty() {
+		return actRevenue;
+	}
+	
 	public DoubleProperty lossGainProperty() {
 		return lossGain;
 	}
 
-	public DoubleProperty differenceProperty() {
-		return difference;
-	}
-
-	public DoubleProperty revenueProperty() {
-		return revenue;
-	}
-
-	public DoubleProperty varianceProperty() {
-		return variance;
-	}
-
-	public DoubleProperty salesWeek2Property() {
-		return salesWeek2;
-	}
-
-	public DoubleProperty totalWeek2Property() {
-		return totalWeek2;
-	}
-
-	public DoubleProperty bar3Week2Property() {
-		return bar3Week2;
-	}
-
-	public DoubleProperty bar2Week2Property() {
-		return bar2Week2;
-	}
-
-	public DoubleProperty bar1Week2Property() {
-		return bar1Week2;
-	}
-
-	public DoubleProperty salesProperty() {
-		return sales;
-	}
-
-	public DoubleProperty totalProperty() {
-		return total;
-	}
-
-
-	public DoubleProperty bar3Property() {
-		return bar3;
-	}
-
-	public DoubleProperty bar2Property() {
-		return bar2;
-	}
-
-
-	public DoubleProperty bar1Property() {
-		return bar1;
-	}
-
-
+	
 	// GET & SET
-	
-	public int getId() {
-		return id.get();
-	}
-	public void setId(int id) {
-		this.id.set(id);
-	}
-	
 	public String getName() {
 		return name.get();
 	}
@@ -151,14 +162,6 @@ public class ResultsData {
 		this.total.set(total);
 	}
 
-	public double getSales() {
-		return sales.get();
-	}
-
-	public void setSales(double sales) {
-		this.sales.set(sales);
-	}
-
 	public double getBar1Week2() {
 		return bar1Week2.get();
 	}
@@ -191,36 +194,36 @@ public class ResultsData {
 		this.totalWeek2.set(totalWeek2);
 	}
 
-	public double getSalesWeek2() {
-		return salesWeek2.get();
+	public double getActSalesWeek2() {
+		return actSales.get();
 	}
 
-	public void setSalesWeek2(double salesWeek2) {
-		this.salesWeek2.set(salesWeek2);
+	public void setActSalesWeek2(double salesWeek2) {
+		this.actSales.set(salesWeek2);
 	}
 
-	public double getVariance() {
-		return variance.get();
+	public double getThSales() {
+		return thSales.get();
 	}
 
-	public void setVariance(double variance) {
-		this.variance.set(variance);
+	public void setThSales(double variance) {
+		this.thSales.set(variance);
 	}
 
-	public double getRevenue() {
-		return revenue.get();
+	public double getThRevenue() {
+		return thRevenue.get();
 	}
 
-	public void setRevenue(double revenue) {
-		this.revenue.set(revenue);
+	public void setThRevenue(double revenue) {
+		this.thRevenue.set(revenue);
 	}
 
-	public double getDifference() {
-		return difference.get();
+	public double getActRevenue() {
+		return actRevenue.get();
 	}	
 
-	public void setDifference(double difference) {
-		this.difference.set(difference);
+	public void setActRevenue(double difference) {
+		this.actRevenue.set(difference);
 	}
 
 	public double getLossGain() {
@@ -231,6 +234,10 @@ public class ResultsData {
 		this.lossGain.set(lossGain);
 	}
 	
+	
+	public Product getProduct() {
+		return product;
+	}
 	
 	
 	
