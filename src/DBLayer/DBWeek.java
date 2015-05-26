@@ -86,7 +86,7 @@ public class DBWeek implements IFDBWeek{
 			prepInsert.setInt(2, week.getNumber());
 			prepInsert.setInt(3, week.getMonth());
 			prepInsert.setInt(4, week.getYear());
-			prepInsert.setDouble(5, week.getEmployee().getId());
+			prepInsert.setInt(5, 1);
 
 			prepInsert.setQueryTimeout(5);
 			prepInsert.executeUpdate();

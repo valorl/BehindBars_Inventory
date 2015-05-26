@@ -29,7 +29,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import ControlLayer.ProductCtr;
 import ControlLayer.WeekCtr;
-import DBLayer.DBProductState;
 import DBLayer.DBWeek;
 import ModelLayer.Measurable;
 import ModelLayer.Product;
@@ -60,6 +59,12 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	@FXML
 	private Button btn_save;
+	
+	@FXML
+	private Button btn_clear;
+	
+	@FXML
+	private Button btn_assistant;
 
 	@FXML
 	private ComboBox cbox_category = new ComboBox();
@@ -93,7 +98,8 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		clearOutput();
 		initButtons();
 		initDates();
-		initSearch();initComboBox();
+		initSearch();
+		initComboBox();
 		initSearch();
 		createTable();
 		updateData();
@@ -241,6 +247,9 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		btn_save.setOnAction((e) -> {
 			saveData();
 		});
+		btn_clear.setOnAction((e) -> {
+			clearTable();
+		});
 
 	}
 
@@ -387,22 +396,22 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	{
 		Week week = weekCtr.createWeek(date);
 
-
-
 		ProductState productState = new ProductState();
-		DBProductState dbState = new DBProductState();
+		ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
+		ArrayList<ProductState> stateList = new ArrayList<ProductState>();
+		//DBProductState dbState = new DBProductState();
 
 		ObservableList<StocktakeData> stData = table_stocktake.getItems();
 
 		for(StocktakeData item : stData) {
 			Product product = item.getProduct();
 
-
-
 			QuantLoc storage = new QuantLoc();
 			QuantLoc bar1 = new QuantLoc();
 			QuantLoc bar2 = new QuantLoc();
-			QuantLoc bar3 = new QuantLoc();				
+			QuantLoc bar3 = new QuantLoc();		
+			
+			productState.setQuantLocs(quantLocs);
 
 			productState.setProduct(product);
 			storage.setLocation("storage");
@@ -439,16 +448,19 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 			productState.setSold(item.getSales());
 
+			week.setStateList(stateList);
 			week.addState(productState);
 
 			//dbState.insertProductState(productState, week.getId());
 
 
 		}
-
+		
 		try {
 			DBWeek dbWeek = new DBWeek();
 			dbWeek.insertWeek(week);
+			//ArrayList<Week> weekList = new ArrayList<Week>();
+			//weekList.add(week); 
 			output("Stocktake for " + lbl_week.getText().toLowerCase() + " saved successfully.", false);
 		}
 		catch(Exception ex) {
@@ -509,7 +521,11 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		lbl_output.setText("");
 	}
 
-
-
+	public void clearTable()
+	{	
+		table_stocktake.getItems().clear();
+		filterData();
+		
+	}
 
 }
