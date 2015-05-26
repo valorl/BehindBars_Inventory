@@ -34,15 +34,15 @@ public class StocktakeData {
 		this.id = new SimpleIntegerProperty(product.getId());
 		this.name = new SimpleStringProperty(product.getName());
 		
-		this.storage = new SimpleIntegerProperty();
-		this.bar1 = new SimpleIntegerProperty();
-		this.bar1open = new SimpleDoubleProperty();
-		this.bar2 = new SimpleIntegerProperty();
-		this.bar2open = new SimpleDoubleProperty();
-		this.bar3 = new SimpleIntegerProperty();
-		this.bar3open = new SimpleDoubleProperty();
+		this.storage = new SimpleIntegerProperty(0);
+		this.bar1 = new SimpleIntegerProperty(0);
+		this.bar1open = new SimpleDoubleProperty(0);
+		this.bar2 = new SimpleIntegerProperty(0);
+		this.bar2open = new SimpleDoubleProperty(0);
+		this.bar3 = new SimpleIntegerProperty(0);
+		this.bar3open = new SimpleDoubleProperty(0);
 		
-		this.sales = new SimpleDoubleProperty();
+		this.sales = new SimpleDoubleProperty(0);
 		// PROPERTY LISTENERS
 //		
 //		this.storage.addListener((obs, oldStorage, newStorage) -> 

@@ -589,14 +589,15 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 				ObservableList<InventoryData> newItems = FXCollections.observableArrayList();
 
-
-				for(InventoryData dataItem : data) {
-					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
-						newItems.add(dataItem);
+				if(data != null && data.size() > 0) {
+					for(InventoryData dataItem : data) {
+						if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+							newItems.add(dataItem);
+						}
 					}
-				}
 
-				table_inventory.setItems(newItems);
+					table_inventory.setItems(newItems);
+				}
 			}
 
 

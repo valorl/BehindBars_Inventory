@@ -28,9 +28,6 @@
 	-fx-max-height: 25px;
 }
 
-.results-subcolumn{
-	-fx-font-size: 0.5em;
-}
 .results .text-field, .results .combo-box-base, .results .date-picker{
 	-fx-pref-height: 30px;
 	-fx-min-height: 30px;

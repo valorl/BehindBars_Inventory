@@ -202,7 +202,6 @@ public class ResultsController implements Initializable, ChangeablePane{
 		}
 	}
 
-
 	private void createTable() 
 	{
 		//table_results.setMaxWidth(1142);
@@ -393,14 +392,15 @@ public class ResultsController implements Initializable, ChangeablePane{
 
 				ObservableList<ResultsData> newItems = FXCollections.observableArrayList();
 
-
-				for(ResultsData dataItem : data) {
-					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
-						newItems.add(dataItem);
+				if(data != null && data.size() > 0) {
+					for(ResultsData dataItem : data) {
+						if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+							newItems.add(dataItem);
+						}
 					}
-				}
 
-				table_results.setItems(newItems);
+					table_results.setItems(newItems);
+				}
 			}
 
 

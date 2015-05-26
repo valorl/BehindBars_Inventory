@@ -1,6 +1,8 @@
 package UILayer;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +31,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import ControlLayer.ProductCtr;
 import ControlLayer.WeekCtr;
-import DBLayer.DBWeek;
 import ModelLayer.Measurable;
 import ModelLayer.Product;
 import ModelLayer.ProductState;
@@ -395,16 +396,28 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	private void saveData()
 	{
-		Week week = weekCtr.createWeek(date);
+		boolean success = false;
+		//Week week = weekCtr.createWeek(date);
+		Date nextDate = null;
+				
+		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+		try {
+			nextDate = df.parse("02.06.2015");
+		}
+		catch(ParseException ex) {
+			ex.printStackTrace();
+		}
+		Week week = weekCtr.createWeek(nextDate);
 
-		ProductState productState = new ProductState();
+
 		//ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
-		ArrayList<ProductState> stateList = new ArrayList<ProductState>();
 		//DBProductState dbState = new DBProductState();
 
-		ObservableList<StocktakeData> stData = table_stocktake.getItems();
+		ObservableList<StocktakeData> stData = data;
 
 		for(StocktakeData item : stData) {
+			ProductState productState = new ProductState();
+
 			Product product = item.getProduct();
 
 			QuantLoc storage = new QuantLoc();
@@ -431,14 +444,26 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 			if(product instanceof Measurable) {
 				Measurable mes = (Measurable) product;
+				double density;
 				try {
-					double density = mes.calculateDensity();
+					density = mes.calculateDensity();
+				}
+				catch(Exception ex) {
+					density = 0;
+					success = false;
+					ex.printStackTrace();
+
+				}
+
+				if(density != 0) {
 					bar1.setQuantity(bar1.getQuantity() + (item.getBar1open()/density)/10);
 					bar2.setQuantity(bar2.getQuantity() + (item.getBar2open()/density)/10);
 					bar3.setQuantity(bar3.getQuantity() + (item.getBar3open()/density)/10);
 				}
-				catch(Exception ex) {
-					ex.printStackTrace();
+				else {
+					bar1.setQuantity(0);
+					bar2.setQuantity(0);
+					bar3.setQuantity(0);
 				}
 
 			}
@@ -449,7 +474,6 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 			productState.setSold(item.getSales());
 
-			week.setStateList(stateList);
 			week.addState(productState);
 
 			//dbState.insertProductState(productState, week.getId());
@@ -458,14 +482,29 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		}
 
 		try {
-			DBWeek dbWeek = new DBWeek();
-			dbWeek.insertWeek(week);
+			//Week existingWeek =  weekCtr.findWeek(date);
+			Week existingWeek = weekCtr.findWeek(nextDate);
+			if(existingWeek == null) {
+				weekCtr.insertWeek(week);
+			}
+			else {
+				weekCtr.updateWeek(week);
+			}
 			//ArrayList<Week> weekList = new ArrayList<Week>();
 			//weekList.add(week); 
-			output("Stocktake for " + lbl_week.getText().toLowerCase() + " saved successfully.", false);
+			success = true;
+
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
+			success = false;
+
+		}
+
+		if(success) {
+			output("Stocktake for " + lbl_week.getText().toLowerCase() + " saved successfully.", false);
+		}
+		else {
 			output("An error occured while saving stocktake for " + lbl_week.getText().toLowerCase(), true);
 		}
 
@@ -494,14 +533,15 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 				ObservableList<StocktakeData> newItems = FXCollections.observableArrayList();
 
-
-				for(StocktakeData dataItem : data) {
-					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
-						newItems.add(dataItem);
+				if(data != null && data.size() > 0) {
+					for(StocktakeData dataItem : data) {
+						if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+							newItems.add(dataItem);
+						}
 					}
-				}
 
-				table_stocktake.setItems(newItems);
+					table_stocktake.setItems(newItems);
+				}
 			}
 
 

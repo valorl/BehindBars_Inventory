@@ -126,7 +126,6 @@ public class DBProduct implements IFDBProduct{
 			//						product.getSupplierId() + "')";
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
-			DbConnection.commitTransaction();
 
 			if(product.getQuantLocs() != null &&product.getQuantLocs().size() > 0) {
 				DBQuantLoc dbQL = new DBQuantLoc();
@@ -155,6 +154,8 @@ public class DBProduct implements IFDBProduct{
 			{
 				throw new Exception("Product type missing.");
 			}
+			
+			DbConnection.commitTransaction();
 
 		}//end try
 		catch(SQLException ex){
@@ -196,7 +197,8 @@ public class DBProduct implements IFDBProduct{
 		try{ // update product
 
 			String query="UPDATE product SET id = ?, name = ?, cost = ?, price = ?, unitVolume = ?, type = ?, purchased = ? WHERE id = ? ";
-
+			
+			DbConnection.startTransaction();
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, product.getId());
 			prepUpdate.setString(2, product.getName());
@@ -209,6 +211,7 @@ public class DBProduct implements IFDBProduct{
 
 			prepUpdate.setQueryTimeout(5);
 			rc = prepUpdate.executeUpdate();
+			
 
 			if(product.getQuantLocs() != null &&product.getQuantLocs().size() > 0) {
 				DBQuantLoc dbQL = new DBQuantLoc();
@@ -226,21 +229,11 @@ public class DBProduct implements IFDBProduct{
 					DBMeasurable dbMeasurable = new DBMeasurable();
 					//dbMeasurable.updateMeasurable(measurable);
 				}
-				else if(product.getType().toLowerCase().equals("fruit")) 
-				{
-					Fruit fruit = (Fruit) product;
-					DBFruit dbFruit = new DBFruit();
-					//dbFruit.updateFruit(fruit);
-				}
 			}
-			else 
-			{
-				throw new Exception("Product type missing.");
-			}
-
+			DbConnection.commitTransaction();
 		}//try to close
 		catch(Exception ex){
-
+			DbConnection.rollbackTransaction();
 			System.out.println("Update exception in product db: "+ex);
 
 		}

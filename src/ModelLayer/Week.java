@@ -117,10 +117,14 @@ public class Week {
 	public ProductState getStateByProduct(Product product) {
 		boolean found = false;
 		ProductState state = null;
-		for(ProductState pState : stateList) {
-			if(pState.getProduct().equals(product) && !found) {
-				state = pState;
+		int i = 0;
+		while(!found && i < stateList.size()) {
+			if(stateList.get(i).getProduct().getName().toLowerCase().equals(product.getName().toLowerCase()) && !found) {
+				state = stateList.get(i);
 				found = true;
+			}
+			else {
+				i++;
 			}
 		}
 		return state;

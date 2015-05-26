@@ -27,7 +27,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 	// Get all QLs of ProductState
 	@Override
 	public ArrayList<QuantLoc> getStateQLs(ProductState state,boolean retriveAssociation) throws Exception {
-		return muchWhere("productID = '" + state.getId() + "'", false);
+		return muchWhere("stateID = '" + state.getId() + "'", false);
 	}
 	// FIND - ID
 	@Override
@@ -98,7 +98,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 		PreparedStatement prepInsert = null;
 
 		try{ // insert new alcohol
-			String query="INSERT INTO quantloc(id, quantity, location, productID, stateID)  VALUES('?,?,?,?)";
+			String query="INSERT INTO quantloc(id, quantity, location, productID, stateID)  VALUES(?,?,?,?,?)";
 
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, quantLoc.getId());
@@ -113,6 +113,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 
 		}//end try
 		catch(SQLException ex){
+			ex.printStackTrace();
 			System.out.println("QuantLoc not inserted");
 			throw new Exception ("QuantLoc not inserted correctly");
 		}

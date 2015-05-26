@@ -146,7 +146,7 @@ public class Measurable extends Product {
 		}
 		else 
 		{
-			throw new Exception("Not enough information.");
+			return tempDensity;
 		}
 		
 		return tempDensity;

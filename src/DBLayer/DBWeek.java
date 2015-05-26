@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.Types;
+
 import ModelLayer.Employee;
 import ModelLayer.ProductState;
 import ModelLayer.Week;
@@ -27,8 +29,8 @@ public class DBWeek implements IFDBWeek{
 	//get one week based on its number, year, month
 	public Week findWeek(int number,int month,int year, boolean retriveAssociation) throws Exception
 	{   
-		String wClause = "  number = '" + number + "'"+"', "+
-				"year ='"+ year+"', "+"', "+
+		String wClause = "  number = '" + number + "' AND "+
+				"year ='"+ year+"' AND " +
 				"month ='"+ month+"'";
 
 		Week week = null;
@@ -44,7 +46,7 @@ public class DBWeek implements IFDBWeek{
 		return week;
 
 	}
-	
+
 	//get one week based on its id
 	public Week findWeekId(int id, boolean retriveAssociation) throws Exception
 	{  
@@ -93,12 +95,17 @@ public class DBWeek implements IFDBWeek{
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
 			DbConnection.commitTransaction();
-			
-			if(week.getStateList().size() > 0) {
-				DBProductState dbProductState = new DBProductState();
-				for(ProductState state : week.getStateList()) {
-					dbProductState.insertProductState(state, week.getId());
+
+			try {
+				if(week.getStateList().size() > 0) {
+					DBProductState dbProductState = new DBProductState();
+					for(ProductState state : week.getStateList()) {
+						dbProductState.insertProductState(state, week.getId());
+					}
 				}
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
 			}
 
 
@@ -127,29 +134,39 @@ public class DBWeek implements IFDBWeek{
 
 			String query="UPDATE week SET id = ?, number = ?, month = ?, year = ?, employeeId = ? WHERE id = ? ";
 
-			DbConnection.startTransaction();
+			//DbConnection.startTransaction();
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setInt(1, week.getId());
 			prepUpdate.setInt(2, week.getNumber());
 			prepUpdate.setInt(3, week.getMonth());
 			prepUpdate.setInt(4, week.getYear());
-			prepUpdate.setInt(5, week.getEmployee().getId());
+			if(week.getEmployee() != null) {
+				prepUpdate.setInt(5, week.getEmployee().getId());
+			}
+			else {
+				prepUpdate.setNull(5, java.sql.Types.INTEGER);
+			}
 			prepUpdate.setInt(6, week.getId());
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();
-			DbConnection.commitTransaction();
-			
-			if(week.getStateList().size() > 0) {
-				DBProductState dbProductState = new DBProductState();
-				for(ProductState state : week.getStateList()) {
-					dbProductState.updateProductState(state, week.getId());
+			//DbConnection.commitTransaction();
+
+			try {
+				if(week.getStateList().size() > 0) {
+					DBProductState dbProductState = new DBProductState();
+					for(ProductState state : week.getStateList()) {
+						dbProductState.updateProductState(state, week.getId());
+					}
 				}
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
 			}
 
 		}//try to close
 		catch(Exception ex){
-			DbConnection.rollbackTransaction();
+			//DbConnection.rollbackTransaction();
 			ex.printStackTrace();
 			System.out.println("Update exception in week db: "+ex);
 
@@ -174,7 +191,7 @@ public class DBWeek implements IFDBWeek{
 
 
 			String query="DELETE FROM week WHERE id = ?";
-			
+
 			DbConnection.startTransaction();
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setInt(1, week.getId());
@@ -182,7 +199,7 @@ public class DBWeek implements IFDBWeek{
 			prepDelete.setQueryTimeout(5);
 			prepDelete.executeUpdate();
 			DbConnection.commitTransaction();
-			
+
 			if(week.getStateList().size() > 0) {
 				DBProductState dbProductState = new DBProductState();
 				for(ProductState state : week.getStateList()) {
@@ -224,7 +241,7 @@ public class DBWeek implements IFDBWeek{
 					DBEmployee dbEmployee = new DBEmployee();
 					Employee employee = dbEmployee.findEmployee(weekObj.getEmployee().getId(), false);
 					if(employee != null) weekObj.setEmployee(employee);
-					
+
 					DBProductState dbProductState = new DBProductState();
 					ArrayList<ProductState> pStates = dbProductState.findWeekStates(weekObj.getId(), true);
 					if(pStates != null && pStates.size() > 0) {
@@ -234,6 +251,7 @@ public class DBWeek implements IFDBWeek{
 			}
 			else{ //no week was found
 				weekObj = null;
+				
 				throw new Exception("Week not found.");
 			}
 		}//end try	
@@ -260,12 +278,12 @@ public class DBWeek implements IFDBWeek{
 			while( results.next() ){
 				Week weekObj = new Week();
 				weekObj = buildWeek(results);
-				
+
 				if(retrieveAssociation) {
 					DBEmployee dbEmployee = new DBEmployee();
 					Employee employee = dbEmployee.findEmployee(weekObj.getEmployee().getId(), false);
 					if(employee != null) weekObj.setEmployee(employee);
-					
+
 					DBProductState dbProductState = new DBProductState();
 					ArrayList<ProductState> pStates = dbProductState.findWeekStates(weekObj.getId(), true);
 					if(pStates != null && pStates.size() > 0) {
@@ -273,8 +291,8 @@ public class DBWeek implements IFDBWeek{
 					}
 				}
 				list.add(weekObj);
-				
-				
+
+
 			}//end while
 			stmt.close();     
 

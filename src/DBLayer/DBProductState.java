@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import ModelLayer.Product;
 import ModelLayer.ProductState;
+import ModelLayer.QuantLoc;
 
 public class DBProductState implements IFDBProductState{
 
@@ -22,7 +23,7 @@ public class DBProductState implements IFDBProductState{
 	{
 		return muchWhere("", retriveAssociation);
 	}
-	
+
 	public ProductState findProductState(int id, boolean retriveAssociation) throws Exception
 	{  
 		String wClause = "  id = '" + id + "'";
@@ -63,7 +64,7 @@ public class DBProductState implements IFDBProductState{
 		try{ // insert new productState
 			String query="INSERT INTO productState(id, currentCost, currentPrice, purchased, productID, weekID, sold)  VALUES(?,?,?,?,?,?,?)";
 
-			
+//			DbConnection.startTransaction();
 			prepInsert = con.prepareStatement(query);
 			prepInsert.setInt(1, productState.getId());
 			prepInsert.setDouble(2, productState.getCurrentCost());
@@ -73,15 +74,29 @@ public class DBProductState implements IFDBProductState{
 			prepInsert.setInt(6, weekID);
 			prepInsert.setDouble(7, productState.getSold());
 
-			
+
 			prepInsert.setQueryTimeout(5);
 			prepInsert.executeUpdate();
-			
-			
+//			DbConnection.commitTransaction();
+
+			try {
+				if(productState.getQuantLocs() != null &&  productState.getQuantLocs().size() > 0) {
+					DBQuantLoc dbQL = new DBQuantLoc();
+
+					for (QuantLoc qLoc : productState.getQuantLocs()) 
+					{
+						dbQL.insertQuantLoc(qLoc, productState);
+					}
+				}
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
 
 
 		}//end try
 		catch(SQLException ex){
+//			DbConnection.rollbackTransaction();
 			System.out.println("ProductState not inserted");
 			throw new Exception ("ProductState is not inserted correctly");
 		}
@@ -102,8 +117,9 @@ public class DBProductState implements IFDBProductState{
 
 		try{ // update productState
 
-			String query="UPDATE productState SET currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? sold = ? WHERE weekID = ? ";
+			String query="UPDATE productState SET currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ?, sold = ? WHERE weekID = ? ";
 
+			DbConnection.startTransaction();
 			prepUpdate = con.prepareStatement(query);
 			prepUpdate.setDouble(1, productState.getCurrentCost());
 			prepUpdate.setDouble(2, productState.getCurrentPrice());
@@ -115,10 +131,27 @@ public class DBProductState implements IFDBProductState{
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();
+			DbConnection.commitTransaction();
+
+			try {
+			if(productState.getQuantLocs() != null && productState.getQuantLocs().size() > 0) {
+				DBQuantLoc dbQL = new DBQuantLoc();
+
+				for (QuantLoc qLoc : productState.getQuantLocs()) 
+				{
+					dbQL.insertQuantLoc(qLoc, productState);
+				}
+			}
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+
 
 		}//try to close
 		catch(Exception ex){
-
+			DbConnection.rollbackTransaction();
+			ex.printStackTrace();
 			System.out.println("Update exception in productState db: "+ex);
 
 		}
@@ -180,6 +213,15 @@ public class DBProductState implements IFDBProductState{
 					DBProduct dbProduct = new DBProduct();
 					Product product = dbProduct.findProduct(productStateObj.getProduct().getId(), false);
 					productStateObj.setProduct(product);
+
+					ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
+					DBQuantLoc dbQuantLoc = new DBQuantLoc();
+					quantLocs = dbQuantLoc.getStateQLs(productStateObj, false);
+					if(quantLocs != null && quantLocs.size() > 0) {
+						productStateObj.setQuantLocs(quantLocs);
+					}
+
+
 				}
 			}
 			else{ //no productState was found
@@ -209,6 +251,20 @@ public class DBProductState implements IFDBProductState{
 			while( results.next() ){
 				ProductState productStateObj = new ProductState();
 				productStateObj = buildProductState(results);	
+
+				if(retrieveAssociation) {
+					DBProduct dbProduct = new DBProduct();
+					Product product = dbProduct.findProduct(productStateObj.getProduct().getId(), false);
+					productStateObj.setProduct(product);
+
+					ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
+					DBQuantLoc dbQuantLoc = new DBQuantLoc();
+					quantLocs = dbQuantLoc.getStateQLs(productStateObj, false);
+					if(quantLocs != null && quantLocs.size() > 0) {
+						productStateObj.setQuantLocs(quantLocs);
+					}
+
+				}
 				list.add(productStateObj);
 			}//end while
 			stmt.close();     
@@ -235,7 +291,7 @@ public class DBProductState implements IFDBProductState{
 		try{ // the columns from the table productState are used
 
 			DBProduct dbProduct = new DBProduct();
-			Product product = dbProduct.findProduct(productStateObj.getProduct().getId(), false);
+			Product product = dbProduct.findProduct(results.getInt("productID"), false);
 			productStateObj.setProduct(product);
 
 			productStateObj.setId(results.getInt("id"));
@@ -249,6 +305,7 @@ public class DBProductState implements IFDBProductState{
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			System.out.println("Error in building the productState object");
 		}
 
@@ -258,7 +315,7 @@ public class DBProductState implements IFDBProductState{
 
 	private String buildQuery(String wClause)
 	{
-		String query="SELECT id, currentCost, currentPrice, purchased, productID, weekID FROM productState";
+		String query="SELECT id, currentCost, currentPrice, purchased, productID, weekID, sold FROM productState";
 
 		if (wClause.length()>0)
 			query=query+" WHERE "+ wClause;

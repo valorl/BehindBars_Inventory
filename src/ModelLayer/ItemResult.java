@@ -1,15 +1,15 @@
 package ModelLayer;
 
 public class ItemResult {
-	
+
 	private ProductState stateA;
 	private ProductState stateB;
-	
+
 	private Product product;
 	private double variance;
 	private double revenue;
-	
-	
+
+
 	public Product getProduct() {
 		return product;
 	}
@@ -28,8 +28,8 @@ public class ItemResult {
 	public void setRevenue(double revenue) {
 		this.revenue = revenue;
 	}
-	
-	
+
+
 	public ProductState getStateA() {
 		return stateA;
 	}
@@ -45,8 +45,14 @@ public class ItemResult {
 	public void setStates(ProductState a, ProductState b) {
 		this.stateA = a;
 		this.stateB = b;
+		if(stateA.getProduct() != null) {
+			product = stateA.getProduct();
+		}
+		else if(stateB != null){
+			product = stateB.getProduct();
+		}
 	}
-	
+
 	public double calculateVariance() 
 	{
 		variance =  (stateA.getTotalQuantity() - stateB.getTotalQuantity());
@@ -57,6 +63,6 @@ public class ItemResult {
 		revenue = variance*(stateB.getCurrentPrice());
 		return revenue;		
 	}
-	
+
 
 }

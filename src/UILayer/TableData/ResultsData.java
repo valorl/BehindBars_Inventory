@@ -11,6 +11,7 @@ public class ResultsData {
 	
 	// From ItemResult
 	private Product product;
+	private ItemResult result;
 	private ProductState stateA;
 	private ProductState stateB;
 	
@@ -43,6 +44,7 @@ public class ResultsData {
 	// Constructor - converts Product obj into ResultsData
 	public ResultsData(ItemResult result) 
 	{
+		this.result = result;
 		this.product = result.getProduct();
 		this.stateA = result.getStateA();
 		this.stateB = result.getStateB();
