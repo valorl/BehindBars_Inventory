@@ -19,13 +19,14 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
                <children>
-                  <ComboBox fx:id="cbox_category" prefWidth="150.0" />
-                  <TextField />
+                  <ComboBox fx:id="cbox_category" maxWidth="1.7976931348623157E308" prefWidth="150.0" promptText="Choose a category..." />
+                  <TextField fx:id="txt_search" />
                   <Button mnemonicParsing="false" text="Button" />
                </children>
             </HBox>
          </children>
       </HBox>
-      <TableView editable="true" fx:id="table_keylines" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+      <TableView fx:id="table_keylines" maxHeight="1.7976931348623157E308"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+  
    </children>
 </VBox>

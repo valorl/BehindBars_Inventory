@@ -4,34 +4,66 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import ControlLayer.ProductCtr;
 import ModelLayer.Product;
+import UILayer.TableData.InventoryData;
 import UILayer.TableData.KeylinesData;
 
 public class KeylinesController implements Initializable, ChangeablePane{
-
-	PaneChanger changer;
-	ProductCtr productCtr;
+	
+	private PaneChanger changer;
+	private ProductCtr productCtr;
+	
+	private StringProperty containerProperty = new SimpleStringProperty("");
+	private SimpleStringProperty unitProperty = new SimpleStringProperty("Per cl");
+	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
+	
 	
 	@FXML
 	private VBox mainVbox;
 	
 	@FXML
+	private TextField txt_search;
+	
+	@FXML
 	private Button btn_save;
+	
+	@FXML
+	private Label lbl_output;
+
+	@FXML
+	private ComboBox cbox_category = new ComboBox();
+	@FXML 
+	private ComboBox cbox_month = new ComboBox();
+	@FXML 
+	private ComboBox cbox_year = new ComboBox();
 	
 	@FXML
 	private TableView<KeylinesData> table_keylines = new TableView<KeylinesData>();
 	
 	private ObservableList<KeylinesData> data;
+
+	private ObservableList<String> categories, month, year;
 
 
 	public KeylinesController() 
@@ -42,75 +74,126 @@ public class KeylinesController implements Initializable, ChangeablePane{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
+
+
 		mainVbox.getStylesheets().addAll(getClass().getResource("inventory.css").toExternalForm());
-		initWeightable();
+		//clearOutput();
+		initButtons();
+		initComboBox();
+		initSearch();
+
+		createTable();
+		updateData();
+
+		mainVbox.setOnKeyPressed((e) -> {
+			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
+				txt_search.requestFocus();
+			}
+		});
 	}
-	
+
 	@Override
 	public void setPaneParent(PaneChanger parent) {
 		changer = parent;		
 	}
-	
-	private void initWeightable() 
+
+	// Initialize Table 
+	private void createTable()
 	{
-		table_keylines.setMaxWidth(1142);
-		table_keylines.setPrefWidth(1142);
-		table_keylines.setEditable(true);
-		
-		
-		// ID
-		TableColumn<KeylinesData, Integer> idCol = new TableColumn<KeylinesData, Integer>("#");
-		idCol.setMinWidth(30);
-		idCol.setMaxWidth(30);
-		idCol.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Integer>("id"));
+
+		table_keylines.setPlaceholder(new Label("Please pick a year and month"));
+
 		// NAME
 		TableColumn<KeylinesData, String> nameCol = new TableColumn<KeylinesData, String>("Name");
-		nameCol.setMinWidth(180);
+		nameCol.setSortType(TableColumn.SortType.ASCENDING);
+		nameCol.setMinWidth(140);
 		nameCol.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, String>("name"));
+		table_keylines.getColumns().add(nameCol);
+		table_keylines.getSortOrder().add(nameCol);
 
-		// WEEKS
-		TableColumn<KeylinesData, Double> week1Col = new TableColumn<KeylinesData, Double>("Week 1");
-		week1Col.setMinWidth(120);
-		week1Col.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("week1"));
+		// WEEK 1
+		TableColumn week1Col = new TableColumn("Week 1");
+		
+		TableColumn<KeylinesData, Double> week1SalesCol = new TableColumn<KeylinesData, Double>("Sales");
+		//week1SalesCol.setMinWidth(125);
+		week1SalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week1Sales"));
+		TableColumn<KeylinesData, Double> week1DifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//week1DifCol.setMinWidth(125);
+		week1DifCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week1Dif"));
+		week1Col.getColumns().addAll(week1SalesCol, week1DifCol);
+		table_keylines.getColumns().add(week1Col);
 
-		TableColumn<KeylinesData, Double> week2Col = new TableColumn<KeylinesData, Double>("Week 2");
-		week2Col.setMinWidth(120);
-		week2Col.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("week2"));
+		//WEEK 2
+		TableColumn week2Col = new TableColumn("Week 2");
+		TableColumn<KeylinesData, Double> week2SalesCol = new TableColumn<KeylinesData, Double>("Sales");
+		//week2SalesCol.setMinWidth(125);
+		week2SalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week2Sales"));
+		TableColumn<KeylinesData, Double> week2DifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//week2DifCol.setMinWidth(125);
+		week2DifCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week2Dif"));
+		week2Col.getColumns().addAll(week2SalesCol, week2DifCol);
+		table_keylines.getColumns().add(week2Col);
 
-		TableColumn<KeylinesData, Double> week3Col = new TableColumn<KeylinesData, Double>("Week 3");
-		week3Col.setMinWidth(120);
-		week3Col.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("week3"));
+		//WEEK 3
+		TableColumn week3Col = new TableColumn("Week 3");
+		TableColumn<KeylinesData, Double> week3SalesCol = new TableColumn<KeylinesData, Double>("Sales");
+		//week3SalesCol.setMinWidth(125);
+		week3SalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week3Sales"));
+		TableColumn<KeylinesData, Double> week3DifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//week3DifCol.setMinWidth(125);
+		week3DifCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week3Dif"));
+		week3Col.getColumns().addAll(week3SalesCol, week3DifCol);
+		table_keylines.getColumns().add(week3Col);
 		
-		TableColumn<KeylinesData, Double> week4Col = new TableColumn<KeylinesData, Double>("Week 4");
-		week4Col.setMinWidth(120);
-		week4Col.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("week4"));
+		//WEEK 4
+		TableColumn week4Col = new TableColumn("Week 4");
+		TableColumn<KeylinesData, Double> week4SalesCol = new TableColumn<KeylinesData, Double>("Sales");
+		//week4SalesCol.setMinWidth(125);
+		week4SalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week4Sales"));
+		TableColumn<KeylinesData, Double> week4DifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//week4DifCol.setMinWidth(125);
+		week4DifCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week4Dif"));
+		week4Col.getColumns().addAll(week4SalesCol, week4DifCol);
+		table_keylines.getColumns().add(week4Col);
 		
-		TableColumn<KeylinesData, Double> week5Col = new TableColumn<KeylinesData, Double>("Week 5");
-		week5Col.setMinWidth(150);
-		week5Col.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("week5"));
+		//WEEK 5
+		TableColumn week5Col = new TableColumn("Week 5");
+		TableColumn<KeylinesData, Double> week5SalesCol = new TableColumn<KeylinesData, Double>("Sales");
+		//week5SalesCol.setMinWidth(125);
+		week5SalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week5Sales"));
+		TableColumn<KeylinesData, Double> week5DifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//week5DifCol.setMinWidth(125);
+		week5DifCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("week5Dif"));
+		week5Col.getColumns().addAll(week5SalesCol, week5DifCol);
+		table_keylines.getColumns().add(week5Col);
 		
-		// VARIANCE
-		TableColumn<KeylinesData, Double> varianceCol = new TableColumn<KeylinesData, Double>("Variance");
-		varianceCol.setMinWidth(150);
-		varianceCol.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("variance"));
+		// TOTAL
+		TableColumn<KeylinesData, Double> totalCol = new TableColumn<KeylinesData, Double>("Total");
+		//totalCol.setMinWidth(130);
+		totalCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("total"));
+		table_keylines.getColumns().add(totalCol);
 		
 		// RETAIL PRICE
 		TableColumn<KeylinesData, Double> retailCol = new TableColumn<KeylinesData, Double>("Retail");
-		retailCol.setMinWidth(150);
+		//retailCol.setMinWidth(130);
 		retailCol.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("retail"));
+		table_keylines.getColumns().add(retailCol);
 		
-		table_keylines.getColumns().addAll(idCol, nameCol, week1Col, week2Col, week3Col, week4Col, week5Col, varianceCol, retailCol);
-		
+		// Make the columns non-resizable
 		for(Object column : table_keylines.getColumns().toArray()) 
 		{
 			TableColumn col = (TableColumn) column;
@@ -124,48 +207,226 @@ public class KeylinesController implements Initializable, ChangeablePane{
 			}
 		}
 		
-		updateData();
 		
 	}
 
-
-	private void updateData() 
+	private void updateData()
 	{
-		new Thread(new Runnable()
-	    {
-	        @Override
-	        public void run() {
-//	        	data = FXCollections.observableArrayList(getData(cbox_category.getValue().toLowerCase()));
-	        	data = FXCollections.observableArrayList(getData("Alcohol"));
-	    		table_keylines.setItems(data);
-	        }
-	    }).start();
-		
+		data = FXCollections.observableArrayList(getData(null));
+		filterData();
 	}
 
+	private void updateColumns(String category) {
+
+		containerProperty.set("Per " + TypeManager.getUnit(category));
+
+		if(TypeManager.isMeasurableType(category) || category.equals("spirits")) {
+
+			weightVisible.set(true);
+		}
+		else {
+			weightVisible.set(false);
+		}
+	}
+	
+	// Fetch data from the DB depending on the category
 	private ArrayList<KeylinesData> getData(String category) 
 	{
+
 		ArrayList<KeylinesData> invData = new ArrayList<KeylinesData>();
-		ArrayList<Product> products = null;
-		try{
-			products = productCtr.getAllOf(category);
-		}
-		catch(Exception ex)
+		ArrayList<Product> products = new ArrayList<Product>();
+		if(cbox_year.getValue() != null && cbox_month.getValue() != null)
 		{
-			ex.printStackTrace();
-		}
-		
-		if(products != null) {
-			for(Product product : products) {
-				KeylinesData newData = new KeylinesData(product);
-				invData.add(newData);
+			try {
+				products = productCtr.getAllProducts();
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
+			}
+
+			if(products != null) {
+				for(Product product : products) {
+					KeylinesData newData = new KeylinesData(product);
+					invData.add(newData);
+				}
 			}
 		}
-		
+
 		return invData;
 
 	}
+	
+	private ArrayList<String> getTypes() {
+		try {
+			return productCtr.getTypes();
+		}
+		catch(Exception ex) {
 
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void initComboBox() {
+		cbox_category.setButtonCell(new ListCell(){
+
+			@Override
+			protected void updateItem(Object item, boolean empty) {
+				super.updateItem(item, empty); 
+				if(empty || item==null){
+					// styled like -fx-prompt-text-fill:
+					setStyle("-fx-text-fill: #fff; "
+							+ "-fx-font-family: Verdana; -fx-font-size: 14px;"
+							+ "-fx-effect: dropshadow( one-pass-box , rgba(100, 100, 100, 0.9) , 0, 0.0 , 0 , 1);"
+							+ "-fx-font-weight: 600;");
+				} else {
+					setStyle("-fx-text-fill: #fff");
+					setText(item.toString());
+				}
+			}
+		});
+
+		cbox_category.setOnAction((e) -> {
+
+			filterData();
+
+			updateColumns(cbox_category.getValue().toString().toLowerCase());
+			//updateData();
+		});
+
+		updateCategories();
+		
+
+	}
 	
+
+	private void filterData() {
+		ObservableList<KeylinesData> newItems = FXCollections.observableArrayList();
+
+		if(data != null && data.size() > 0) {
+			for(KeylinesData dataItem : data) {
+				if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+					if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+				else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
+					newItems.add(dataItem);
+				}
+			}
+
+			table_keylines.setItems(newItems);
+			table_keylines.sort();
+		}
+	}
+
+	public void updateCategories() 
+	{
+
+		categories = FXCollections.observableArrayList();
+		String spirits = "spirits";
+
+		ArrayList<String> allTypes = new ArrayList<String>();
+		allTypes.add(spirits);
+		allTypes.addAll(getTypes());
+
+		for(String item : allTypes) 
+		{
+			String capitalizedItem = item.substring(0, 1).toUpperCase() + item.substring(1);
+			categories.add(capitalizedItem);
+		}
+		cbox_category.setItems(categories);
+		cbox_category.setValue(cbox_category.getItems().get(0));
+
+		updateColumns(cbox_category.getValue().toString().toLowerCase());
+
+
+	}
 	
+	public void addMonthYear()
+	{
+		month = FXCollections.observableArrayList();
+		
+	}
+
+	private void initButtons() {
+
+	}
+	
+	public ObservableList<String> getCategories() {
+		return categories;
+	}
+	private void initSearch() {
+
+		txt_search.setPromptText("Search...");
+
+
+		txt_search.textProperty().addListener(new InvalidationListener() {
+
+
+			@Override
+
+			public void invalidated(Observable o) {
+
+				if(txt_search.textProperty().get().isEmpty()) {
+
+					table_keylines.setItems(data);
+					filterData();
+
+					return;
+
+				}
+
+				ObservableList<KeylinesData> newItems = FXCollections.observableArrayList();
+
+
+				for(KeylinesData dataItem : data) {
+					if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+
+				table_keylines.setItems(newItems);
+			}
+
+
+		});
+
+	}
+
+	private void searchResults() {
+
+		ObservableList<KeylinesData> oldData = FXCollections.observableArrayList(data);
+
+		if(txt_search.getText().length() > 0 ) {
+			data.clear();
+
+			for(KeylinesData dataItem : oldData) {
+				if(dataItem.getProduct().getName().toLowerCase().contains(txt_search.getText().toLowerCase())) {
+					data.add(dataItem);
+				}
+			}
+
+		}
+		else {
+			updateData();
+		}
+	}
+
+	private void output(String message, boolean isError) {
+		if(isError) {
+			lbl_output.setStyle("-fx-text-fill: #ff5722");
+		}
+		else {
+			lbl_output.setStyle("-fx-text-fill: #5af158");
+		}
+		lbl_output.setText(message);
+	}
+
+	private void clearOutput() {
+		lbl_output.setText("");
+	}
+
+
 }

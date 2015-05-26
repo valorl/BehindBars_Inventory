@@ -5,33 +5,61 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import ControlLayer.WeekCtr;
 import ModelLayer.Product;
 
 public class KeylinesData {
 	
 	// From Product
 	private Product productObj;
+	private WeekCtr weekCtr;
 	private SimpleIntegerProperty id;
 	private SimpleStringProperty name;
 	
 	// Weeks
-	private DoubleProperty week1;
-	private DoubleProperty week2;
-	private DoubleProperty week3;
-	private DoubleProperty week4;
-	private DoubleProperty week5;
-
-	private DoubleProperty variance;
+	private DoubleProperty week1Sales;
+	private DoubleProperty week2Sales;
+	private DoubleProperty week3Sales;
+	private DoubleProperty week4Sales;
+	private DoubleProperty week5Sales;
+	
+	//Weeks - difference
+	private DoubleProperty week1Dif;
+	private DoubleProperty week2Dif;
+	private DoubleProperty week3Dif;
+	private DoubleProperty week4Dif;
+	private DoubleProperty week5Dif;
+	
+	private DoubleProperty total;
 	private DoubleProperty retail;
 	
 	
 	// Constructor - converts Product obj into InventoryData
 	public KeylinesData(Product product) 
 	{
+	
 		this.productObj = product;
 		
 		this.id = new SimpleIntegerProperty(product.getId());
 		this.name = new SimpleStringProperty(product.getName());
+		
+		this.week1Sales = new SimpleDoubleProperty();
+		this.week1Dif = new SimpleDoubleProperty();
+		
+		this.week2Sales = new SimpleDoubleProperty();
+		this.week2Dif = new SimpleDoubleProperty();
+		
+		this.week3Sales = new SimpleDoubleProperty();
+		this.week3Dif = new SimpleDoubleProperty();
+		
+		this.week4Sales = new SimpleDoubleProperty();
+		this.week4Dif = new SimpleDoubleProperty();
+		
+		this.week5Sales = new SimpleDoubleProperty();
+		this.week5Dif = new SimpleDoubleProperty();
+		
+		this.total = new SimpleDoubleProperty();
+		this.retail = new SimpleDoubleProperty();
 		
 	
 		
@@ -44,39 +72,64 @@ public class KeylinesData {
 		return name;
 	}
 
-	public DoubleProperty week1Property()
+	public DoubleProperty week1SalesProperty()
 	{
-		return week1;
+		return week1Sales;
 	}
 	
-	public DoubleProperty week2Property()
+	public DoubleProperty week2SalesProperty()
 	{
-		return week2;
+		return week2Sales;
 	}
 	
-	public DoubleProperty week3Property()
+	public DoubleProperty week3SalesProperty()
 	{
-		return week3;
+		return week3Sales;
 	}
 	
-	public DoubleProperty week4Property()
+	public DoubleProperty week4SalesProperty()
 	{
-		return week4;
+		return week4Sales;
 	}
 	
-	public DoubleProperty week5Property()
+	public DoubleProperty week5SalesProperty()
 	{
-		return week5;
+		return week5Sales;
 	}
 	
-	public DoubleProperty varianceProperty()
+	public DoubleProperty totalProperty()
 	{
-		return variance;
+		return total;
 	}
 	
 	public DoubleProperty retailProperty()
 	{
 		return retail;
+	}
+	
+	public DoubleProperty week1Dif()
+	{
+		return week1Dif;
+	}
+	
+	public DoubleProperty week2Dif()
+	{
+		return week2Dif;
+	}
+	
+	public DoubleProperty week3Dif()
+	{
+		return week3Dif;
+	}
+	
+	public DoubleProperty week4Dif()
+	{
+		return week4Dif;
+	}
+	
+	public DoubleProperty week5Dif()
+	{
+		return week5Dif;
 	}
 
 	// END
@@ -98,52 +151,52 @@ public class KeylinesData {
 		this.name.set(name);
 	}
 
-	public double getWeek1() {
-		return week1.get();
+	public double getWeek1Sales() {
+		return week1Sales.get();
 	}
 
-	public void setWeek1(double week1) {
-		this.week1.set(week1);
+	public void setWeek1Sales(double week1Sales) {
+		this.week1Sales.set(week1Sales);
 	}
 
-	public double getWeek2() {
-		return week2.get();
+	public double getWeek2Sales() {
+		return week2Sales.get();
 	}
 
-	public void setWeek2(double week2) {
-		this.week2.set(week2);
+	public void setWeek2Sales(double week2Sales) {
+		this.week2Sales.set(week2Sales);
 	}
 
-	public double getWeek3() {
-		return week3.get();
+	public double getWeek3Sales() {
+		return week3Sales.get();
 	}
 
-	public void setWeek3(double week3) {
-		this.week3.set(week3);
+	public void setWeek3Sales(double week3Sales) {
+		this.week3Sales.set(week3Sales);
 	}
 
-	public double getWeek4() {
-		return week4.get();
+	public double getWeek4Sales() {
+		return week4Sales.get();
 	}
 
-	public void setWeek4(double week4) {
-		this.week4.set(week4);
+	public void setWeek4Sales(double week4Sales) {
+		this.week4Sales.set(week4Sales);
 	}
 
-	public double getWeek5() {
-		return week5.get();
+	public double getWeek5Sales() {
+		return week5Sales.get();
 	}
 
-	public void setWeek5(double week5) {
-		this.week5.set(week5);
+	public void setWeek5Sales(double week5Sales) {
+		this.week5Sales.set(week5Sales);
 	}
 
-	public double getVariance() {
-		return variance.get();
+	public double getTotal() {
+		return total.get();
 	}
 
-	public void setVariance(double variance) {
-		this.variance.set(variance);
+	public void setTotal(double total) {
+		this.total.set(total);
 	}
 
 	public double getRetail() {
@@ -153,6 +206,61 @@ public class KeylinesData {
 	public void setRetail(double retail) {
 		this.retail.set(retail);
 	}
+	
+	public Product getProduct() {
+		return productObj;
+	}
+
+	public void setProductObj(Product productObj) {
+		this.productObj = productObj;
+	}
+
+	public double getWeek1Dif() {
+		return week1Dif.get();
+	}
+
+	public void setWeek1Dif(double week1Dif) {
+		this.week1Dif.set(week1Dif);
+	}
+
+	public double getWeek2Dif() {
+		return week2Dif.get();
+	}
+
+	public void setWeek2Dif(double week2Dif) {
+		this.week2Dif.set(week2Dif);
+	}
+
+	public double getWeek3Dif() {
+		return week3Dif.get();
+	}
+
+	public void setWeek3Dif(double week3Dif) {
+		this.week3Dif.set(week3Dif);
+	}
+
+	public double getWeek4Dif() {
+		return week4Dif.get();
+	}
+
+	public void setWeek4Dif(double week4Dif) {
+		this.week4Dif.set(week4Dif);
+	}
+
+	public double getWeek5Dif() {
+		return week5Dif.get();
+	}
+
+	public void setWeek5Dif(double week5Dif) {
+		this.week5Dif.set(week5Dif);
+	}
+
+	public Product getProductObj() {
+		return productObj;
+	}
+	
+	
+
 	
 	
 	// END GET & SET
