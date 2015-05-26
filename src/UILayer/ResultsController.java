@@ -185,20 +185,21 @@ public class ResultsController implements Initializable, ChangeablePane{
 	private void filterData() {
 		ObservableList<ResultsData> newItems = FXCollections.observableArrayList();
 
-
-		for(ResultsData dataItem : data) {
-			if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
-				if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+		if(data != null && data.size() > 0) {
+			for(ResultsData dataItem : data) {
+				if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+					if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+				else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
 					newItems.add(dataItem);
 				}
 			}
-			else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
-				newItems.add(dataItem);
-			}
-		}
 
-		table_results.setItems(newItems);
-		table_results.sort();
+			table_results.setItems(newItems);
+			table_results.sort();
+		}
 	}
 
 
@@ -356,7 +357,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 			if(wr != null) {
 				week1name.set("Week " + wr.getWeekA().getNumber());
 				week2name.set("Week " + wr.getWeekB().getNumber());
-				
+
 				for(ItemResult result : wr.getResults()) {
 					ResultsData newItem = new ResultsData(result);
 					resData.add(newItem);

@@ -59,10 +59,10 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	@FXML
 	private Button btn_save;
-	
+
 	@FXML
 	private Button btn_clear;
-	
+
 	@FXML
 	private Button btn_assistant;
 
@@ -284,7 +284,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		cbox_category.setOnAction((e) -> {
 			filterData();
 			updateColumns(cbox_category.getValue().toString().toLowerCase());
-			
+
 			//updateData();
 		});
 
@@ -332,24 +332,25 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		filterData();
 
 	}
-	
+
 	private void filterData() {
 		ObservableList<StocktakeData> newItems = FXCollections.observableArrayList();
 
-
-		for(StocktakeData dataItem : data) {
-			if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
-				if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+		if(data != null && data.size() > 0) {
+			for(StocktakeData dataItem : data) {
+				if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+					if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+				else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
 					newItems.add(dataItem);
 				}
 			}
-			else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
-				newItems.add(dataItem);
-			}
-		}
 
-		table_stocktake.setItems(newItems);
-		table_stocktake.sort();
+			table_stocktake.setItems(newItems);
+			table_stocktake.sort();
+		}
 	}
 
 	private void updateColumns(String category) {
@@ -387,7 +388,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 				invData.add(newData);
 			}
 		}
-		
+
 		return invData;
 
 	}
@@ -410,7 +411,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			QuantLoc bar1 = new QuantLoc();
 			QuantLoc bar2 = new QuantLoc();
 			QuantLoc bar3 = new QuantLoc();		
-			
+
 			//productState.setQuantLocs(quantLocs);
 
 			productState.setProduct(product);
@@ -439,7 +440,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 				catch(Exception ex) {
 					ex.printStackTrace();
 				}
-			
+
 			}
 
 			productState.addQuantLoc(bar1);
@@ -455,7 +456,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 
 		}
-		
+
 		try {
 			DBWeek dbWeek = new DBWeek();
 			dbWeek.insertWeek(week);
@@ -525,7 +526,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	{	
 		table_stocktake.getItems().clear();
 		filterData();
-		
+
 	}
 
 }

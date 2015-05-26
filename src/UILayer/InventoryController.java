@@ -265,7 +265,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		//		 });
 	}
 
-	
+
 
 	// Update table data 
 	private void updateData() 
@@ -280,7 +280,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		//
 		//			updateColumns((String)cbox_category.getValue().toString().toLowerCase());
 		//		}
-		
+
 		data = FXCollections.observableArrayList(getData(null));
 		filterData();
 	}
@@ -345,7 +345,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 				invData.add(newData);
 			}
 		}
-		
+
 		return invData;
 
 	}
@@ -397,20 +397,21 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private void filterData() {
 		ObservableList<InventoryData> newItems = FXCollections.observableArrayList();
 
-
-		for(InventoryData dataItem : data) {
-			if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
-				if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+		if(data != null && data.size() > 0) {
+			for(InventoryData dataItem : data) {
+				if(cbox_category.getValue().toString().toLowerCase().equals("spirits")) {
+					if(TypeManager.getSpiritTypes().contains(dataItem.getProduct().getType().toLowerCase())) {
+						newItems.add(dataItem);
+					}
+				}
+				else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
 					newItems.add(dataItem);
 				}
 			}
-			else if(dataItem.getProduct().getType().equals(cbox_category.getValue().toString().toLowerCase())) {
-				newItems.add(dataItem);
-			}
-		}
 
-		table_inventory.setItems(newItems);
-		table_inventory.sort();
+			table_inventory.setItems(newItems);
+			table_inventory.sort();
+		}
 	}
 
 	public void updateCategories() 
@@ -430,7 +431,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 		}
 		cbox_category.setItems(categories);
 		cbox_category.setValue(cbox_category.getItems().get(0));
-		
+
 		updateColumns(cbox_category.getValue().toString().toLowerCase());
 
 
