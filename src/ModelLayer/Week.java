@@ -3,16 +3,16 @@ package ModelLayer;
 import java.util.ArrayList;
 
 public class Week {
-	
+
 	private int id;
 	private int number; 
 	private int month; 
 	private int year; 
 	private ArrayList<ProductState> stateList;
 	private Employee employee;
-	
+
 	public Week() {
-		
+		stateList = new ArrayList<ProductState>();
 	}
 
 	public Week(int number, int month, int year,
@@ -23,7 +23,7 @@ public class Week {
 		this.year = year;
 		this.stateList = stateList;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -56,7 +56,7 @@ public class Week {
 		this.year = year;
 	}
 
-	
+
 	// State GET, SET, ADD, REMOVE, FIND
 	public ArrayList<ProductState> getStateList() {
 		return stateList;
@@ -103,7 +103,7 @@ public class Week {
 		}
 		return foundState;
 	}
-	
+
 	public ProductState getState(int index) 
 	{
 		ProductState state = null;
@@ -113,7 +113,7 @@ public class Week {
 		}
 		return state;
 	}
-	
+
 	public ProductState getStateByProduct(Product product) {
 		boolean found = false;
 		ProductState state = null;
@@ -125,6 +125,6 @@ public class Week {
 		}
 		return state;
 	}
-	
+
 
 }

@@ -397,7 +397,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		Week week = weekCtr.createWeek(date);
 
 		ProductState productState = new ProductState();
-		ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
+		//ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
 		ArrayList<ProductState> stateList = new ArrayList<ProductState>();
 		//DBProductState dbState = new DBProductState();
 
@@ -411,7 +411,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			QuantLoc bar2 = new QuantLoc();
 			QuantLoc bar3 = new QuantLoc();		
 			
-			productState.setQuantLocs(quantLocs);
+			//productState.setQuantLocs(quantLocs);
 
 			productState.setProduct(product);
 			storage.setLocation("storage");

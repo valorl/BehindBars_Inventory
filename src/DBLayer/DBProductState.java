@@ -38,7 +38,11 @@ public class DBProductState implements IFDBProductState{
 		}
 
 		return productState;
-
+	}
+	public ArrayList<ProductState> findWeekStates(int weekID, boolean retrieveAssociation) throws Exception 
+	{
+		String wClause = " weekID = '" + weekID + "'";
+		return muchWhere(wClause, retrieveAssociation);
 	}
 
 
@@ -98,17 +102,16 @@ public class DBProductState implements IFDBProductState{
 
 		try{ // update productState
 
-			String query="UPDATE productState SET id = ?, currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? sold = ? WHERE id = ? ";
+			String query="UPDATE productState SET currentCost = ?, currentPrice = ?, purchased = ?, productID = ?, weekID = ? sold = ? WHERE weekID = ? ";
 
 			prepUpdate = con.prepareStatement(query);
-			prepUpdate.setInt(1, productState.getId());
-			prepUpdate.setDouble(2, productState.getCurrentCost());
-			prepUpdate.setDouble(3, productState.getCurrentPrice());
-			prepUpdate.setInt(4, productState.getPurchased());
-			prepUpdate.setInt(5, productState.getProduct().getId());
-			prepUpdate.setInt(6, productState.getId());
+			prepUpdate.setDouble(1, productState.getCurrentCost());
+			prepUpdate.setDouble(2, productState.getCurrentPrice());
+			prepUpdate.setInt(3, productState.getPurchased());
+			prepUpdate.setInt(4, productState.getProduct().getId());
+			prepUpdate.setInt(5, weekID);
+			prepUpdate.setDouble(6, productState.getSold());
 			prepUpdate.setInt(7, weekID);
-			prepUpdate.setDouble(8, productState.getSold());
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();

@@ -27,7 +27,7 @@
             <HBox alignment="CENTER_RIGHT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="312.0" spacing="10.0">
                <children>
                   <ComboBox fx:id="cbox_category" prefWidth="150.0" />
-                  <TextField />
+                  <TextField fx:id="txt_search" />
                </children>
             </HBox>
          </children>

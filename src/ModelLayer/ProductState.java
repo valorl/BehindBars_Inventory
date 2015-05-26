@@ -13,7 +13,7 @@ public class ProductState {
 	private ArrayList<QuantLoc> quantLocs;
 	
 	public ProductState() {
-		
+		quantLocs = new ArrayList<QuantLoc>();
 	}
 
 	public ProductState(Product product) {
