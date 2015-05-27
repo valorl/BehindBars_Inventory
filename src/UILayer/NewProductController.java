@@ -180,7 +180,8 @@ public class NewProductController implements Initializable{
 	{
 		//caller.updateCategories();
 		System.out.println("CATEGORIES: " + caller.getCategories().size() + ".");
-		cbox_category.setItems(caller.getCategories());
+		ObservableList<String> categories = FXCollections.observableArrayList(caller.getCategories());
+		cbox_category.setItems(categories);
 		
 		cbox_category.getItems().remove("Spirits");
 		cbox_category.setValue(cbox_category.getItems().get(0));

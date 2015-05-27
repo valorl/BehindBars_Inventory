@@ -152,5 +152,35 @@ public class Measurable extends Product {
 		return tempDensity;
 	}
 	
+	public double getTotalIngredientVolume(Measurable measurable) {
+		if(cocktailContents.containsKey(measurable)) {
+			double thisVolume = cocktailContents.get(measurable);
+			double sumVolumes = 0;
+			for(double volume : cocktailContents.values()) {
+				sumVolumes += volume;
+				System.out.println("SumVolumes: " + sumVolumes);
+			}
+			return (this.getUnitVolume()/sumVolumes) * thisVolume;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	public double calculateIngredientPerVolume(Measurable measurable, double volume) {
+		if(cocktailContents.containsKey(measurable)) {
+			double thisVolume = cocktailContents.get(measurable);
+			double sumVolumes = 0;
+			for(double aVolume : cocktailContents.values()) {
+				sumVolumes += aVolume;
+				System.out.println("SumVolumes: " + sumVolumes);
+			}
+			return (volume/sumVolumes) * thisVolume;
+		}
+		else {
+			return 0;
+		}
+	}
+	
 
 }

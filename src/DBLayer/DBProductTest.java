@@ -165,7 +165,7 @@ public class DBProductTest {
 		testMeasurable.setFullWeight(5000);
 		testMeasurable.setEmptyWeight(2000);
 		//testMeasurable.setDensity();
-		testMeasurable.setTotalVolume(70);
+		testMeasurable.setTotalMeasured(70);
 		testMeasurable.setType("Rum");
 
 

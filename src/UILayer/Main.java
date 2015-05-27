@@ -7,9 +7,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ControlLayer.SettingsCtr;
 
 public class Main extends Application{
 
+	
 	private static final String ROOT_FXML = "main.fxml";
 	private static final String MAIN_CSS = "main.css";
 
@@ -33,10 +35,13 @@ public class Main extends Application{
 				}
 			}
 		});
-
+		
+		SettingsCtr settingsCtr = new SettingsCtr();
+		String title = settingsCtr.findSetting("CO_NAME", false);
+		
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(1200);
-		primaryStage.setTitle("Inventory");
+		primaryStage.setTitle(title + " Inventory");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

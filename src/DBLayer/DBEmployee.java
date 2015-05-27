@@ -16,7 +16,6 @@ public class DBEmployee implements IFDBEmployee {
 	public DBEmployee() {
 		con = DbConnection.getInstance().getDBcon();
 	}
-
 	public ArrayList<Employee> getAllEmployees(boolean retriveAssociation) throws Exception
 	{
 		return muchWhere("", retriveAssociation);

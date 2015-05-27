@@ -31,6 +31,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import ControlLayer.InventoryCtr;
 import ControlLayer.ProductCtr;
+import ControlLayer.SettingsCtr;
 import ModelLayer.ItemResult;
 import ModelLayer.WeekResult;
 import UILayer.TableData.ResultsData;
@@ -40,6 +41,8 @@ public class ResultsController implements Initializable, ChangeablePane{
 	PaneChanger changer;
 	ProductCtr productCtr;
 	InventoryCtr inventoryCtr;
+	
+	private String currency;
 
 	private StringProperty week1name = new SimpleStringProperty();
 	private StringProperty week2name = new SimpleStringProperty();
@@ -75,6 +78,17 @@ public class ResultsController implements Initializable, ChangeablePane{
 
 	public ResultsController() 
 	{
+		SettingsCtr setCtr = new SettingsCtr();
+		try {
+			currency = setCtr.findSetting("CURR", false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(currency == null) {
+			currency = "";
+		}
+		
 		productCtr = new ProductCtr();
 		inventoryCtr = new InventoryCtr();
 	}
@@ -283,7 +297,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		salesCol.getColumns().addAll(thSalesCol, actSalesCol);
 
 		// REVENUE // 
-		TableColumn revenueCol = new TableColumn("Revenue");
+		TableColumn revenueCol = new TableColumn("Revenue (" + currency + ")");
 		// Theoretical
 		TableColumn<ResultsData, Double> thRevenueCol = new TableColumn<ResultsData, Double>("Theoretical");
 		thRevenueCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.076));
@@ -297,7 +311,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		revenueCol.getColumns().addAll(thRevenueCol, actRevenueCol);
 
 		// LOSS/GAIN
-		TableColumn<ResultsData, Double> lossGainCol = new TableColumn<ResultsData, Double>("L/G");
+		TableColumn<ResultsData, Double> lossGainCol = new TableColumn<ResultsData, Double>("L/G (" + currency + ")");
 		lossGainCol.setMinWidth(90);
 		lossGainCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.087));
 		lossGainCol.setCellValueFactory(
@@ -356,7 +370,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 			if(wr != null) {
 				week1name.set("Week " + wr.getWeekA().getNumber());
 				week2name.set("Week " + wr.getWeekB().getNumber());
-
+				
 				for(ItemResult result : wr.getResults()) {
 					ResultsData newItem = new ResultsData(result);
 					resData.add(newItem);

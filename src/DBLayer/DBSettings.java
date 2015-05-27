@@ -2,7 +2,13 @@ package DBLayer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import ModelLayer.Employee;
+import ModelLayer.ProductState;
 
 public class DBSettings implements IFDBSettings {
 
@@ -14,16 +20,26 @@ public class DBSettings implements IFDBSettings {
 
 	public String findSetting(String settingCode, boolean retriveAssociation) throws Exception
 	{
-		String wClause = "  settingCode = '" + settingCode + "'";
+		ResultSet results;
 
+		String wClause = "settingCode = '" + settingCode + "'";
 		String setting = null;
-		try{
-			setting = buildQuery(wClause);
-		}
-		catch(Exception ex) 
-		{
-			ex.printStackTrace();
-			throw new Exception("Setting not found.");
+		String query = buildQuery(wClause);
+
+		try{ // read the week from the database
+			Statement stmt = con.createStatement();
+			stmt.setQueryTimeout(5);
+			results = stmt.executeQuery(query);
+
+			if( results.next() ){
+				setting = results.getString("value");
+			}
+
+			else{ //no week was found
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Query exception: "+e);
 		}
 
 		return setting;
@@ -74,19 +90,18 @@ public class DBSettings implements IFDBSettings {
 
 		try{ // update week
 
-			String query="UPDATE week SET settingCode = ?, value = ? WHERE settingCode = ? ";
+			String query="UPDATE settings SET value = ? WHERE settingCode = ? ";
 
 			prepUpdate = con.prepareStatement(query);
-			prepUpdate.setString(1, settingCode);
-			prepUpdate.setString(2, value);
-			prepUpdate.setString(3, settingCode);
+			prepUpdate.setString(1, value);
+			prepUpdate.setString(2, settingCode);
+
 
 			prepUpdate.setQueryTimeout(5);
 			prepUpdate.executeUpdate();
 
 		}//try to close
 		catch(Exception ex){
-
 			System.out.println("Update exception in settings db: "+ex);
 
 		}
@@ -110,7 +125,7 @@ public class DBSettings implements IFDBSettings {
 		try{ // delete from week
 
 
-			String query="DELETE FROM week WHERE settingCode = ?";
+			String query="DELETE FROM settings WHERE settingCode = ?";
 			prepDelete = con.prepareStatement(query);
 			prepDelete.setString(1, settingCode);
 
@@ -131,7 +146,7 @@ public class DBSettings implements IFDBSettings {
 
 	private String buildQuery(String wClause)
 	{
-		String query="SELECT settingCode, value FROM settings";
+		String query="SELECT value FROM settings";
 
 		if (wClause.length()>0)
 			query=query+" WHERE "+ wClause;

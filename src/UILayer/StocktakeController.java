@@ -51,6 +51,8 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	private static final double DEFAULT_COLUMN_WIDTH = 85;
 	private static final double STRETCHED_COLUMN_WIDTH = 120;
+	
+	private static final boolean TESTRUN = true;
 
 	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
 	private DoubleProperty columnWidth = new SimpleDoubleProperty(DEFAULT_COLUMN_WIDTH);
@@ -399,6 +401,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		boolean success = false;
 		//Week week = weekCtr.createWeek(date);
 		Date nextDate = null;
+		Date stocktakeDate = null;
 				
 		SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		try {
@@ -407,7 +410,13 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		catch(ParseException ex) {
 			ex.printStackTrace();
 		}
-		Week week = weekCtr.createWeek(nextDate);
+		if(this.TESTRUN) {
+			stocktakeDate = nextDate;
+		}
+		else {
+			stocktakeDate = date;
+		}
+		Week week = weekCtr.createWeek(stocktakeDate);
 
 
 		//ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
@@ -428,11 +437,14 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			//productState.setQuantLocs(quantLocs);
 
 			productState.setProduct(product);
+			productState.setCurrentCost(product.getCost());
+			productState.setCurrentPrice(product.getPrice());
 			storage.setLocation("storage");
 			storage.setQuantity(item.getStorage() * product.getUnitVolume());
 			productState.addQuantLoc(storage);
 
-
+			
+			
 			bar1.setLocation("bar1");
 			bar1.setQuantity((item.getBar1() * product.getUnitVolume()));
 
@@ -483,7 +495,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 		try {
 			//Week existingWeek =  weekCtr.findWeek(date);
-			Week existingWeek = weekCtr.findWeek(nextDate);
+			Week existingWeek = weekCtr.findWeek(stocktakeDate);
 			if(existingWeek == null) {
 				weekCtr.insertWeek(week);
 			}

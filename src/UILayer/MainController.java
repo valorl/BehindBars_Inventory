@@ -4,13 +4,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import com.enartee.FlatButton;
 
@@ -183,6 +188,29 @@ public class MainController implements Initializable{
 						break;
 					}
 				}
+			});
+			
+			btn_settings.setOnAction((e) -> {
+				Stage configStage = new Stage();
+				Parent parent = null;
+				ConfigController controller;
+
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("configuration.fxml"));
+					parent = loader.load();
+					controller = loader.<ConfigController>getController();
+					controller.init(configStage);
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+
+				Scene scene = new Scene(parent);
+				//scene.getStylesheets().add(getClass().getResource(Main.getMainCss()).toExternalForm());
+
+				configStage.setTitle("Inventory configuration");
+				configStage.setScene(scene);
+				configStage.show();
 			});
 			
 		}

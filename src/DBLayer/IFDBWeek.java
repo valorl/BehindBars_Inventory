@@ -12,7 +12,7 @@ public interface IFDBWeek {
     //get one Week by its id
     public Week findWeekId(int id, boolean retriveAssociation) throws Exception;
     //get one Week by its number, year, month
-    public Week findWeek(int number, int year, int month, boolean retriveAssociation) throws Exception;
+    public Week findWeek(int number, int year, boolean retriveAssociation) throws Exception;
     //insert a new Product
     public int insertWeek(Week week) throws Exception;
     //update information about an Product

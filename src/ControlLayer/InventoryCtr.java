@@ -33,8 +33,8 @@ public class InventoryCtr {
 		int maxSize = 0; 
 		if(weekA != null && weekB != null) {
 			
-			weekResult.setWeekA(weekA);
-			weekResult.setWeekB(weekB);
+			weekResult.setWeekA(weekB);
+			weekResult.setWeekB(weekA);
 			
 			if(weekA.getStateList().size() > weekB.getStateList().size()) {
 				maxSize = weekA.getStateList().size();

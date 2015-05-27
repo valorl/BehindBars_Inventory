@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<StackPane fx:id="mainPain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="284.0" prefWidth="497.0" style="-fx-background-color: #333333; -fx-border-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.AboutController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="234.0" prefWidth="400.0">
+         <children>
+            <ImageView fx:id="img_logo" fitHeight="45.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label fx:id="lbl_name" text="S y s t e m N a m e" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="lbl_version" text="S y s t e m V e r s i o n" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbl_version1" text="© Behind Bars Consulting" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Label>
+            <Label prefHeight="19.0" prefWidth="168.0" text="Press any key to close this window." textFill="WHITE">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets left="30.0" right="30.0" />
+   </padding>
+</StackPane>

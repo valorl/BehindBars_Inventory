@@ -36,7 +36,7 @@ public class WeekCtr {
 	public Week findWeek(Date date) throws Exception 
 	{		
 		int[] numbers = dateToNumbers(date);
-		return dbWeek.findWeek(numbers[0], numbers[1], numbers[2], true);		
+		return dbWeek.findWeek(numbers[0],numbers[2], true);		
 	}
 	
 	public Week findPreviousWeek(Week week) throws Exception 

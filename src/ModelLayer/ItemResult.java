@@ -55,7 +55,7 @@ public class ItemResult {
 
 	public double calculateVariance() 
 	{
-		variance =  (stateA.getTotalQuantity() - stateB.getTotalQuantity());
+		variance =  (stateB.getTotalQuantity() - stateA.getTotalQuantity());
 		return variance;
 	}
 	public double calculateRevenue() 

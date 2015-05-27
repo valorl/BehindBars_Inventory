@@ -11,7 +11,7 @@ public class SettingsCtr {
 		dbSettings = new DBSettings();
 	}
 	
-	public void addSettings(String settingCode, String value) throws Exception
+	public void addSetting(String settingCode, String value) throws Exception
 	{
 		dbSettings.insertSetting(settingCode, value);
 	}
