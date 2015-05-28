@@ -1,6 +1,7 @@
 package UILayer;
 
 import java.net.URL;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -25,14 +26,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import ControlLayer.ProductCtr;
-import ModelLayer.Product;
-import UILayer.TableData.InventoryData;
+import ControlLayer.WeekCtr;
+import ModelLayer.ItemResult;
+import ModelLayer.ProductState;
+import ModelLayer.Week;
 import UILayer.TableData.KeylinesData;
 
 public class KeylinesController implements Initializable, ChangeablePane{
 	
 	private PaneChanger changer;
 	private ProductCtr productCtr;
+	private WeekCtr weekCtr;
 	
 	private StringProperty containerProperty = new SimpleStringProperty("");
 	private SimpleStringProperty unitProperty = new SimpleStringProperty("Per cl");
@@ -49,6 +53,9 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	private Button btn_save;
 	
 	@FXML
+	private Button btn_show;
+	
+	@FXML
 	private Label lbl_output;
 
 	@FXML
@@ -63,12 +70,12 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	
 	private ObservableList<KeylinesData> data;
 
-	private ObservableList<String> categories, month, year;
-
+	private ObservableList<String> categories, years, months;
 
 	public KeylinesController() 
 	{
 		productCtr = new ProductCtr();
+		weekCtr = new WeekCtr();
 	}
 
 
@@ -82,6 +89,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 		initButtons();
 		initComboBox();
 		initSearch();
+		addMonthYear();
 
 		createTable();
 		updateData();
@@ -180,18 +188,24 @@ public class KeylinesController implements Initializable, ChangeablePane{
 		table_keylines.getColumns().add(week5Col);
 		
 		// TOTAL
-		TableColumn<KeylinesData, Double> totalCol = new TableColumn<KeylinesData, Double>("Total");
+		TableColumn totalCol = new TableColumn("Total");
+		TableColumn<KeylinesData, Double> totalSalesCol = new TableColumn<KeylinesData, Double>("Sales");
 		//totalCol.setMinWidth(130);
-		totalCol.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("total"));
+		totalSalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("totalSales"));
+		TableColumn<KeylinesData, Double> totalDifCol = new TableColumn<KeylinesData, Double>("Difference");
+		//totalCol.setMinWidth(130);
+		totalSalesCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("totalDif"));
+		totalCol.getColumns().addAll(totalSalesCol, totalDifCol);
 		table_keylines.getColumns().add(totalCol);
 		
 		// RETAIL PRICE
-		TableColumn<KeylinesData, Double> retailCol = new TableColumn<KeylinesData, Double>("Retail");
+		TableColumn<KeylinesData, Double> revenueCol = new TableColumn<KeylinesData, Double>("Revenue");
 		//retailCol.setMinWidth(130);
-		retailCol.setCellValueFactory(
-				new PropertyValueFactory<KeylinesData, Double>("retail"));
-		table_keylines.getColumns().add(retailCol);
+		revenueCol.setCellValueFactory(
+				new PropertyValueFactory<KeylinesData, Double>("revenue"));
+		table_keylines.getColumns().add(revenueCol);
 		
 		// Make the columns non-resizable
 		for(Object column : table_keylines.getColumns().toArray()) 
@@ -212,7 +226,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 
 	private void updateData()
 	{
-		data = FXCollections.observableArrayList(getData(null));
+		data = FXCollections.observableArrayList(getData());
 		filterData();
 	}
 
@@ -229,32 +243,48 @@ public class KeylinesController implements Initializable, ChangeablePane{
 		}
 	}
 	
-	// Fetch data from the DB depending on the category
-	private ArrayList<KeylinesData> getData(String category) 
+	// Fetch data from the DB
+	private ArrayList<KeylinesData> getData() 
 	{
+		ArrayList<KeylinesData> keyData = new ArrayList<KeylinesData>();
+		//ArrayList<Product> products = new ArrayList<Product>();
+		ArrayList<ProductState> stateList = new ArrayList<ProductState>();
+		ArrayList<Week> weekList = new ArrayList<Week>();
 
-		ArrayList<KeylinesData> invData = new ArrayList<KeylinesData>();
-		ArrayList<Product> products = new ArrayList<Product>();
+		
 		if(cbox_year.getValue() != null && cbox_month.getValue() != null)
 		{
 			try {
-				products = productCtr.getAllProducts();
+				//products = productCtr.getAllProducts();
+
+				
+				weekList = getWeekList();
+				for(Week week : weekList)
+				{
+					int maxSize = 0;
+					
+					if(maxSize < week.getStateList().size())
+					{
+						maxSize = week.getStateList().size();
+						stateList = week.getStateList();
+					}
+					
+				}
 			}
 			catch(Exception ex) {
 				ex.printStackTrace();
 			}
 
-			if(products != null) {
-				for(Product product : products) {
-					KeylinesData newData = new KeylinesData(product);
-					invData.add(newData);
+				for(ProductState productState : stateList) {
+					KeylinesData newData = new KeylinesData();
+					keyData.add(newData);
 				}
-			}
 		}
 
-		return invData;
+		return keyData;
 
 	}
+
 	
 	private ArrayList<String> getTypes() {
 		try {
@@ -344,14 +374,82 @@ public class KeylinesController implements Initializable, ChangeablePane{
 
 	}
 	
+	private ArrayList<String> getYears() {
+		try {
+			return weekCtr.getYears();
+		}
+		catch(Exception ex) {
+
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	private ArrayList<Integer> getMonths() {
+		try {
+			return weekCtr.getMonths();
+		}
+		catch(Exception ex) {
+
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	public void addMonthYear()
 	{
-		month = FXCollections.observableArrayList();
+		ArrayList<String> weekYears = new ArrayList<String>();
+		ArrayList<Integer> weekMonths = new ArrayList<Integer>();
+		years = FXCollections.observableArrayList();
+		months = FXCollections.observableArrayList();
+		
+		// Getting the Years
+		
+		try {
+		weekYears.addAll(getYears());
+		}
+		catch(Exception ex) {
+
+			ex.printStackTrace();
+		}
+	
+		for(String item : weekYears)
+		{
+			years.add(item);
+		}
+		
+
+		
+		//Getting the months
+		
+		try {
+		weekMonths.addAll(getMonths());
+		}
+		catch(Exception ex) {
+
+			ex.printStackTrace();
+		}
+		
+		for(Integer item : weekMonths)
+		{
+			months.add(new DateFormatSymbols().getMonths()[item-1]);
+		}
+	
+//		if(months.size() > 3)
+//		{
+			cbox_year.setItems(years);
+			cbox_year.setValue(cbox_year.getItems().get(0));
+			cbox_month.setItems(months);
+			cbox_month.setValue(cbox_month.getItems().get(0));
+		//}
 		
 	}
 
 	private void initButtons() {
-
+		
+//		btn_show.setOnAction((e) -> {
+//			updateData();
+//		});
 	}
 	
 	public ObservableList<String> getCategories() {
@@ -427,6 +525,21 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	private void clearOutput() {
 		lbl_output.setText("");
 	}
-
-
+	
+	private ArrayList<Week> getWeekList()
+	{
+		ArrayList<Week> weekList = new ArrayList<Week>();
+		weekList = null;
+		
+		try
+		{
+			weekList = weekCtr.getWeeksMonthYear(Integer.parseInt(cbox_month.getValue().toString()), Integer.parseInt(cbox_year.getValue().toString()));
+		}
+		catch(Exception ex) 
+		{
+			ex.printStackTrace();
+		}
+			
+		return weekList;
+	}
 }

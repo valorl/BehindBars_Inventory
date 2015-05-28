@@ -65,6 +65,101 @@ public class DBWeek implements IFDBWeek{
 
 	}
 
+	public ArrayList<String> getYears() throws Exception
+	{
+		ArrayList<String> years = new ArrayList<String>();
+		
+		String query="SELECT DISTINCT year FROM week";
+		PreparedStatement prepStmt = null;
+		try{
+			prepStmt = con.prepareStatement(query);
+			
+			ResultSet results = prepStmt.executeQuery();
+			
+			while(results.next()) 
+			{
+				years.add(results.getString("year"));
+			}
+			
+			if(!(years.size() > 0)) 
+			{
+				throw new Exception("No years returned.");
+			}
+			
+		}
+		catch(SQLException ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Error while getting years.");
+		}
+		
+		return years;
+	}
+	
+	public ArrayList<Integer> getMonths() throws Exception
+	{
+		ArrayList<Integer> months = new ArrayList<Integer>();
+		
+		String query="SELECT DISTINCT month FROM week";
+		PreparedStatement prepStmt = null;
+		try{
+			prepStmt = con.prepareStatement(query);
+			
+			ResultSet results = prepStmt.executeQuery();
+			
+			while(results.next()) 
+			{
+				months.add(results.getInt("month"));
+			}
+			
+			if(!(months.size() > 0)) 
+			{
+				throw new Exception("No months returned.");
+			}
+			
+		}
+		catch(SQLException ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Error while getting months.");
+		}
+		
+		return months;
+	}
+	
+	public ArrayList<Week> getWeeksMonthYear(int month, int year) throws Exception
+	{
+		String query="SELECT month, year FROM week";
+		PreparedStatement prepStmt = null;
+		ArrayList<Week> weeks = new ArrayList<Week>();
+		Week week = new Week();
+		
+		try{
+			prepStmt = con.prepareStatement(query);
+			
+			ResultSet results = prepStmt.executeQuery();
+			
+			while(results.next()) 
+			{
+				week = findWeekId(results.getRow(), true);
+				weeks.add(week);
+			}
+			
+			if(!(weeks.size() > 0)) 
+			{
+				throw new Exception("No months returned.");
+			}
+			
+		}
+		
+		catch(Exception ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Week not found.");
+		}
+		
+		return weeks;
+	}
 
 	//insert a new week
 

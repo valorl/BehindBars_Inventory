@@ -1,6 +1,9 @@
 package ControlLayer;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import DBLayer.DBWeek;
@@ -61,5 +64,30 @@ public class WeekCtr {
 		}
 		
 		return numbers;
+	}
+	
+	public ArrayList<String> getYears() throws Exception
+	{
+		return dbWeek.getYears();
+	}
+	
+	public ArrayList<Integer> getMonths() throws Exception
+	{
+		return dbWeek.getMonths();
+	}
+	
+	class WeekComparator implements Comparator<Week> {
+	    public int compare(Week week1, Week week2) {
+	        return week1.getNumber() - week2.getNumber();
+	    }
+	}
+	
+	public ArrayList<Week> getWeeksMonthYear(int month, int year) throws Exception
+	{
+		ArrayList<Week> weekList = new ArrayList<Week>();
+		weekList = dbWeek.getWeeksMonthYear(month, year);
+		
+		Collections.sort(weekList, new WeekComparator());
+		return weekList;
 	}
 }
