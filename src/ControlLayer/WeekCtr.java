@@ -7,7 +7,11 @@ import java.util.Comparator;
 import java.util.Date;
 
 import DBLayer.DBWeek;
+import ModelLayer.ItemResult;
+import ModelLayer.Product;
+import ModelLayer.ProductState;
 import ModelLayer.Week;
+import ModelLayer.WeekResult;
 
 public class WeekCtr {
 
@@ -71,7 +75,7 @@ public class WeekCtr {
 		return dbWeek.getYears();
 	}
 	
-	public ArrayList<Integer> getMonths() throws Exception
+	public ArrayList<String> getMonths() throws Exception
 	{
 		return dbWeek.getMonths();
 	}
@@ -89,5 +93,130 @@ public class WeekCtr {
 		
 		Collections.sort(weekList, new WeekComparator());
 		return weekList;
+	}
+	
+	public WeekResult getResults(int month, int year) throws Exception 
+	{
+		ArrayList<Week> weekList = new ArrayList<Week>();
+		weekList = dbWeek.getWeeksMonthYear(month, year);
+		
+		Collections.sort(weekList, new WeekComparator());
+		
+		Week weekA = new Week();
+		Week weekB = new Week();
+		Week weekC = new Week();
+		Week weekD = new Week();
+		Week weekE = new Week();
+		if(weekList.size() >= 0) { 
+			weekA = weekList.get(0);
+		}
+		else {
+			weekA = null;
+		}
+		if(weekList.size() >= 1) { 
+			weekB = weekList.get(1);
+		}
+		else {
+			weekB = null;
+		}
+
+		if(weekList.size() >= 2) { 
+			weekC = weekList.get(0);
+		}
+		else {
+			weekC = null;
+		}
+
+		if(weekList.size() >= 3) { 
+			weekD = weekList.get(0);
+		}
+		else {
+			weekD = null;
+		}
+
+		if(weekList.size() >= 4) { 
+			weekE = weekList.get(0);
+		}
+		else {
+			weekE = null;
+		}
+
+		WeekResult weekResult = new WeekResult();
+
+		int maxSize = 0; 
+		if(weekA != null) {
+			
+			for(Week week : weekList)
+			{
+				if(week.getStateList().size() > maxSize) {
+					maxSize = week.getStateList().size();
+				}
+			}
+
+			for(int i = 0; i < maxSize; i++) 
+			{
+				ProductState productStateA;
+				ProductState productStateB;
+				ProductState productStateC;
+				ProductState productStateD;
+				ProductState productStateE;
+				
+				ItemResult itemResult = new ItemResult();
+				productStateA = weekA.getState(i);
+				//Product product = productStateA.getProduct();
+				//itemResult.setProduct(product);
+				if(weekB != null)
+				{
+					productStateB = weekB.getState(i);
+				}
+				else{
+					productStateB = null;
+				}
+				Product product = productStateA.getProduct();
+				
+				if(weekC != null) {
+
+					productStateC = weekC.getState(i);
+				}
+				else {
+					productStateC = null;
+				}
+				
+				if(weekD != null) {
+					productStateD = weekD.getState(i);
+				}
+				else {
+					productStateD = null;
+				}
+				
+				if(weekE != null) {
+					productStateE = weekE.getState(i);
+				}
+				else {
+					productStateE = null;
+				}
+
+				
+				if(productStateA == null || productStateB == null || productStateC == null || productStateD == null || productStateE == null) 
+				{
+					itemResult.setRevenue(-1);
+					itemResult.setVariance(-1);
+				}
+				else 
+				{
+					itemResult.setStatesKeylines(productStateA, productStateB, productStateC, productStateD, productStateE);
+					itemResult.calculateVariance();
+					itemResult.calculateRevenue();
+				}
+				weekResult.addResult(itemResult);
+			}
+		}
+		else {
+			weekResult = null;
+		}
+		
+		System.out.println("" + weekResult.toString());
+
+		return weekResult;
 	}
 }

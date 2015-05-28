@@ -28,8 +28,8 @@ import javafx.scene.layout.VBox;
 import ControlLayer.ProductCtr;
 import ControlLayer.WeekCtr;
 import ModelLayer.ItemResult;
-import ModelLayer.ProductState;
 import ModelLayer.Week;
+import ModelLayer.WeekResult;
 import UILayer.TableData.KeylinesData;
 
 public class KeylinesController implements Initializable, ChangeablePane{
@@ -41,8 +41,13 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	private StringProperty containerProperty = new SimpleStringProperty("");
 	private SimpleStringProperty unitProperty = new SimpleStringProperty("Per cl");
 	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
-	
-	
+
+	private StringProperty week1name = new SimpleStringProperty();
+	private StringProperty week2name = new SimpleStringProperty();
+	private StringProperty week3name = new SimpleStringProperty();
+	private StringProperty week4name = new SimpleStringProperty();
+	private StringProperty week5name = new SimpleStringProperty();
+
 	@FXML
 	private VBox mainVbox;
 	
@@ -246,42 +251,32 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	// Fetch data from the DB
 	private ArrayList<KeylinesData> getData() 
 	{
-		ArrayList<KeylinesData> keyData = new ArrayList<KeylinesData>();
-		//ArrayList<Product> products = new ArrayList<Product>();
-		ArrayList<ProductState> stateList = new ArrayList<ProductState>();
-		ArrayList<Week> weekList = new ArrayList<Week>();
-
 		
-		if(cbox_year.getValue() != null && cbox_month.getValue() != null)
-		{
+		ArrayList<KeylinesData> keyData = new ArrayList<KeylinesData>();
+		//if(cbox_month.getValue() != null && cbox_year.getValue() != null) {
+		
+			//ArrayList<Week> weekList = new ArrayList<Week>();
+			WeekResult wr = null;
 			try {
-				//products = productCtr.getAllProducts();
-
+				//weekList = getWeekList();
+				wr = weekCtr.getResults(Integer.parseInt(cbox_month.getValue().toString()), Integer.parseInt(cbox_year.getValue().toString()));
 				
-				weekList = getWeekList();
-				for(Week week : weekList)
-				{
-					int maxSize = 0;
-					
-					if(maxSize < week.getStateList().size())
-					{
-						maxSize = week.getStateList().size();
-						stateList = week.getStateList();
-					}
-					
-				}
-			}
-			catch(Exception ex) {
-				ex.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
-				for(ProductState productState : stateList) {
-					KeylinesData newData = new KeylinesData();
-					keyData.add(newData);
+			if(wr != null) {
+				for(ItemResult result : wr.getResults()) {
+					KeylinesData newItem = new KeylinesData(result);
+					keyData.add(newItem);
 				}
-		}
-
+		//	}
+		}		
+		if(keyData.size() == 0) { 
+			keyData = null;
+		}		
 		return keyData;
+
 
 	}
 
@@ -385,7 +380,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 		}
 	}
 	
-	private ArrayList<Integer> getMonths() {
+	private ArrayList<String> getMonths() {
 		try {
 			return weekCtr.getMonths();
 		}
@@ -399,7 +394,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 	public void addMonthYear()
 	{
 		ArrayList<String> weekYears = new ArrayList<String>();
-		ArrayList<Integer> weekMonths = new ArrayList<Integer>();
+		ArrayList<String> weekMonths = new ArrayList<String>();
 		years = FXCollections.observableArrayList();
 		months = FXCollections.observableArrayList();
 		
@@ -430,18 +425,16 @@ public class KeylinesController implements Initializable, ChangeablePane{
 			ex.printStackTrace();
 		}
 		
-		for(Integer item : weekMonths)
+		for(String item : weekMonths)
 		{
-			months.add(new DateFormatSymbols().getMonths()[item-1]);
+			months.add(new DateFormatSymbols().getMonths()[Integer.parseInt(item)-1]);
+			//months.add(item.toString());
 		}
 	
-//		if(months.size() > 3)
-//		{
 			cbox_year.setItems(years);
-			cbox_year.setValue(cbox_year.getItems().get(0));
+			cbox_year.setValue("Year");
 			cbox_month.setItems(months);
-			cbox_month.setValue(cbox_month.getItems().get(0));
-		//}
+			cbox_month.setValue("Month");
 		
 	}
 

@@ -6,6 +6,11 @@ public class WeekResult {
 	
 	private Week weekA;
 	private Week weekB;
+	
+	private Week weekC;
+	private Week weekD;
+	private Week weekE;
+	
 	ArrayList<ItemResult> results;
 	
 	public WeekResult() {
@@ -25,9 +30,33 @@ public class WeekResult {
 	public void setWeekB(Week weekB) {
 		this.weekB = weekB;
 	}
+	
+	public Week getWeekC() {
+		return weekC;
+	}
+
+	public void setWeekC(Week weekC) {
+		this.weekC = weekC;
+	}
+
+	public Week getWeekD() {
+		return weekD;
+	}
+
+	public void setWeekD(Week weekD) {
+		this.weekD = weekD;
+	}
+
+	public Week getWeekE() {
+		return weekE;
+	}
+
+	public void setWeekE(Week weekE) {
+		this.weekE = weekE;
+	}
 
 	// Results list
-	
+
 	public ArrayList<ItemResult> getResults() {
 		return results;
 	}

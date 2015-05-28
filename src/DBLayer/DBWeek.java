@@ -96,9 +96,9 @@ public class DBWeek implements IFDBWeek{
 		return years;
 	}
 	
-	public ArrayList<Integer> getMonths() throws Exception
+	public ArrayList<String> getMonths() throws Exception
 	{
-		ArrayList<Integer> months = new ArrayList<Integer>();
+		ArrayList<String> months = new ArrayList<String>();
 		
 		String query="SELECT DISTINCT month FROM week";
 		PreparedStatement prepStmt = null;
@@ -109,7 +109,7 @@ public class DBWeek implements IFDBWeek{
 			
 			while(results.next()) 
 			{
-				months.add(results.getInt("month"));
+				months.add(results.getString("month"));
 			}
 			
 			if(!(months.size() > 0)) 

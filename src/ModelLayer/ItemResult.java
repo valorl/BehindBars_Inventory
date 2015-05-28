@@ -4,6 +4,11 @@ public class ItemResult {
 
 	private ProductState stateA;
 	private ProductState stateB;
+	
+	private ProductState stateC;
+	private ProductState stateD;
+	private ProductState stateE;
+	
 
 	private Product product;
 	private double variance;
@@ -42,6 +47,26 @@ public class ItemResult {
 	public void setStateB(ProductState stateB) {
 		this.stateB = stateB;
 	}
+	
+	public ProductState getStateC() {
+		return stateC;
+	}
+	public void setStateC(ProductState stateC) {
+		this.stateC = stateC;
+	}
+	public ProductState getStateD() {
+		return stateD;
+	}
+	public void setStateD(ProductState stateD) {
+		this.stateD = stateD;
+	}
+	public ProductState getStateE() {
+		return stateE;
+	}
+	public void setStateE(ProductState stateE) {
+		this.stateE = stateE;
+	}
+	
 	public void setStates(ProductState a, ProductState b) {
 		this.stateA = a;
 		this.stateB = b;
@@ -51,6 +76,14 @@ public class ItemResult {
 		else if(stateB != null){
 			product = stateB.getProduct();
 		}
+	}
+	
+	public void setStatesKeylines(ProductState a, ProductState b, ProductState c, ProductState d, ProductState e) {
+		this.stateA = a;
+		this.stateB = b;		
+		this.stateA = c;
+		this.stateB = d;
+		this.stateE = e;
 	}
 
 	public double calculateVariance() 
