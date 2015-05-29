@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="308.0" prefWidth="460.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="UILayer.EmployeesController">
+   <children>
+      <Label layoutX="67.0" layoutY="45.0" text="Employee ID:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_emp_login" layoutX="162.0" layoutY="43.0" />
+      <Button fx:id="btn_login" layoutX="327.0" layoutY="43.0" mnemonicParsing="false" text="Log in" />
+      <Label layoutX="67.0" layoutY="16.0" text="Logged in employee:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbl_logged_emp" layoutX="206.0" layoutY="16.0" prefHeight="20.0" prefWidth="170.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ListView fx:id="list_employees" layoutX="199.0" layoutY="123.0" prefHeight="172.0" prefWidth="243.0" />
+      <TextField fx:id="txt_id" layoutX="18.0" layoutY="143.0" />
+      <Label layoutX="18.0" layoutY="123.0" text="ID:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="18.0" layoutY="168.0" text="Name:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_name" layoutX="18.0" layoutY="188.0" />
+      <TextField fx:id="txt_phone" layoutX="18.0" layoutY="233.0" />
+      <Label layoutX="18.0" layoutY="213.0" text="Phone number:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Separator layoutX="1.0" layoutY="79.0" prefHeight="11.0" prefWidth="459.0" />
+      <Button fx:id="btn_addupdate" layoutX="18.0" layoutY="270.0" mnemonicParsing="false" text="Add/Update" />
+      <Button fx:id="btn_remove" layoutX="108.0" layoutY="270.0" mnemonicParsing="false" text="Remove" />
+      <Separator layoutX="1.0" layoutY="107.0" prefHeight="11.0" prefWidth="459.0" />
+      <Label fx:id="lbl_output" layoutX="18.0" layoutY="88.0" text="Output">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

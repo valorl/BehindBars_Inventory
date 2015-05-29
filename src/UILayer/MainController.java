@@ -9,12 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.enartee.FlatButton;
@@ -137,8 +138,10 @@ public class MainController implements Initializable{
 			
 			// EMPLOYEES
 			
-			FlatButton btn_employees = new FlatButton("E");
-
+			FlatButton btn_employees = new FlatButton("");
+			
+			Image img_emp = new Image(getClass().getResourceAsStream("ic_employees.png"));
+			btn_employees.setGraphic(new ImageView(img_emp));
 			btn_employees.getStyleClass().addAll("flat-button-small");
 			btn_employees.setStartColor(Color.web(MENU_COLOR));
 			btn_employees.setEndColor(Color.web(MENU_COLOR_HOVER));
@@ -147,8 +150,10 @@ public class MainController implements Initializable{
 			
 			// SETTINGS
 			
-			FlatButton btn_settings = new FlatButton("S");
-
+			FlatButton btn_settings = new FlatButton("");
+			
+			Image img_config= new Image(getClass().getResourceAsStream("ic_config.png"));
+			btn_settings.setGraphic(new ImageView(img_config));
 			btn_settings.getStyleClass().addAll("navlast","flat-button-small");
 			btn_settings.setStartColor(Color.web(MENU_COLOR));
 			btn_settings.setEndColor(Color.web(MENU_COLOR_HOVER));

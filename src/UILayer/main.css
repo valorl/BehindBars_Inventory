@@ -52,11 +52,11 @@
 }
 
 .button, .combo-box-base {
-	-fx-background-color: #24AAD7;
+	-fx-background-color: #2A86A5;
 }
 .button:hover, .combo-box-base:hover 
 {
-	-fx-background-color: #50BBDF;
+	-fx-background-color: #4C9CB7;
 }
 
 .table-view {
@@ -64,7 +64,7 @@
 	-fx-border-radius: 2;
 }
 .table-view .column-header {
-	-fx-background-color: #24AAD7;
+	-fx-background-color: #2A86A5;
 }
 .table-view .column-header .label {
 	-fx-font-weight: 600;
@@ -74,7 +74,7 @@
 	-fx-effect: dropshadow( one-pass-box , rgba(100, 100, 100, 0.9) , 0, 0.0 , 0 , 1);
 }
 .scroll-bar .thumb {
-	-fx-background-color: #24AAD7;
+	-fx-background-color: #2A86A5;
 }
 
 .combo-box{
