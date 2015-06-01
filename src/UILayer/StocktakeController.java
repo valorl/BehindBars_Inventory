@@ -1,11 +1,11 @@
 package UILayer;
 
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.beans.InvalidationListener;
@@ -18,10 +18,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -127,6 +131,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		table_stocktake.setPrefWidth(DEFAULT_COLUMN_WIDTH*10+2);
 		table_stocktake.setEditable(true);
 
+		table_stocktake.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
 		// NAME
@@ -577,8 +582,40 @@ public class StocktakeController implements Initializable, ChangeablePane{
 
 	public void clearTable()
 	{	
-		table_stocktake.getItems().clear();
-		filterData();
+		ObservableList<StocktakeData> items = FXCollections.observableArrayList(table_stocktake.getSelectionModel().getSelectedItems());
+		
+		if(items != null) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Clearing table");
+			alert.setHeaderText("You are about to clear the inputs.");
+			alert.setContentText("Are you sure?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+				try {
+					for(StocktakeData item : items)
+					{
+						item.bar1Property().set(0);
+						item.bar1openProperty().set(0);
+						item.bar2Property().set(0);
+						item.bar2openProperty().set(0);
+						item.bar3Property().set(0);
+						item.bar3openProperty().set(0);
+						item.salesProperty().set(0);
+						item.storageProperty().set(0);
+
+					}
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+					output("An error occured while trying clear the selected lines.", true);
+				}
+			}
+			
+		}
+		else {
+			output("Error: No product selected.", true);
+		}
 
 	}
 
