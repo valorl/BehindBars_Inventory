@@ -22,42 +22,53 @@ import ControlLayer.SettingsCtr;
 public class ConfigController implements Initializable{
 
 	private Stage window;
-	
+
 	@FXML
 	private TextField txt_coName;
-	
+
 	@FXML
 	private ComboBox<String> cbox_currency;
-	
+
 	@FXML
 	private Button btn_ok, btn_cancel;
-	
+
 	@FXML
 	private Hyperlink link_about;
-	
+
 	private SettingsCtr settingsCtr;
-	
+
 	public ConfigController() {
 		settingsCtr = new SettingsCtr();
 	}
-	
+
 	private ObservableList<String> currencies = FXCollections.observableArrayList("Kr", "€", "$");
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 	}
-	
+
 	public void init(Stage stage) {
 		window = stage;
-		
+
+		String setting = null;
+		try {
+			setting = settingsCtr.findSetting("CO_NAME", false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(setting != null) {
+			txt_coName.setText(setting);
+		}
+
 		initComboCurr();
 		initButtons();
 		initAbout();
 	}
-	
+
 	private void initComboCurr() {
-		
+
 		cbox_currency.setItems(currencies);
 		String curr_setting = null;
 		try {
@@ -77,19 +88,19 @@ public class ConfigController implements Initializable{
 			}
 		}
 	}
-	
+
 	private void initButtons() 
 	{
 		btn_ok.setOnAction(e -> {
 			saveData();
 			closeWindow();
 		});
-		
+
 		btn_cancel.setOnAction(e -> {
 			closeWindow();
 		});
 	}
-	
+
 	private void saveData() 
 	{
 		if(txt_coName.getText().length() > 0) {
@@ -99,7 +110,7 @@ public class ConfigController implements Initializable{
 				e.printStackTrace();
 			}
 		}
-		
+
 		if(cbox_currency.getValue() != null) {
 			try {
 				settingsCtr.updateSetting("CURR", cbox_currency.getValue());
@@ -108,7 +119,7 @@ public class ConfigController implements Initializable{
 			}
 		}
 	}
-	
+
 	private void initAbout() 
 	{
 		link_about.setOnAction(e -> {
@@ -131,19 +142,19 @@ public class ConfigController implements Initializable{
 				aboutStage.close();
 			});
 			//scene.getStylesheets().add(getClass().getResource(Main.getMainCss()).toExternalForm());
-			
+
 			aboutStage.initStyle(StageStyle.UNDECORATED);
 			aboutStage.initModality(Modality.APPLICATION_MODAL);
 			aboutStage.setScene(scene);
 			aboutStage.show();
 		});
 	}
-	
+
 	private void closeWindow() 
 	{
 		window.close();
 	}
-	
-	
+
+
 
 }

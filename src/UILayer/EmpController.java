@@ -56,6 +56,7 @@ public class EmpController implements Initializable{
 		initList();
 		initButtons();
 		initCheckBox();
+		clearOutput();
 	}
 
 	private void initButtons() {
@@ -131,6 +132,7 @@ public class EmpController implements Initializable{
 					}
 				}
 				
+				updateData();
 			}
 			catch(NumberFormatException nfe) {
 				nfe.printStackTrace();

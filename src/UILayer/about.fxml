@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <StackPane fx:id="mainPain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="284.0" prefWidth="497.0" style="-fx-background-color: #333333; -fx-border-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.AboutController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="234.0" prefWidth="400.0">
@@ -18,17 +17,28 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </ImageView>
-            <Label fx:id="lbl_name" text="S y s t e m N a m e" textFill="WHITE">
+            <Label fx:id="lbl_name" text="B e v T a k e" textFill="WHITE">
                <font>
-                  <Font size="17.0" />
+                  <Font size="28.0" />
                </font>
                <VBox.margin>
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
-            <Label fx:id="lbl_version" text="S y s t e m V e r s i o n" textFill="WHITE">
+            <Label fx:id="lbl_version2" text="Inventory System" textFill="WHITE">
                <font>
-                  <Font size="14.0" />
+                  <Font size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="-7.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="lbl_version" text="version 0.9 alpha" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="13.0" />
                </font>
             </Label>
             <Label fx:id="lbl_version1" text="© Behind Bars Consulting" textFill="WHITE">

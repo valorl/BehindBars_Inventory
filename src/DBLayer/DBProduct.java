@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import ModelLayer.Fruit;
 import ModelLayer.Measurable;
 import ModelLayer.Product;
 import ModelLayer.QuantLoc;
@@ -36,6 +35,25 @@ public class DBProduct implements IFDBProduct{
 	public Product findProduct(int id, boolean retriveAssociation) throws Exception
 	{   
 		String wClause = "  id = '" + id + "'";
+
+		Product product = null;
+		try{
+			product = singleWhere(wClause, retriveAssociation);
+		}
+		catch(Exception ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Product not found.");
+		}
+
+		return product;
+
+	}
+	
+	// get one product based on its name
+	public Product findProduct(String name, boolean retriveAssociation) throws Exception
+	{   
+		String wClause = "  name = '" + name + "'";
 
 		Product product = null;
 		try{
@@ -142,12 +160,6 @@ public class DBProduct implements IFDBProduct{
 					Measurable measurable = (Measurable) product;
 					DBMeasurable dbMeasurable = new DBMeasurable();
 					dbMeasurable.insertMeasurable(measurable);
-				}
-				else if(product.getType().toLowerCase().equals("fruit")) 
-				{
-					Fruit fruit = (Fruit) product;
-					DBFruit dbFruit = new DBFruit();
-					dbFruit.insertFruit(fruit);
 				}
 			}
 			else 
@@ -270,12 +282,6 @@ public class DBProduct implements IFDBProduct{
 					DBMeasurable dbMeasurable = new DBMeasurable();
 					dbMeasurable.delete(dbMeasurable.findMeasurable(product.getId(), false));
 				}
-				else if(product.getType().toLowerCase().equals("fruit")) 
-				{
-					//Fruit fruit = (Fruit) product;
-					DBFruit dbFruit = new DBFruit();
-					dbFruit.delete(product.getId());
-				}
 
 			}
 			else 
@@ -389,10 +395,6 @@ public class DBProduct implements IFDBProduct{
 			{
 				productObj = new Measurable();
 			}
-			else if(type.toLowerCase().equals("fruit")) 
-			{
-				productObj = new Fruit();
-			}
 			else 
 			{
 				productObj = new Product();
@@ -418,15 +420,6 @@ public class DBProduct implements IFDBProduct{
 				castedProduct.setTotalMeasured(measurableObj.getTotalMeasured());
 				productObj = castedProduct;
 
-			}
-			else if(type.equals("fruit")) 
-			{
-				DBFruit dbFruit = new DBFruit();
-				Fruit fruitObj = dbFruit.findFruit(results.getInt("id"), false);
-
-				Fruit castedProduct = (Fruit) productObj;
-				castedProduct.setTotalWeight(fruitObj.getTotalWeight());
-				productObj = castedProduct;
 			}
 		}
 		catch(Exception e)

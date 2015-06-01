@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import ModelLayer.Measurable;
-import ModelLayer.Fruit;
 import ModelLayer.Product;
 import ModelLayer.QuantLoc;
 
@@ -18,7 +17,7 @@ import ModelLayer.QuantLoc;
 public class DBProductTest {
 
 	@Test
-	public void insertProductTest() 
+	public void insertFindUpdateDeleteProductTest() 
 	{
 		Product testProduct = new Product();
 		testProduct.setId(20);
@@ -26,7 +25,7 @@ public class DBProductTest {
 		testProduct.setCost(5000.00);
 		testProduct.setPrice(110.00);
 		testProduct.setUnitVolume(2000);
-		testProduct.setType("draft beer");
+		testProduct.setType("test typer");
 		testProduct.setPurchased(3);
 
 
@@ -50,109 +49,29 @@ public class DBProductTest {
 		try {
 			dbProduct.insertProduct(testProduct);
 			System.out.print("Product Insert OK");
+			Product foundProd = dbProduct.findProduct(testProduct.getName(), true);
+			if(foundProd != null)  {
+				System.out.print("Product Find OK");
+				foundProd.setPrice(5000);
+				System.out.print("Product Update OK");
+			}
+			
+			dbProduct.delete(testProduct);
+			System.out.print("Product Delete OK");
 
 		}
 		catch(Exception ex) 
 		{
 			ex.printStackTrace();
-			System.out.print("Product Insert not OK");
+			System.out.print("InsertFindUpdateDelete of Product not OK.");
 			fail();
 
 		}
 	}
-	
-//	@Test
-//	public void insertProductTest2() 
-//	{
-//		Product testProduct = new Product();
-//		testProduct.setId(20);
-//		testProduct.setName("Pampero");
-//		testProduct.setCost(500.00);
-//		testProduct.setPrice(90.00);
-//		testProduct.setUnitVolume(70);
-//		testProduct.setType("rum");
-//		testProduct.setPurchased(10);
-//
-//
-//		QuantLoc testQuantLoc1 = new QuantLoc();
-//		testQuantLoc1.setLocation("bar1");
-//		testQuantLoc1.setQuantity(2);
-//		testProduct.addQuantLoc(testQuantLoc1);
-//
-//		QuantLoc testQuantLoc2 = new QuantLoc();
-//		testQuantLoc2.setLocation("bar2");
-//		testQuantLoc2.setQuantity(2);
-//		testProduct.addQuantLoc(testQuantLoc2);
-//
-//		QuantLoc testQuantLoc3 = new QuantLoc();
-//		testQuantLoc3.setLocation("bar3");
-//		testQuantLoc3.setQuantity(6);
-//		testProduct.addQuantLoc(testQuantLoc3);
-//
-//
-//		DBProduct dbProduct = new DBProduct();
-//		try {
-//			dbProduct.insertProduct(testProduct);
-//			System.out.print("Product Insert OK");
-//
-//		}
-//		catch(Exception ex) 
-//		{
-//			ex.printStackTrace();
-//			System.out.print("Product Insert not OK");
-//			fail();
-//
-//		}
-//	}
-//
-//	
-//	@Test
-//	public void insertProductTest3() 
-//	{
-//		Product testProduct = new Product();
-//		testProduct.setId(20);
-//		testProduct.setName("Gordons");
-//		testProduct.setCost(500.00);
-//		testProduct.setPrice(90.00);
-//		testProduct.setUnitVolume(70);
-//		testProduct.setType("gin");
-//		testProduct.setPurchased(10);
-//
-//
-//		QuantLoc testQuantLoc1 = new QuantLoc();
-//		testQuantLoc1.setLocation("bar1");
-//		testQuantLoc1.setQuantity(2);
-//		testProduct.addQuantLoc(testQuantLoc1);
-//
-//		QuantLoc testQuantLoc2 = new QuantLoc();
-//		testQuantLoc2.setLocation("bar2");
-//		testQuantLoc2.setQuantity(2);
-//		testProduct.addQuantLoc(testQuantLoc2);
-//
-//		QuantLoc testQuantLoc3 = new QuantLoc();
-//		testQuantLoc3.setLocation("bar3");
-//		testQuantLoc3.setQuantity(6);
-//		testProduct.addQuantLoc(testQuantLoc3);
-//
-//
-//		DBProduct dbProduct = new DBProduct();
-//		try {
-//			dbProduct.insertProduct(testProduct);
-//			System.out.print("Product Insert OK");
-//
-//		}
-//		catch(Exception ex) 
-//		{
-//			ex.printStackTrace();
-//			System.out.print("Product Insert not OK");
-//			fail();
-//
-//		}
-//	}
+
 
 	@Test
-
-	public void insertMeasurableTest()
+	public void insertFindUpdateDeleteMeasurableTest()
 	{
 
 		Measurable testMeasurable = new Measurable();
@@ -184,10 +103,19 @@ public class DBProductTest {
 		testQuantLoc3.setQuantity(1);
 		testMeasurable.addQuantLoc(testQuantLoc3);
 
-		DBMeasurable dbMeasurable = new DBMeasurable();
+		DBProduct dbProduct = new DBProduct();
 		try {
-			dbMeasurable.insertMeasurable(testMeasurable);
+			dbProduct.insertProduct(testMeasurable);
 			System.out.print("Measurable Insert OK");
+			Measurable foundMes = new Measurable(dbProduct.findProduct(testMeasurable.getName(), true));
+			if(foundMes != null)  {
+				System.out.print("Measurable Find OK");
+				foundMes.setPrice(5000);
+				System.out.print("Measurable Update OK");
+			}
+			
+			dbProduct.delete(testMeasurable);
+			System.out.print("Measurable Delete OK");
 
 		}
 		catch(Exception ex) 
@@ -197,112 +125,6 @@ public class DBProductTest {
 			fail();
 
 		}
-	}
-
-
-
-	@Test
-
-	public void insertFruitTest()
-	{
-
-		Fruit testFruit = new Fruit();
-		//		testFruit.setId(1);
-		testFruit.setName("Oranges");
-		testFruit.setCost(20.00);
-		testFruit.setPrice(2.00);
-		testFruit.setUnitVolume(10);
-		testFruit.setType("Fruit");
-		testFruit.setPurchased(20);
-		testFruit.setTotalWeight(20);
-
-
-		QuantLoc testQuantLoc1 = new QuantLoc();
-		testQuantLoc1.setLocation("bar1");
-		testQuantLoc1.setQuantity(5);
-		testFruit.addQuantLoc(testQuantLoc1);
-
-		QuantLoc testQuantLoc2 = new QuantLoc();
-		testQuantLoc2.setLocation("bar2");
-		testQuantLoc2.setQuantity(2);
-		testFruit.addQuantLoc(testQuantLoc2);
-
-		QuantLoc testQuantLoc3 = new QuantLoc();
-		testQuantLoc3.setLocation("bar3");
-		testQuantLoc3.setQuantity(13);
-		testFruit.addQuantLoc(testQuantLoc3);
-
-		DBFruit dbFruit = new DBFruit();
-		try {
-			dbFruit.insertFruit(testFruit);
-			System.out.print("Fruit Insert OK");
-
-		}
-		catch(Exception ex) 
-		{
-			ex.printStackTrace();
-			System.out.print("Fruit Insert not OK");
-			fail();
-		}
-	}
-
-
-	@Test
-	public void findProductTest() throws Exception
-	{
-
-		DBProduct dbProduct = new DBProduct();
-		Product testProduct = dbProduct.findProduct(1,false);
-
-		try{
-			dbProduct.findProduct(1,false); 
-			System.out.print("Test Product name:" + testProduct.getName());
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();	
-			System.out.print("Could not find Product");
-
-		}
-	}
-
-	@Test
-	public void updateProductTest() throws Exception
-	{
-
-		DBProduct dbProduct = new DBProduct();
-		Product testProduct = dbProduct.findProduct(1, false);
-
-		try{
-			testProduct.setCost(400.00);
-			System.out.print("Test Product new cost is:" + testProduct.getCost());
-			dbProduct.updateProduct(testProduct);
-		}
-		catch (Exception ex)
-
-		{
-			ex.printStackTrace();
-			System.out.print("could not update product");
-		}
-	}
-
-	@Test
-	public void deleteProductTest()
-	{
-
-		DBProduct dbProduct = new DBProduct();
-
-		try{
-			Product testProduct = dbProduct.findProduct(1, true);
-			dbProduct.delete(testProduct);
-			System.out.print("Product deleted");
-
-		}
-		catch (Exception ex)
-		{
-			System.out.print("Product not deleted");
-		}
-
 	}
 
 

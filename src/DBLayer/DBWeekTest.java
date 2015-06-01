@@ -47,39 +47,6 @@ public class DBWeekTest {
 			System.out.print("Insert failed");
 		}
 	}
-		
-		@Test
-		public void findWeekTest()
-		{
-		
-			DBWeek dbWeek = new DBWeek();
-			try {
-				dbWeek.findWeek(2, 3, 2015, true);
-				System.out.print("Week found");
-			}
-			catch(Exception ex)
-			{
-				fail();
-				ex.printStackTrace();
-				System.out.print("Could not find week");
-			}
-		}
-		
-		/*@Test
-		public void updateWeekTest()
-		{
-			Week updateWeek = new Week();
-			
-		}
-		*/
-		
-		/*@Test
-		public void deleteWeekTest()
-		{
-			Week deleteWeek = new Week();
-			deleteWeek.
-		}
-		*/
 	}
 
 
