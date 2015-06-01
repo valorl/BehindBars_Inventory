@@ -172,7 +172,12 @@ public class DBProductState implements IFDBProductState{
 		PreparedStatement prepDelete = null;
 
 		try{ // delete from productState
-
+			
+			ProductState state = findProductState(id, true);
+			DBQuantLoc dbQl = new DBQuantLoc();
+			for(QuantLoc ql : state.getQuantLocs()) {
+				dbQl.delete(ql);
+			}
 
 			String query="DELETE FROM productState WHERE id = ?";
 			prepDelete = con.prepareStatement(query);

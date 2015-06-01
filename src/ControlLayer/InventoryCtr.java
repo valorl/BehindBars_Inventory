@@ -24,22 +24,19 @@ public class InventoryCtr {
 	 */
 	public WeekResult getResults(Date date) throws Exception 
 	{
-
-		Week weekA = weekCtr.findWeek(date);
-		Week weekB = weekCtr.findPreviousWeek(weekA);
-
+		Week weekB = weekCtr.findWeek(date);
+		Week weekA = weekCtr.findPreviousWeek(weekB);
 		WeekResult weekResult = new WeekResult();
-
 		int maxSize = 0; 
 		if(weekA != null && weekB != null) {
-			
-			weekResult.setWeekA(weekB);
-			weekResult.setWeekB(weekA);
-			
-			if(weekA.getStateList().size() > weekB.getStateList().size()) {
+			weekResult.setWeekA(weekA);
+			weekResult.setWeekB(weekB);
+			if(weekA.getStateList().size() > weekB.getStateList().size()) 
+			{
 				maxSize = weekA.getStateList().size();
 			}
-			else {
+			else 
+			{
 				maxSize = weekB.getStateList().size();
 			}
 
@@ -47,12 +44,7 @@ public class InventoryCtr {
 			{
 				ItemResult itemResult = new ItemResult();
 				ProductState productStateA = weekA.getState(i);
-				//Product product = productStateA.getProduct();
-				//itemResult.setProduct(product);
 				ProductState productStateB = weekB.getState(i);
-				Product product = productStateA.getProduct();
-
-				
 				if(productStateA == null || productStateB == null) 
 				{
 					itemResult.setRevenue(-1);
@@ -70,9 +62,6 @@ public class InventoryCtr {
 		else {
 			weekResult = null;
 		}
-		
-		System.out.println("" + weekResult.toString());
-
 		return weekResult;
 	}
 

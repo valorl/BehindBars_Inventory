@@ -263,7 +263,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		lbl_date.setText(mainDF.format(date));
 		lbl_week.setText("Week " + weekNr.format(date));
 	}
-
+  
 	@SuppressWarnings("unchecked")
 	private void initComboBox() {
 		cbox_category.setButtonCell(new ListCell(){
@@ -395,7 +395,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		return invData;
 
 	}
-
+	
 	private void saveData()
 	{
 		boolean success = false;
@@ -422,6 +422,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		//ArrayList<QuantLoc> quantLocs = new ArrayList<QuantLoc>();
 		//DBProductState dbState = new DBProductState();
 
+		// Table contents:  StocktakeData class represents table rows
 		ObservableList<StocktakeData> stData = data;
 
 		for(StocktakeData item : stData) {

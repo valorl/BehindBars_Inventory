@@ -1,5 +1,7 @@
 package ControlLayer;
 
+import java.util.ArrayList;
+
 import DBLayer.DBEmployee;
 import ModelLayer.Employee;
 
@@ -31,6 +33,10 @@ public class EmployeeCtr {
 		catch(Exception e) {
 			throw new Exception("Employee not found");
 		}
+	}
+	
+	public ArrayList<Employee> getAllEmployees() throws Exception{
+		return dbEmployee.getAllEmployees(false);
 	}
 	
 	public void updateEmployee(int id, String name, String phoneNo) throws Exception

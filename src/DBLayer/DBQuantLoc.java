@@ -311,6 +311,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 	{   
 		QuantLoc QLObj = new QuantLoc();
 		try{ // the columns from the table product are used
+			QLObj.setId(results.getInt("id"));
 			QLObj.setQuantity(results.getDouble("quantity"));
 			QLObj.setLocation(results.getString("location"));
 		}
@@ -324,7 +325,7 @@ public class DBQuantLoc implements IFDBQuantLoc{
 
 	private String buildQuery(String wClause)
 	{
-		String query="SELECT quantity, location, productID, stateID FROM quantLoc";
+		String query="SELECT id, quantity, location, productID, stateID FROM quantLoc";
 
 		if (wClause.length()>0)
 			query=query+" WHERE "+ wClause;

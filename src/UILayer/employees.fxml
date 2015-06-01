@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="308.0" prefWidth="460.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="UILayer.EmployeesController">
+<AnchorPane prefHeight="319.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UILayer.EmpController">
    <children>
       <Label layoutX="67.0" layoutY="45.0" text="Employee ID:">
          <font>
@@ -26,7 +25,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ListView fx:id="list_employees" layoutX="199.0" layoutY="123.0" prefHeight="172.0" prefWidth="243.0" />
+      <ListView fx:id="list_employees" layoutX="199.0" layoutY="123.0" prefHeight="187.0" prefWidth="243.0" />
       <TextField fx:id="txt_id" layoutX="18.0" layoutY="143.0" />
       <Label layoutX="18.0" layoutY="123.0" text="ID:">
          <font>
@@ -46,13 +45,14 @@
          </font>
       </Label>
       <Separator layoutX="1.0" layoutY="79.0" prefHeight="11.0" prefWidth="459.0" />
-      <Button fx:id="btn_addupdate" layoutX="18.0" layoutY="270.0" mnemonicParsing="false" text="Add/Update" />
-      <Button fx:id="btn_remove" layoutX="108.0" layoutY="270.0" mnemonicParsing="false" text="Remove" />
+      <Button fx:id="btn_addupdate" layoutX="18.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Update" />
+      <Button fx:id="btn_remove" layoutX="108.0" layoutY="287.0" mnemonicParsing="false" text="Remove" />
       <Separator layoutX="1.0" layoutY="107.0" prefHeight="11.0" prefWidth="459.0" />
       <Label fx:id="lbl_output" layoutX="18.0" layoutY="88.0" text="Output">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <CheckBox fx:id="chbox_new" layoutX="18.0" layoutY="262.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="149.0" text="New employee" />
    </children>
 </AnchorPane>

@@ -44,28 +44,48 @@ public class StocktakeData {
 		
 		this.sales = new SimpleDoubleProperty(0);
 		// PROPERTY LISTENERS
-//		
-//		this.storage.addListener((obs, oldStorage, newStorage) -> 
-//		productStateObj.setSold((double) newStorage));
-//		
-//		this.bar1.addListener((obs, oldBar1Bottle, newBar1Bottle) ->
-//		productStateObj.setSold((double) newBar1Bottle));
-//		
-//		this.bar1open.addListener((obs, oldBar1open, newBar1open) ->
-//		productStateObj.setSold((double) newBar1open));
-//		
-//		this.bar2.addListener((obs, oldBar2, newBar2) ->
-//		productStateObj.setSold((double) newBar2));
-//		this.bar2open.addListener((obs, oldBar2open, newBar2open) ->
-//		productStateObj.setSold((double) newBar2open));
-//		
-//		this.bar3.addListener((obs, oldBar3, newBar3) ->
-//		productStateObj.setSold((double) newBar3));
-//		this.bar3open.addListener((obs, oldBar3open, newBar3open) ->
-//		productStateObj.setSold((double) newBar3open));
-//		
-//		this.sales.addListener((obs, oldSales, newSales) ->
-//		productStateObj.setSold((double) newSales));
+		
+		this.storage.addListener((obs, oldValue, newValue) -> {
+			if((int)newValue < 0) {
+				storage.set(0);
+			}
+		});
+		this.bar1.addListener((obs, oldValue, newValue) -> {
+			if((int)newValue < 0) {
+				bar1.set(0);
+			}
+		});
+		this.bar1open.addListener((obs, oldValue, newValue) -> {
+			if((double)newValue < 0) {
+				bar1open.set(0);
+			}
+		});
+		this.bar2.addListener((obs, oldValue, newValue) -> {
+			if((int)newValue < 0) {
+				bar2.set(0);
+			}
+		});
+		this.bar2open.addListener((obs, oldValue, newValue) -> {
+			if((double)newValue < 0) {
+				bar2open.set(0);
+			}
+		});
+		this.bar3.addListener((obs, oldValue, newValue) -> {
+			if((int)newValue < 0) {
+				bar3.set(0);
+			}
+		});
+		this.bar3open.addListener((obs, oldValue, newValue) -> {
+			if((double)newValue < 0) {
+				bar3open.set(0);
+			}
+		});
+		this.sales.addListener((obs, oldValue, newValue) -> {
+			if((double)newValue < 0) {
+				sales.set(0);
+			}
+		});
+		
 	}
 	
 	// GETTERS PROPERTIES
@@ -74,23 +94,23 @@ public class StocktakeData {
 		return storage;
 	}
 	
-	public IntegerProperty bar1BottleProperty() {
+	public IntegerProperty bar1Property() {
 		return bar1;
 	}
 	
-	public DoubleProperty bar1OpenProperty() {
+	public DoubleProperty bar1openProperty() {
 		return bar1open;
 	}
 	
-	public IntegerProperty bar2BottleProperty() {
+	public IntegerProperty bar2Property() {
 		return bar2;
 	}
 
-	public DoubleProperty bar2OpenProperty() {
+	public DoubleProperty bar2openProperty() {
 		return bar2open;
 	}
 
-	public IntegerProperty bar3BottleProperty() {
+	public IntegerProperty bar3Property() {
 		return bar3;
 	}
 

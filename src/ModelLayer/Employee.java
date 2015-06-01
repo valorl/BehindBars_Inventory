@@ -41,4 +41,9 @@ public class Employee {
 		this.phoneNo = phoneNo;
 	}
 	
+	public String toString() {
+		String idString = String.format("%02d ", this.id);
+		return idString + " " + this.name;
+	}
+	
 }

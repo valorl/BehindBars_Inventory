@@ -218,6 +218,29 @@ public class MainController implements Initializable{
 				configStage.show();
 			});
 			
+			btn_employees.setOnAction((e) -> {
+				Stage empStage = new Stage();
+				Parent parent = null;
+				EmpController controller;
+
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("employees.fxml"));
+					parent = loader.load();
+					controller = loader.<EmpController>getController();
+					controller.init(empStage);
+				}
+				catch(Exception ex) {
+					ex.printStackTrace();
+				}
+
+				Scene scene = new Scene(parent);
+				//scene.getStylesheets().add(getClass().getResource(Main.getMainCss()).toExternalForm());
+
+				empStage.setTitle("Employee management");
+				empStage.setScene(scene);
+				empStage.show();
+			});
+			
 		}
 		
 	}

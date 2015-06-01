@@ -26,12 +26,11 @@ public class DBWeek implements IFDBWeek{
 		return muchWhere("", retriveAssociation);
 	}
 
-	//get one week based on its number, year, month
+	//get one week based on its number, year
 	public Week findWeek(int number,int year, boolean retriveAssociation) throws Exception
 	{   
 		String wClause = "  number = '" + number + "' AND "+
 				"year ='"+ year+"'";
-
 		Week week = null;
 		try{
 			week = singleWhere(wClause, retriveAssociation);
@@ -41,9 +40,7 @@ public class DBWeek implements IFDBWeek{
 			ex.printStackTrace();
 			throw new Exception("Week not found.");
 		}
-
 		return week;
-
 	}
 
 	//get one week based on its id
@@ -282,7 +279,13 @@ public class DBWeek implements IFDBWeek{
 		PreparedStatement prepDelete = null;
 
 		try{ // delete from week
-
+			
+			if(week.getStateList().size() > 0) {
+				DBProductState dbProductState = new DBProductState();
+				for(ProductState state : week.getStateList()) {
+					dbProductState.delete(state.getId());
+				}
+			}
 
 			String query="DELETE FROM week WHERE id = ?";
 
@@ -294,12 +297,7 @@ public class DBWeek implements IFDBWeek{
 			prepDelete.executeUpdate();
 			DbConnection.commitTransaction();
 
-			if(week.getStateList().size() > 0) {
-				DBProductState dbProductState = new DBProductState();
-				for(ProductState state : week.getStateList()) {
-					dbProductState.delete(state.getId());
-				}
-			}
+			
 
 		}//try to close	
 		catch(Exception ex){
@@ -345,7 +343,6 @@ public class DBWeek implements IFDBWeek{
 			}
 			else{ //no week was found
 				weekObj = null;
-				
 				throw new Exception("Week not found.");
 			}
 		}//end try	
