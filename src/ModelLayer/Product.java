@@ -23,6 +23,7 @@ public class Product {
 
 	public Product() {
 		quantLocs = new ArrayList<QuantLoc>();
+		purchased = 0;
 	};
 
 	public Product(String name, double cost, double price,

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -26,7 +27,15 @@
                </children>
             </HBox>
             <Button fx:id="btn_save" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" />
-            <Label fx:id="lbl_output" text="Output" />
+            <Label fx:id="lbl_output" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="200.0" text="Output">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin></Label>
+            <Button fx:id="btn_deliveries" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Register delivery">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
    </children>

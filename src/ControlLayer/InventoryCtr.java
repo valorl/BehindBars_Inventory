@@ -26,6 +26,32 @@ public class InventoryCtr {
 	{
 		Week weekB = weekCtr.findWeek(date);
 		Week weekA = weekCtr.findPreviousWeek(weekB);
+		WeekResult weekResult = getWeekResult(weekB, weekA);
+		return weekResult;
+	}
+	
+	public WeekResult getResultsForWeek(Week week) throws Exception {
+		Week previous = weekCtr.findPreviousWeek(week);
+		WeekResult weekResult = getWeekResult(week, previous);
+		return weekResult;
+	}
+
+	public ArrayList<WeekResult> getKeyLines(int month, int year) throws Exception {
+		ArrayList<WeekResult> keyLines = new ArrayList<WeekResult>();
+
+		ArrayList<Week> weeksInMonth = weekCtr.getWeeksMonthYear(month, year);
+		int noOfWeeks = weeksInMonth.size();
+
+		if(noOfWeeks > 1) {
+			for(int i = noOfWeeks - 1; i >= 0; i--) {
+				keyLines.add(getResultsForWeek(weeksInMonth.get(i)));
+			}
+		}
+		
+		return keyLines;
+	}
+
+	private WeekResult getWeekResult(Week weekB, Week weekA) {
 		WeekResult weekResult = new WeekResult();
 		int maxSize = 0; 
 		if(weekA != null && weekB != null) {

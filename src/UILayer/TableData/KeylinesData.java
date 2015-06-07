@@ -44,73 +44,70 @@ public class KeylinesData {
 	
 	
 	// Constructor - converts Product obj into InventoryData
-	public KeylinesData(ItemResult result) 
+	public KeylinesData(ItemResult... results) 
 	{
-	
-		this.product = result.getProduct();
+		week1Sales = new SimpleDoubleProperty();
+		week2Sales = new SimpleDoubleProperty();
+		week3Sales = new SimpleDoubleProperty();
+		week4Sales = new SimpleDoubleProperty();
+		week5Sales = new SimpleDoubleProperty();
 		
-		this.state1 = result.getStateA();
-		this.week1Sales = new SimpleDoubleProperty(state1.getSold());
-		this.week1Dif = new SimpleDoubleProperty(state1.getTotalQuantity() - state1.getSold());
+		week1Dif = new SimpleDoubleProperty();
+		week2Dif = new SimpleDoubleProperty();
+		week3Dif = new SimpleDoubleProperty();
+		week4Dif = new SimpleDoubleProperty();
+		week5Dif = new SimpleDoubleProperty();
 		
-		if(result.getStateB() != null)
-		{
-			this.state2 = result.getStateB();
-			this.week2Sales = new SimpleDoubleProperty(state2.getSold());
-			this.week2Dif = new SimpleDoubleProperty(state2.getTotalQuantity() - state2.getSold());
+		totalSales = new SimpleDoubleProperty();
+		totalSales.bind(week1Sales.add(week2Sales).add(week3Sales).add(week4Sales).add(week5Sales));
+		totalDif = new SimpleDoubleProperty();
+		totalSales.bind(week1Dif.add(week2Dif).add(week3Dif).add(week4Dif).add(week5Dif));
+		revenue = new SimpleDoubleProperty();
+		
+		
+		int noOfResults = results.length;
+		
+		if(results[0] != null) {
+			week1Sales.set(results[0].getStateB().getSold());
+			week1Dif.bind(week1Sales.subtract(results[0].getVariance()));
 		}
-		else
-		{
-			this.state2 = result.getStateB();
-			this.week2Sales = new SimpleDoubleProperty();
-			this.week2Dif = new SimpleDoubleProperty();
+		else {
+			week1Sales.set(0);
+			week1Dif.set(0);
+		}
+		if(results[1] != null) {
+			week2Sales.set(results[1].getStateB().getSold());
+			week2Dif.bind(week2Sales.subtract(results[1].getVariance()));
+		}
+		else {
+			week2Sales.set(0);
+			week2Dif.set(0);
+		}
+		if(results[2] != null) {
+			week3Sales.set(results[2].getStateB().getSold());
+			week3Dif.bind(week3Sales.subtract(results[2].getVariance()));
+		}
+		else {
+			week3Sales.set(0);
+			week3Dif.set(0);
+		}
+		if(results[3] != null) {
+			week4Sales.set(results[3].getStateB().getSold());
+			week4Dif.bind(week4Sales.subtract(results[3].getVariance()));
+		}
+		else {
+			week4Sales.set(0);
+			week4Dif.set(0);
+		}
+		if(results[4] != null) {
+			week5Sales.set(results[4].getStateB().getSold());
+			week5Dif.bind(week5Sales.subtract(results[4].getVariance()));
+		}
+		else {
+			week5Sales.set(0);
+			week5Dif.set(0);
 		}
 		
-		if(result.getStateC() != null)
-		{
-			this.state3 = result.getStateC();
-			this.week3Sales = new SimpleDoubleProperty(state3.getSold());
-			this.week3Dif = new SimpleDoubleProperty(state3.getTotalQuantity() - state3.getSold());
-		}
-		else
-		{
-			this.state3 = result.getStateC();
-			this.week3Sales = new SimpleDoubleProperty();
-			this.week3Dif = new SimpleDoubleProperty();
-		}
-		
-		if(result.getStateD() != null)
-		{
-			this.state4 = result.getStateD();
-			this.week4Sales = new SimpleDoubleProperty(state4.getSold());
-			this.week4Dif = new SimpleDoubleProperty(state4.getTotalQuantity() - state4.getSold());
-		}
-		else
-		{
-			this.state4 = result.getStateD();
-			this.week4Sales = new SimpleDoubleProperty();
-			this.week4Dif = new SimpleDoubleProperty();
-		}
-		
-		if(result.getStateE() != null)
-		{
-			this.state5 = result.getStateE();
-			this.week5Sales = new SimpleDoubleProperty(state5.getSold());
-			this.week5Dif = new SimpleDoubleProperty(state5.getTotalQuantity() - state5.getSold());
-		}
-		else
-		{
-			this.state5 = result.getStateE();
-			this.week5Sales = new SimpleDoubleProperty();
-			this.week5Dif = new SimpleDoubleProperty();
-		}
-		
-		this.id = new SimpleIntegerProperty(product.getId());
-		this.name = new SimpleStringProperty(product.getName());
-				
-		this.totalDif = new SimpleDoubleProperty(week1Dif.get() + week2Dif.get() + week3Dif.get() + week4Dif.get() + week5Dif.get());
-		this.totalSales = new SimpleDoubleProperty(result.getVariance());
-		this.revenue = new SimpleDoubleProperty(result.getRevenue());
 		
 		
 	}

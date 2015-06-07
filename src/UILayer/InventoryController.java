@@ -28,6 +28,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -58,7 +59,7 @@ public class InventoryController implements Initializable, ChangeablePane{
 	private AnchorPane mainHbox;
 
 	@FXML
-	private Button btn_save, btn_new, btn_delete, btn_search;
+	private Button btn_save, btn_new, btn_delete, btn_search, btn_deliveries;
 
 	@FXML
 	private TextField txt_search;
@@ -449,6 +450,10 @@ public class InventoryController implements Initializable, ChangeablePane{
 		btn_delete.setOnAction((e) -> {
 			deleteProduct();
 		});
+		
+		btn_deliveries.setOnAction((e) -> {
+			delivery();
+		});
 	}
 
 	private void commitChanges() 
@@ -558,6 +563,35 @@ public class InventoryController implements Initializable, ChangeablePane{
 
 	}
 
+	private void delivery() {
+		if(table_inventory.getSelectionModel().getSelectedItem() != null) {
+			
+			Product theProduct = table_inventory.getSelectionModel().getSelectedItem().getProduct();
+			
+			TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("Register delivery");
+			dialog.setHeaderText("Delivery for " + theProduct.getName() + ":");
+			dialog.setContentText("Please enter number of bottles:");
+			
+			Optional<String> result = dialog.showAndWait();
+			result.ifPresent(noOfBottles -> {
+				int purchased = 0;
+				try {
+					purchased = Integer.parseInt(noOfBottles);
+					theProduct.setPurchased(purchased);
+					output("Delivery registered successfully.", false);
+				}
+				catch(NumberFormatException ex) {
+					ex.printStackTrace();
+					output("Error: Incorrect delivery input", true);
+				}
+			});
+		}
+		else {
+			output("No product selected.", true);
+		}
+	}
+	
 	private void initSearch() {
 
 		txt_search.setPromptText("Search...");

@@ -55,7 +55,6 @@ public class ConfigController implements Initializable{
 		try {
 			setting = settingsCtr.findSetting("CO_NAME", false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(setting != null) {

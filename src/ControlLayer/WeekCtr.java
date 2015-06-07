@@ -52,6 +52,14 @@ public class WeekCtr {
 		return dbWeek.findWeekId(previousID, true);
 	}
 	
+	public Week findWeekById(int id) throws Exception {
+		return dbWeek.findWeekId(id, true);
+	}
+	
+	public ArrayList<Week> findWeeksMonth(int month, int year) throws Exception {
+		return dbWeek.findWeeksMonth(month, year, true);
+	}
+	
 	// Convert Date obj to weekNr, month, year
 	private int[] dateToNumbers(Date date) 
 	{
@@ -70,12 +78,12 @@ public class WeekCtr {
 		return numbers;
 	}
 	
-	public ArrayList<String> getYears() throws Exception
+	public ArrayList<Integer> getYears() throws Exception
 	{
 		return dbWeek.getYears();
 	}
 	
-	public ArrayList<String> getMonths() throws Exception
+	public ArrayList<Integer> getMonths() throws Exception
 	{
 		return dbWeek.getMonths();
 	}

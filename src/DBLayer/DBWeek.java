@@ -42,6 +42,24 @@ public class DBWeek implements IFDBWeek{
 		}
 		return week;
 	}
+	
+	//get one week based on its month, year
+	public ArrayList<Week> findWeeksMonth(int month,int year, boolean retriveAssociation) throws Exception
+	{   
+		String wClause = "  month = '" + month + "' AND "+
+				"year ='"+ year+"'";
+		ArrayList<Week> weekList = null;
+		try{
+			weekList = muchWhere(wClause, retriveAssociation);
+		}
+		catch(Exception ex) 
+		{
+			ex.printStackTrace();
+			throw new Exception("Week not found.");
+		}
+		return weekList;
+	}
+	
 
 	//get one week based on its id
 	public Week findWeekId(int id, boolean retriveAssociation) throws Exception
@@ -62,9 +80,9 @@ public class DBWeek implements IFDBWeek{
 
 	}
 
-	public ArrayList<String> getYears() throws Exception
+	public ArrayList<Integer> getYears() throws Exception
 	{
-		ArrayList<String> years = new ArrayList<String>();
+		ArrayList<Integer> years = new ArrayList<Integer>();
 		
 		String query="SELECT DISTINCT year FROM week";
 		PreparedStatement prepStmt = null;
@@ -75,7 +93,7 @@ public class DBWeek implements IFDBWeek{
 			
 			while(results.next()) 
 			{
-				years.add(results.getString("year"));
+				years.add(results.getInt("year"));
 			}
 			
 			if(!(years.size() > 0)) 
@@ -93,9 +111,9 @@ public class DBWeek implements IFDBWeek{
 		return years;
 	}
 	
-	public ArrayList<String> getMonths() throws Exception
+	public ArrayList<Integer> getMonths() throws Exception
 	{
-		ArrayList<String> months = new ArrayList<String>();
+		ArrayList<Integer> months = new ArrayList<Integer>();
 		
 		String query="SELECT DISTINCT month FROM week";
 		PreparedStatement prepStmt = null;
@@ -106,7 +124,7 @@ public class DBWeek implements IFDBWeek{
 			
 			while(results.next()) 
 			{
-				months.add(results.getString("month"));
+				months.add(results.getInt("month"));
 			}
 			
 			if(!(months.size() > 0)) 

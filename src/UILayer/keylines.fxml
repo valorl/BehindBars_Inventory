@@ -10,23 +10,22 @@
    <children>
       <HBox prefHeight="42.0" prefWidth="1142.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="571.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ComboBox fx:id="cbox_month" prefHeight="25.0" prefWidth="114.0" />
                   <ComboBox fx:id="cbox_year" prefHeight="25.0" prefWidth="74.0" />
-                  <Button mnemonicParsing="false" text="Show" />
+                  <Button fx:id="btn_show" mnemonicParsing="false" text="Show" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="571.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="311.0" spacing="10.0">
                <children>
                   <ComboBox fx:id="cbox_category" maxWidth="1.7976931348623157E308" prefWidth="150.0" promptText="Choose a category..." />
                   <TextField fx:id="txt_search" />
-                  <Button mnemonicParsing="false" text="Button" />
                </children>
             </HBox>
          </children>
       </HBox>
-      <TableView fx:id="table_keylines" maxHeight="1.7976931348623157E308"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TableView fx:id="table_keylines" maxHeight="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS" />
   
    </children>
 </VBox>

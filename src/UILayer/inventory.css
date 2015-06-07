@@ -28,20 +28,30 @@
 	-fx-max-height: 25px;
 }
 
-.results .text-field, .results .combo-box-base, .results .date-picker{
+.results .text-field, .results .combo-box-base, .results .date-picker, .keylines .text-field, .keylines .combo-box-base {
 	-fx-pref-height: 30px;
 	-fx-min-height: 30px;
 	-fx-max-height: 30px;
 	
 }
-.results .button {
+.results .button, .keylines .button {
 	-fx-font-size: 16px;
 	-fx-height: 30px;
 	-fx-min-height: 30px;
 	-fx-pref-height: 30px;
 }
 
+.combo-box-base {
+	-fx-prompt-text-fill: #fff;
+}
 
+#btn_save {
+	-fx-background-color: #2BC158;
+}
+
+#btn_delete , #btn_clear {
+	-fx-background-color: #DC1B1B;
+}
 
 
 .radio-button {

@@ -51,6 +51,11 @@ public class ResultsTest {
 
 		weekB = new Week();
 	}
+	
+	@Test
+	public void weekScript() {
+		
+	}
 
 	@Test
 	public void testCase1() {

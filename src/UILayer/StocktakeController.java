@@ -3,11 +3,15 @@ package UILayer;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -18,11 +22,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.SelectionMode;
@@ -33,6 +41,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import ControlLayer.ProductCtr;
 import ControlLayer.WeekCtr;
 import ModelLayer.Measurable;
@@ -56,7 +66,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	private static final double DEFAULT_COLUMN_WIDTH = 85;
 	private static final double STRETCHED_COLUMN_WIDTH = 120;
 	
-	private static final boolean TESTRUN = true;
+	private static final boolean TESTRUN = false;
 
 	private BooleanProperty weightVisible = new SimpleBooleanProperty(true);
 	private DoubleProperty columnWidth = new SimpleDoubleProperty(DEFAULT_COLUMN_WIDTH);
@@ -115,6 +125,12 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		mainHbox.setOnKeyPressed((e) -> {
 			if (e.getCode() == KeyCode.F && e.isControlDown()) { 
 				txt_search.requestFocus();
+			}
+		});
+		
+		mainHbox.setOnKeyPressed(e -> {
+			if(e.getCode() == KeyCode.D && e.isControlDown() && e.isShiftDown()) {
+				dateDebug();
 			}
 		});
 	}
@@ -446,7 +462,9 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			productState.setCurrentCost(product.getCost());
 			productState.setCurrentPrice(product.getPrice());
 			storage.setLocation("storage");
-			storage.setQuantity(item.getStorage() * product.getUnitVolume());
+			
+			storage.setQuantity(item.getStorage() * product.getUnitVolume() + (product.getPurchased() * product.getUnitVolume()));
+			if(product.getPurchased() != 0) product.setPurchased(0);
 			productState.addQuantLoc(storage);
 
 			
@@ -576,6 +594,49 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		lbl_output.setText(message);
 	}
 
+	private void dateDebug() {
+		// Create the custom dialog.
+		Dialog<Date> dialog = new Dialog<>();
+		dialog.setTitle("Date debugging");
+		dialog.setHeaderText("Set system date:");
+
+		// Set the button types.
+		dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+		// Create the username and password labels and fields.
+		VBox box = new VBox();
+		box.setSpacing(5);
+		box.setAlignment(Pos.CENTER);
+
+		DatePicker picker = new DatePicker();
+		CheckBox chbox = new CheckBox("use actual");
+		box.getChildren().addAll(picker, chbox);
+		dialog.getDialogPane().setContent(box);
+
+		dialog.setResultConverter(dialogButton -> {
+		    if (dialogButton == ButtonType.OK) {
+		    	if(chbox.isSelected()) {
+		    		return new Date();
+		    	}
+		    	else {
+		    		LocalDate ld = picker.getValue();
+					Instant instant = ld.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+					Date date = Date.from(instant);
+					return date;
+		    	}
+		    }
+		    return null;
+		});
+
+		Optional<Date> result = dialog.showAndWait();
+
+		result.ifPresent(date -> {
+		    System.out.println("*****************************************\n  New system date: " + date + " \n *****************************************\n");
+		    this.date = date;
+		    initDates();
+		});
+	}
+	
 	private void clearOutput() {
 		lbl_output.setText("");
 	}

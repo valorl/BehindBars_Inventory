@@ -9,13 +9,16 @@ import java.sql.*;
 public class DbConnection
 {   //Constants used to get access to the database
 	//SQL Server
-   private static final String  driver = "jdbc:sqlserver://kraka.ucn.dk:1433";
-   //private static final String  driver = "jdbc:sqlserver://localhost:1433";
+   //private static final String  driver = "jdbc:sqlserver://kraka.ucn.dk:1433";
+   private static final String  driver = "jdbc:sqlserver://localhost:1433";
    private static final String  databaseName = ";databaseName=dmaj0914_2Sem_3";
     //SQL Server
-   private static String  userName = ";user=dmaj0914_2Sem_3";
-   // private static String  userName = "; user = ";
-    private static String password = ";password=IsAllowed";
+   //private static String  userName = ";user=dmaj0914_2Sem_3";
+   //private static String  userName = "; user = ";
+    //private static String password = ";password=IsAllowed";
+   
+   private static String userName = ";user=sqladmin";
+   private static String password = ";password=skyisblue";
    
   
     private DatabaseMetaData dma;
