@@ -24,8 +24,8 @@ import com.enartee.FlatButton;
 
 public class MainController implements Initializable{
 
-	private static final String MENU_COLOR = "#24aad7";
-	private static final String MENU_COLOR_HOVER = "#50BBDF";
+	private static final String MENU_COLOR = "#2A86A5";
+	private static final String MENU_COLOR_HOVER = "#4C9CB7";
 	
 	public static String inventoryID = "inventory";
     public static String inventoryFXML = "inventory.fxml";
@@ -50,8 +50,9 @@ public class MainController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		constructButtons();	
 		constructContent();
+		constructButtons();	
+		
 	}
 	
 	private void constructContent() 
@@ -240,6 +241,9 @@ public class MainController implements Initializable{
 				empStage.setScene(scene);
 				empStage.show();
 			});
+			
+			// auto-open inventory on start
+			btn_inventory.fire();
 			
 		}
 		

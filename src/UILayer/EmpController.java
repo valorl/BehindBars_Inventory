@@ -28,13 +28,13 @@ public class EmpController implements Initializable{
 	private TextField txt_emp_login, txt_id, txt_name, txt_phone;
 
 	@FXML
-	private Button btn_login, btn_addupdate, btn_remove;
+	private Button btn_login, btn_addupdate, btn_remove, btn_logout;
 
 	@FXML
 	private ListView<Employee> list_employees;
 
 	@FXML
-	private Label lbl_output;
+	private Label lbl_output, lbl_logged_emp;
 	
 	@FXML
 	private CheckBox chbox_new;
@@ -48,6 +48,7 @@ public class EmpController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 	}
 
 	public void init(Stage stage) {
@@ -57,12 +58,16 @@ public class EmpController implements Initializable{
 		initButtons();
 		initCheckBox();
 		clearOutput();
+		updateLoggedLbl();
+		showHideLogout();
 	}
 
 	private void initButtons() {
 
 		btn_login.setOnAction(e -> {
 			login();
+			updateLoggedLbl();
+			showHideLogout();
 		});
 
 		btn_addupdate.setOnAction(e -> {
@@ -71,6 +76,14 @@ public class EmpController implements Initializable{
 		
 		btn_remove.setOnAction(e -> {
 			remove();
+		});
+		
+		btn_logout.setOnAction(e -> {
+			if(this.loggedEmp != null) {
+				this.loggedEmp = null;
+				updateLoggedLbl();
+				showHideLogout();
+			}
 		});
 	}
 	
@@ -202,5 +215,20 @@ public class EmpController implements Initializable{
 
 	private void clearOutput() {
 		lbl_output.setText("");
+	}
+	
+	private void showHideLogout() {
+		if(this.loggedEmp != null) {
+			btn_logout.setVisible(true);
+		}
+		else {
+			btn_logout.setVisible(false);
+		}
+	}
+	
+	private void updateLoggedLbl() {
+		if(this.loggedEmp != null) 	{
+			lbl_logged_emp.setText(loggedEmp.toString());
+		}
 	}
 }

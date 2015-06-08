@@ -12,8 +12,8 @@
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="571.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ComboBox fx:id="cbox_month" prefHeight="25.0" prefWidth="114.0" />
-                  <ComboBox fx:id="cbox_year" prefHeight="25.0" prefWidth="74.0" />
+                  <ComboBox fx:id="cbox_month" prefHeight="25.0" prefWidth="127.0" />
+                  <ComboBox fx:id="cbox_year" prefHeight="25.0" prefWidth="96.0" />
                   <Button fx:id="btn_show" mnemonicParsing="false" text="Show" />
                </children>
             </HBox>

@@ -14,13 +14,13 @@
          </font>
       </Label>
       <TextField fx:id="txt_emp_login" layoutX="162.0" layoutY="43.0" />
-      <Button fx:id="btn_login" layoutX="327.0" layoutY="43.0" mnemonicParsing="false" text="Log in" />
-      <Label layoutX="67.0" layoutY="16.0" text="Logged in employee:">
+      <Button fx:id="btn_login" layoutX="327.0" layoutY="43.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" text="Login" />
+      <Label layoutX="67.0" layoutY="16.0" text="Logged in:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lbl_logged_emp" layoutX="206.0" layoutY="16.0" prefHeight="20.0" prefWidth="170.0">
+      <Label fx:id="lbl_logged_emp" layoutX="162.0" layoutY="16.0" prefHeight="20.0" prefWidth="149.0">
          <font>
             <Font size="14.0" />
          </font>
@@ -54,5 +54,6 @@
          </font>
       </Label>
       <CheckBox fx:id="chbox_new" layoutX="18.0" layoutY="262.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="149.0" text="New employee" />
+      <Button fx:id="btn_logout" layoutX="327.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
    </children>
 </AnchorPane>
