@@ -272,22 +272,22 @@ public class KeylinesController implements Initializable, ChangeablePane{
 
 		if(kls != null && kls.size() > 0) {
 			int noOfResults = kls.get(0).getResults().size();
-			
-			
-			
+
+
+
 			for(int i = 0; i < noOfResults; i++) {
 				ItemResult[] irs = new ItemResult[5];
-				
+
 				int resultCounter = 0;
 				for(WeekResult wr : kls) {
 					irs[resultCounter] = wr.getResults().get(0);
 				}
-				
+
 				KeylinesData newItem = new KeylinesData(irs);
 				keyData.add(newItem);
 			}
-			
-			
+
+
 			//	}
 		}		
 		if(keyData.size() == 0) { 
@@ -347,7 +347,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 				}
 			}
 		});
-		
+
 		cbox_year.setButtonCell(new ListCell(){
 
 			@Override
@@ -365,7 +365,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 				}
 			}
 		});
-		
+
 		cbox_category.setOnAction((e) -> {
 
 			filterData();
@@ -481,7 +481,9 @@ public class KeylinesController implements Initializable, ChangeablePane{
 			ex.printStackTrace();
 		}
 
-		years.addAll(weekYears);
+		if(weekYears != null && weekYears.size() > 0) {
+			years.addAll(weekYears);
+		}
 
 
 		//Getting the months
@@ -493,8 +495,10 @@ public class KeylinesController implements Initializable, ChangeablePane{
 
 			ex.printStackTrace();
 		}
+		if(weekYears != null && weekMonths.size() > 0) {
+			months.addAll(weekMonths);
+		}
 
-		months.addAll(weekMonths);
 
 		cbox_year.setItems(years);
 		cbox_year.setPromptText("Year");

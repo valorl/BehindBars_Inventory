@@ -18,12 +18,14 @@ public class ResultsData {
 	private SimpleStringProperty name;
 	
 	//Week 1
+	private DoubleProperty storage;
 	private DoubleProperty bar1;
 	private DoubleProperty bar2;
 	private DoubleProperty bar3;
 	private DoubleProperty total;
 	
 	//Week 2
+	private DoubleProperty storageWeek2;
 	private DoubleProperty bar1Week2;
 	private DoubleProperty bar2Week2;
 	private DoubleProperty bar3Week2;
@@ -53,14 +55,16 @@ public class ResultsData {
 		this.name = new SimpleStringProperty(product.getName());
 		
 		// Week 1
-		this.bar1 = new SimpleDoubleProperty(stateA.getQuantLocs().get(0).getQuantity());
-		this.bar2 = new SimpleDoubleProperty(stateA.getQuantLocs().get(1).getQuantity());
-		this.bar3 = new SimpleDoubleProperty(stateA.getQuantLocs().get(2).getQuantity());
+		this.storage = new SimpleDoubleProperty(stateA.getQuantLocs().get(0).getQuantity());
+		this.bar1 = new SimpleDoubleProperty(stateA.getQuantLocs().get(1).getQuantity());
+		this.bar2 = new SimpleDoubleProperty(stateA.getQuantLocs().get(2).getQuantity());
+		this.bar3 = new SimpleDoubleProperty(stateA.getQuantLocs().get(3).getQuantity());
 		this.total = new SimpleDoubleProperty(stateA.getTotalQuantity());
 		
 		// Week 2
-		this.bar1Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(0).getQuantity());
-		this.bar2Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(1).getQuantity());
+		this.storageWeek2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(0).getQuantity());
+		this.bar1Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(1).getQuantity());
+		this.bar2Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(2).getQuantity()); 
 		this.bar3Week2 = new SimpleDoubleProperty(stateB.getQuantLocs().get(2).getQuantity()); 
 		this.totalWeek2 = new SimpleDoubleProperty(stateB.getTotalQuantity());
 		
@@ -78,6 +82,9 @@ public class ResultsData {
 	}
 	
 	// GETTERS - PROP
+	public DoubleProperty storageProperty() {
+		return storage;
+	}
 	public DoubleProperty bar1Property() {
 		return bar1;
 	}
@@ -91,6 +98,9 @@ public class ResultsData {
 		return total;
 	}
 	
+	public DoubleProperty storageWeek2Property() {
+		return storageWeek2;
+	}
 	public DoubleProperty bar1Week2Property() {
 		return bar1Week2;
 	}

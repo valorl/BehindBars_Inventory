@@ -235,52 +235,61 @@ public class ResultsController implements Initializable, ChangeablePane{
 		TableColumn week1col = new TableColumn();	
 		week1col.textProperty().bind(week1name);
 		// Bars
+		TableColumn<ResultsData, Double> storageCol = new TableColumn<ResultsData, Double>("Storage");
+		storageCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
+		storageCol.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("storage"));
+		
 		TableColumn<ResultsData, Double> bar1Col = new TableColumn<ResultsData, Double>("Bar 1");
-		bar1Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar1Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar1Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar1"));
 
 		TableColumn<ResultsData, Double> bar2Col = new TableColumn<ResultsData, Double>("Bar 2");
-		bar2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar2Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar2"));
 
 		TableColumn<ResultsData, Double> bar3Col = new TableColumn<ResultsData, Double>("Bar 3");
-		bar3Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar3Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar3Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar3"));
 		// Total
 		TableColumn<ResultsData, Double> totalCol = new TableColumn<ResultsData, Double>("Total");
-		totalCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		totalCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		totalCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("total"));
-		week1col.getColumns().addAll(bar1Col, bar2Col, bar3Col, totalCol);
+		week1col.getColumns().addAll(storageCol, bar1Col, bar2Col, bar3Col, totalCol);
 
 		// WEEK 2 //
 		TableColumn week2col = new TableColumn();
 		week2col.textProperty().bind(week2name);
 		//Bars
+		TableColumn<ResultsData, Double> storageWeek2Col = new TableColumn<ResultsData, Double>("Storage");
+		storageWeek2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
+		storageWeek2Col.setCellValueFactory(
+				new PropertyValueFactory<ResultsData, Double>("storageWeek2"));
 		TableColumn<ResultsData, Double> bar1Week2Col = new TableColumn<ResultsData, Double>("Bar 1");
-		bar1Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar1Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar1Week2Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar1Week2"));
 
 		TableColumn<ResultsData, Double> bar2Week2Col = new TableColumn<ResultsData, Double>("Bar 2");
-		bar2Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar2Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar2Week2Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar2Week2"));
 
 		TableColumn<ResultsData, Double> bar3Week2Col = new TableColumn<ResultsData, Double>("Bar 3");
-		bar3Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		bar3Week2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		bar3Week2Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("bar3Week2"));
 		// Total
 		TableColumn<ResultsData, Double> totalWeek2Col = new TableColumn<ResultsData, Double>("Total");
-		totalWeek2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.06));
+		totalWeek2Col.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		totalWeek2Col.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("totalWeek2"));
 
-		week2col.getColumns().addAll(bar1Week2Col, bar2Week2Col, bar3Week2Col, totalWeek2Col);
+		week2col.getColumns().addAll(storageWeek2Col, bar1Week2Col, bar2Week2Col, bar3Week2Col, totalWeek2Col);
 
 		// SALES // 
 		TableColumn salesCol = new TableColumn("Sales");
@@ -291,7 +300,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 				new PropertyValueFactory<ResultsData, Double>("thSales"));
 		// Actual
 		TableColumn<ResultsData, Double> actSalesCol = new TableColumn<ResultsData, Double>("Actual");
-		actSalesCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.076));
+		actSalesCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		actSalesCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("actSales"));
 		salesCol.getColumns().addAll(thSalesCol, actSalesCol);
@@ -305,7 +314,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 				new PropertyValueFactory<ResultsData, Double>("thRevenue"));
 		// Actual
 		TableColumn<ResultsData, Double> actRevenueCol = new TableColumn<ResultsData, Double>("Actual");
-		actRevenueCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.076));
+		actRevenueCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.053));
 		actRevenueCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("actRevenue"));
 		revenueCol.getColumns().addAll(thRevenueCol, actRevenueCol);
@@ -313,7 +322,7 @@ public class ResultsController implements Initializable, ChangeablePane{
 		// LOSS/GAIN
 		TableColumn<ResultsData, Double> lossGainCol = new TableColumn<ResultsData, Double>("L/G (" + currency + ")");
 		lossGainCol.setMinWidth(90);
-		lossGainCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.087));
+		lossGainCol.prefWidthProperty().bind(table_results.widthProperty().multiply(0.082));
 		lossGainCol.setCellValueFactory(
 				new PropertyValueFactory<ResultsData, Double>("lossGain"));
 

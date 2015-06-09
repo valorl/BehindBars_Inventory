@@ -88,7 +88,7 @@ public class ItemResult {
 
 	public double calculateVariance() 
 	{
-		variance =  (stateB.getTotalQuantity() - stateA.getTotalQuantity());
+		variance =  (-1 * ((stateB.getTotalQuantity()- stateB.getPurchased()*stateB.getProduct().getUnitVolume()) - stateA.getTotalQuantity()));
 		return variance;
 	}
 	public double calculateRevenue() 

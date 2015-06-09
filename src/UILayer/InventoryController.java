@@ -574,18 +574,36 @@ public class InventoryController implements Initializable, ChangeablePane{
 			dialog.setContentText("Please enter number of bottles:");
 			
 			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(noOfBottles -> {
+			
+			if(result.isPresent()) {
 				int purchased = 0;
 				try {
-					purchased = Integer.parseInt(noOfBottles);
+					purchased = Integer.parseInt(result.get());
 					theProduct.setPurchased(purchased);
+					ProductCtr prodCtr = new ProductCtr();
+					
+					prodCtr.updateProduct(theProduct);
 					output("Delivery registered successfully.", false);
 				}
 				catch(NumberFormatException ex) {
 					ex.printStackTrace();
 					output("Error: Incorrect delivery input", true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			});
+			}
+//			result.ifPresent(noOfBottles -> {
+//				int purchased = 0;
+//				try {
+//					purchased = Integer.parseInt(noOfBottles);
+//					theProduct.setPurchased(purchased);
+//					output("Delivery registered successfully.", false);
+//				}
+//				catch(NumberFormatException ex) {
+//					ex.printStackTrace();
+//					output("Error: Incorrect delivery input", true);
+//				}
+//			});
 		}
 		else {
 			output("No product selected.", true);

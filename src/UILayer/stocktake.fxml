@@ -23,19 +23,28 @@
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin></ComboBox>
-            <Label fx:id="lbl_date" text="Date">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lbl_week" text="Week #">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="-10.0" />
-               </VBox.margin>
-            </Label>
+            <HBox>
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="lbl_date" maxHeight="1.7976931348623157E308" text="Date" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_week" maxHeight="1.7976931348623157E308" prefHeight="20.0" prefWidth="138.0" text="Week #" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Button fx:id="btn_refresh" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" HBox.hgrow="NEVER" />
+               </children>
+            </HBox>
             <Button fx:id="btn_assistant" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Stocktake assistant" />
             <HBox spacing="15.0">
                <children>

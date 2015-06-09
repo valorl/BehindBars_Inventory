@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -39,10 +38,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 import ControlLayer.ProductCtr;
 import ControlLayer.WeekCtr;
 import ModelLayer.Measurable;
@@ -75,13 +75,7 @@ public class StocktakeController implements Initializable, ChangeablePane{
 	private HBox mainHbox;
 
 	@FXML
-	private Button btn_save;
-
-	@FXML
-	private Button btn_clear;
-
-	@FXML
-	private Button btn_assistant;
+	private Button btn_save, btn_clear, btn_assistant, btn_refresh;
 
 	@FXML
 	private ComboBox cbox_category = new ComboBox();
@@ -274,6 +268,13 @@ public class StocktakeController implements Initializable, ChangeablePane{
 		btn_clear.setOnAction((e) -> {
 			clearTable();
 		});
+		Image img_reload = new Image(getClass().getResourceAsStream("ic_reload.png"));
+		ImageView imageView = new ImageView(img_reload);
+		imageView.resize(20, 20);
+		btn_refresh.setGraphic(imageView);
+		btn_refresh.setOnAction(e -> {
+			updateData();
+		});
 
 	}
 
@@ -464,7 +465,15 @@ public class StocktakeController implements Initializable, ChangeablePane{
 			storage.setLocation("storage");
 			
 			storage.setQuantity(item.getStorage() * product.getUnitVolume() + (product.getPurchased() * product.getUnitVolume()));
-			if(product.getPurchased() != 0) product.setPurchased(0);
+			productState.setPurchased(product.getPurchased());
+			if(product.getPurchased() != 0) {
+				product.setPurchased(0);
+				try {
+					productCtr.updateProduct(product);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			productState.addQuantLoc(storage);
 
 			
