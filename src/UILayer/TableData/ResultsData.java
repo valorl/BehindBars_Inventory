@@ -69,16 +69,20 @@ public class ResultsData {
 		this.totalWeek2 = new SimpleDoubleProperty(stateB.getTotalQuantity());
 		
 		// Sales
-		this.thSales = new SimpleDoubleProperty(result.getVariance());
+		double varianceRounded = Math.round(result.getVariance() * 100)/100;
+		this.thSales = new SimpleDoubleProperty(varianceRounded);
 		this.actSales = new SimpleDoubleProperty(stateB.getSold());
 		
 		// Revenue
-		this.thRevenue = new SimpleDoubleProperty(result.getRevenue());
+		double revenueRounded = Math.round(result.getRevenue() * 100)/100;
+		this.thRevenue = new SimpleDoubleProperty(revenueRounded);
 		this.actRevenue = new SimpleDoubleProperty(actSales.get()*product.getPrice());
 		
 		// Loss Gain
 		this.lossGain = new SimpleDoubleProperty();
 		lossGain.bind(actRevenue.subtract(thRevenue));
+		
+		
 	}
 	
 	// GETTERS - PROP

@@ -114,8 +114,7 @@ public class EmpController implements Initializable{
 	}
 
 	private void addUpdate() {
-		if(txt_id.getText().length() > 0 
-				&& txt_name.getText().length() > 0
+		if(txt_name.getText().length() > 0
 				&& txt_phone.getText().length() > 0) {
 
 			int id;
@@ -124,7 +123,7 @@ public class EmpController implements Initializable{
 
 			try {
 				
-				if(!chbox_new.isSelected()) {
+				if(!chbox_new.isSelected() && txt_id.getText().length() > 0) {
 					id = Integer.parseInt(txt_id.getText());
 					try {
 						empCtr.updateEmployee(id, name, phoneNo);
