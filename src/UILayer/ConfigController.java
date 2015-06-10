@@ -41,7 +41,7 @@ public class ConfigController implements Initializable{
 		settingsCtr = new SettingsCtr();
 	}
 
-	private ObservableList<String> currencies = FXCollections.observableArrayList("Kr", "€", "$");
+	private ObservableList<String> currencies = FXCollections.observableArrayList("Kr", "€" , "$");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
