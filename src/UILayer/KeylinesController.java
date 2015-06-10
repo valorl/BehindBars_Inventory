@@ -211,7 +211,7 @@ public class KeylinesController implements Initializable, ChangeablePane{
 		table_keylines.getColumns().add(totalCol);
 
 		// RETAIL PRICE
-		TableColumn<KeylinesData, Double> revenueCol = new TableColumn<KeylinesData, Double>("Revenue");
+		TableColumn<KeylinesData, Double> revenueCol = new TableColumn<KeylinesData, Double>("L/G");
 		revenueCol.prefWidthProperty().bind(table_keylines.widthProperty().multiply(0.085));
 		revenueCol.setCellValueFactory(
 				new PropertyValueFactory<KeylinesData, Double>("revenue"));

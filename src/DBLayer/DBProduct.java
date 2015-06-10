@@ -130,18 +130,6 @@ public class DBProduct implements IFDBProduct{
 			prepInsert.setString(6, product.getType());
 			prepInsert.setInt(7, product.getPurchased());
 
-
-			//						+
-			//						product.getId() + "','" +
-			//						product.getName()  + "','"  +
-			//						product.getPurchasePrice()  + "','"  +
-			//						product.getSalesPrice()  + "','"  +
-			//						product.getRentPrice() + "','"  +
-			//						product.getCountryOfOrigin() + "','"  +
-			//						product.getMinStock() + "','"  +
-			//						product.getCurrStock() + "','"  +
-			//						product.getType() + "','"  +
-			//						product.getSupplierId() + "')";
 			prepInsert.setQueryTimeout(5);
 			rc = prepInsert.executeUpdate();
 
